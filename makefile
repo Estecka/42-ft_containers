@@ -1,4 +1,5 @@
 HDRS = \
+	vector.hpp \
 
 SRCS = \
 
