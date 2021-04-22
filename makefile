@@ -1,5 +1,6 @@
 HDRS = \
 	vector.hpp \
+	vector_iterator.hpp \
 
 SRCS = \
 

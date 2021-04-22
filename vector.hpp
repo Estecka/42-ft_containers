@@ -6,12 +6,14 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/22 16:10:48 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/22 18:07:16 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
+
+#include "vector_iterator.hpp"
 
 #include <memory>
 #include <iterator>
@@ -28,8 +30,10 @@ public:
 	typedef typename allocator_type::pointer        	pointer;
 	typedef typename allocator_type::const_pointer  	const_pointer;
 
-	struct iterator;
-	struct const_iterator;
+	friend	struct vector_iterator<pointer, vector<T,Alloc> >;
+	friend	struct vector_iterator<const_pointer, const vector<T,Alloc> >;
+	typedef vector_iterator<reference, vector<T,Alloc> >            	iterator;
+	typedef vector_iterator<const_reference, const vector<T,Alloc> >	const_iterator;
 	typedef std::reverse_iterator<iterator>      	reverse_iterator;
 	typedef std::reverse_iterator<const_iterator>	const_reverse_iterator;
 
