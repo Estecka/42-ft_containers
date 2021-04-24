@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/22 18:13:07 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/24 14:33:33 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,64 @@ namespace ft
 		
 
 	private:
+		allocator_type	_allocator;
 		value_type*	_c;
 		size_type	_capacity;
 		size_type	_size;
 	};
+
+	// ## Constructors
+	template <typename T, typename A>
+	vector<T,A>::vector(const A& allocator) {
+		this->_allocator = allocator;
+		this->_c        = NULL;
+		this->_capacity = 0;
+		this->_size     = 0;
+	}
+	template <typename T, typename A>
+	vector<T,A>::vector(size_type size, const value_type& value, const A& allocator) {
+		this->_allocator = allocator;
+		this->_capacity = size;
+		this->_size     = size;
+		this->_c = new value_type[size];
+		for (size_type i=0; i<size; i++)
+			_c[i] = value;
+	}
+	template <typename T, typename A>
+	template <typename IT>
+	vector<T,A>::vector(IT begin, IT end, const A& allocator) {
+		if (begin > end)
+			throw std::logic_error("End came before Begin.");
+		this->_allocator = allocator;
+		this->_capacity = end - begin;
+		this->_size     = _capacity;
+		this->_c = new value_type[_capacity];
+		for (size_type i=0; i<_size && begin<end; i++,begin++)
+			_c[i] = *begin;
+	}
+	template <typename T, typename A>
+	vector<T,A>::~vector() {
+		if (this->_c)
+			delete[] _c;
+		this->_c = NULL;
+	}
+
+	template <typename T, typename A>
+	typename vector<T,A>::iterator	vector<T,A>::begin() { return iterator(this, 0);     }
+	template <typename T, typename A>
+	typename vector<T,A>::iterator	vector<T,A>::end()   { return iterator(this, _size); }
+	template <typename T, typename A>
+	typename vector<T,A>::const_iterator	vector<T,A>::begin() const { return const_iterator(this, 0);     }
+	template <typename T, typename A>
+	typename vector<T,A>::const_iterator	vector<T,A>::end()   const { return const_iterator(this, _size); }
+	template <typename T, typename A>
+	typename vector<T,A>::reverse_iterator	vector<T,A>::rbegin() { return iterator(this, 0);     }
+	template <typename T, typename A>
+	typename vector<T,A>::reverse_iterator	vector<T,A>::rend()   { return iterator(this, _size); }
+	template <typename T, typename A>
+	typename vector<T,A>::const_reverse_iterator	vector<T,A>::rbegin() const { return reverse_iterator(iterator(this, 0));     }
+	template <typename T, typename A>
+	typename vector<T,A>::const_reverse_iterator	vector<T,A>::rend()   const { return const_reverse_iterator(const_iterator(this, _size)); }
 }
 
 #endif
