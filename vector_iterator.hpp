@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 17:30:07 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/23 15:39:54 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/24 15:56:49 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,15 +110,15 @@ namespace ft
 
 	template <typename T, typename C>
 	T&	vector_iterator<T,C>::operator*() const {
-		return (*target)[this->index];
+		return (*target).at(this->index);
 	}
 	template <typename T, typename C>
 	T*	vector_iterator<T,C>::operator->() const {
-		return &(*target)[this->index];
+		return &(*target).at(this->index);
 	}
 	template <typename T, typename C>
 	T&	vector_iterator<T,C>::operator[](size_type offset) const {
-		return (*target)[this->index + offset];
+		return (*target).at(this->index + offset);
 	}
 
 

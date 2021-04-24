@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/24 14:33:33 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/24 16:04:37 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ namespace ft
 		void	assign(IT begin, IT end);
 		void	assign(size_type size, const value_type& value);
 		void	push_back(const value_type& value);
-		void	pop_back(const value_type& value);
+		void	pop_back();
 		void	insert(iterator index, const value_type& value);
 		void	insert(iterator index, size_type amount, const value_type& value);
 		template <typename IT>
@@ -103,7 +103,8 @@ namespace ft
 		size_type	_size;
 	};
 
-	// ## Constructors
+
+// ## Constructors
 	template <typename T, typename A>
 	vector<T,A>::vector(const A& allocator) {
 		this->_allocator = allocator;
@@ -139,22 +140,186 @@ namespace ft
 		this->_c = NULL;
 	}
 
+
+// ## Iterators
 	template <typename T, typename A>
-	typename vector<T,A>::iterator	vector<T,A>::begin() { return iterator(this, 0);     }
+	typename vector<T,A>::iterator	vector<T,A>::begin()  {
+		return iterator(this, 0);
+	}
 	template <typename T, typename A>
-	typename vector<T,A>::iterator	vector<T,A>::end()   { return iterator(this, _size); }
+	typename vector<T,A>::iterator	vector<T,A>::end() {
+		return iterator(this, _size);
+	}
 	template <typename T, typename A>
-	typename vector<T,A>::const_iterator	vector<T,A>::begin() const { return const_iterator(this, 0);     }
+	typename vector<T,A>::const_iterator	vector<T,A>::begin() const  {
+		return const_iterator(this, 0);    
+	}
 	template <typename T, typename A>
-	typename vector<T,A>::const_iterator	vector<T,A>::end()   const { return const_iterator(this, _size); }
+	typename vector<T,A>::const_iterator	vector<T,A>::end() const  {
+		return const_iterator(this, _size);
+	}
 	template <typename T, typename A>
-	typename vector<T,A>::reverse_iterator	vector<T,A>::rbegin() { return iterator(this, 0);     }
+	typename vector<T,A>::reverse_iterator	vector<T,A>::rbegin() {
+		return iterator(this, 0);
+	}
 	template <typename T, typename A>
-	typename vector<T,A>::reverse_iterator	vector<T,A>::rend()   { return iterator(this, _size); }
+	typename vector<T,A>::reverse_iterator	vector<T,A>::rend() {
+		return iterator(this, _size);
+	}
 	template <typename T, typename A>
-	typename vector<T,A>::const_reverse_iterator	vector<T,A>::rbegin() const { return reverse_iterator(iterator(this, 0));     }
+	typename vector<T,A>::const_reverse_iterator	vector<T,A>::rbegin() const {
+		return reverse_iterator(iterator(this, 0));    
+	}
 	template <typename T, typename A>
-	typename vector<T,A>::const_reverse_iterator	vector<T,A>::rend()   const { return const_reverse_iterator(const_iterator(this, _size)); }
+	typename vector<T,A>::const_reverse_iterator	vector<T,A>::rend() const {
+		return const_reverse_iterator(const_iterator(this, _size));
+	}
+
+
+// ## Capacity
+	template <typename T, typename A>
+	typename vector<T,A>::size_type	vector<T,A>::size() const {
+		return this->_size;
+	}
+	template <typename T, typename A>
+	typename vector<T,A>::size_type	vector<T,A>::capacity() const {
+		return this->_capacity;
+	}
+	template <typename T, typename A>
+	typename vector<T,A>::size_type	vector<T,A>::max_size() const {
+		return this->_allocator.max_size();
+	}
+	template <typename T, typename A>
+	bool	vector<T,A>::empty() const {
+		return !this->_size;
+	}
+	template <typename T, typename A>
+	void	vector<T,A>::resize(size_type targetSize, value_type value) {
+		this->reserve(targetSize);
+		for (size_type i=this->_size; i<targetSize; i++)
+			this->_c[i] = value;
+		this->_size = targetSize;
+	}
+	template <typename T, typename A>
+	void	vector<T,A>::reserve(size_type targetCapacity) {
+		if (this->capacity < targetCapacity)
+		{
+			value_type* old_c = this->_c;
+			this->_c = new value_type[targetCapacity];
+			this->_capacity = targetCapacity;
+			if (old_c != NULL)
+			{
+				for (size_type i=0; i<_size; i++)
+					this->_c[i] = old_c[i];
+				delete[] old_c;
+			}
+		}
+	}
+
+
+// ## Element access
+	template <typename T, typename A>
+	typename vector<T,A>::reference      	vector<T,A>::operator[](size_t index){
+		return this->_c[index];
+	}
+	template <typename T, typename A>
+	typename vector<T,A>::const_reference	vector<T,A>::operator[](size_t index) const{
+		return this->_c[index];
+	}
+	template <typename T, typename A>
+	typename vector<T,A>::reference      	vector<T,A>::at(size_t index){
+		if (index < 0 || this->_size <= index)
+			throw std::out_of_range("Index is out of Range");
+		return (*this)[index];
+	}
+	template <typename T, typename A>
+	typename vector<T,A>::const_reference	vector<T,A>::at(size_t index) const{
+		if (index < 0 || this->_size <= index)
+			throw std::out_of_range("Index is out of Range");
+		return (*this)[index];
+	}
+	template <typename T, typename A>
+	typename vector<T,A>::reference      	vector<T,A>::front(){
+		return (*this)[0];
+	}
+	template <typename T, typename A>
+	typename vector<T,A>::const_reference	vector<T,A>::front() const{
+		return (*this)[0];
+	}
+	template <typename T, typename A>
+	typename vector<T,A>::reference      	vector<T,A>::back(){
+		return (*this)[_size-1];
+	}
+	template <typename T, typename A>
+	typename vector<T,A>::const_reference	vector<T,A>::back() const{
+		return (*this)[_size-1];
+	}
+
+
+// ## Modifiers
+	template <typename T, typename A>
+	template <class IT>
+	void	vector<T,A>::assign(IT begin, IT end){
+		if (end < begin)
+			throw std::logic_error("End came before Begin");
+		this->reserve(end - begin);
+		for (size_type i=0; begin<end; i++,begin++)
+			(*this)[i] = *begin;
+		this->_size = end - begin;
+	}
+	template <typename T, typename A>
+	void	vector<T,A>::assign(size_type targetSize, const value_type& value){
+		this->reserve(targetSize);
+		for (size_type i=0; i<targetSize; i++)
+			(*this)[i] = value;
+		this->_size = targetSize;
+	}
+	template <typename T, typename A>
+	void	vector<T,A>::push_back(const value_type& value){
+		this->reserve(_size + 1);
+		(*this)[_size++] = value;
+	}
+	template <typename T, typename A>
+	void	vector<T,A>::pop_back(){
+		if (this->_size < 1)
+			throw std::length_error("Can't pop an empty vector.");
+		this->_size--;
+	}
+	/*
+	template <typename T, typename A>
+	void	vector<T,A>::insert(iterator index, const value_type& value){
+		
+	}
+	template <typename T, typename A>
+	void	vector<T,A>::insert(iterator index, size_type amount, const value_type& value){
+		
+	}
+	template <typename T, typename A>
+	template <typename IT>
+	void	vector<T,A>::insert(iterator index, IT begin, IT end){
+		
+	}
+	template <typename T, typename A>
+	typename vector<T,A>::iterator	vector<T,A>::erase(iterator position){
+		
+	}
+	template <typename T, typename A>
+	typename vector<T,A>::iterator	vector<T,A>::erase(iterator begin, iterator end){
+		
+	}
+	template <typename T, typename A>
+	void       	vector<T,A>::swap(vector& other){
+		
+	}
+	template <typename T, typename A>
+	void	swap(vector<T,A>& a, vector<T,A>& b){
+		
+	}
+	template <typename T, typename A>
+	void	vector<T,A>::clear(){
+		
+	}
+	*/
 }
 
 #endif
