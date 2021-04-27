@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/27 20:40:01 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/27 21:09:29 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,15 +169,15 @@ namespace ft
 	}
 	template <typename T, typename A>
 	typename vector<T,A>::reverse_iterator	vector<T,A>::rbegin() {
-		return iterator(this, 0);
+		return reverse_iterator(iterator(this, 0));
 	}
 	template <typename T, typename A>
 	typename vector<T,A>::reverse_iterator	vector<T,A>::rend() {
-		return iterator(this, _size);
+		return reverse_iterator(iterator(this, _size));
 	}
 	template <typename T, typename A>
 	typename vector<T,A>::const_reverse_iterator	vector<T,A>::rbegin() const {
-		return reverse_iterator(iterator(this, 0));    
+		return const_reverse_iterator(const_iterator(this, 0));    
 	}
 	template <typename T, typename A>
 	typename vector<T,A>::const_reverse_iterator	vector<T,A>::rend() const {

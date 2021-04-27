@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 17:30:07 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/27 20:35:49 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/27 21:06:40 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,14 @@ namespace ft
 	template <typename T, typename Container>
 	struct vector_iterator
 	{
-		typedef typename Container::size_type	size_type;
-
 	public:
+		typedef typename Container::value_type	value_type;
+		typedef typename Container::size_type 	size_type;
+		typedef typename Container::size_type 	difference_type;
+		typedef typename Container::pointer   	pointer;
+		typedef typename Container::reference 	reference;
+		typedef std::random_access_iterator_tag	iterator_category;
+
 		vector_iterator(void);
 		vector_iterator(const vector_iterator& other);
 		vector_iterator(Container* target, size_type index);
