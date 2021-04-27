@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 17:30:07 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/27 21:06:40 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/27 22:38:19 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ namespace ft
 	struct vector_iterator
 	{
 	public:
-		typedef typename Container::value_type	value_type;
-		typedef typename Container::size_type 	size_type;
-		typedef typename Container::size_type 	difference_type;
-		typedef typename Container::pointer   	pointer;
-		typedef typename Container::reference 	reference;
+		typedef T 	value_type;
+		typedef T*	pointer;
+		typedef T&	reference;
+		typedef typename Container::size_type	size_type;
+		typedef typename Container::size_type	difference_type;
 		typedef std::random_access_iterator_tag	iterator_category;
 
 		vector_iterator(void);
@@ -81,9 +81,10 @@ namespace ft
 		this->index = index;
 	}
 	template<typename T, typename C>
-	vector_iterator<T,C>& vector_iterator<T,C>::operator=(const vector_iterator& other){
+	vector_iterator<T,C>&	vector_iterator<T,C>::operator=(const vector_iterator& other){
 		this->target = other.target;
 		this->index = other.index;
+		return *this;
 	}
 
 	

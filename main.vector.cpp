@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:07:06 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/27 21:23:28 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/27 22:01:07 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ static void	TestIterators(){
 		std::cout << *it;
 	std::cout << std::endl;
 
-	// for (NS::vector<int>::const_reverse_iterator it=cdecimals.rbegin(); it<cdecimals.rend(); it++)
-	// 	std::cout << *it;
-	// std::cout << std::endl;
+	for (NS::vector<int>::const_reverse_iterator it=cdecimals.rbegin(); it<cdecimals.rend(); it++)
+		std::cout << *it;
+	std::cout << std::endl;
 }
 
 extern int	main()
