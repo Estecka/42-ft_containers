@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 17:30:07 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/27 19:37:12 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/27 20:35:49 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ namespace ft
 
 		vector_iterator<T, Container> 	operator+ (int offset) const;
 		vector_iterator<T, Container> 	operator- (int offset) const;
-		vector_iterator<T, Container> 	operator+ (const vector_iterator& other) const;
-		vector_iterator<T, Container> 	operator- (const vector_iterator& other) const;
-		vector_iterator<T, Container>&	operator+=(const vector_iterator& other);
-		vector_iterator<T, Container>&	operator-=(const vector_iterator& other);
+		vector_iterator<T, Container>&	operator-=(int offset);
+		vector_iterator<T, Container>&	operator+=(int offset);
+		size_type	operator+ (const vector_iterator& other) const;
+		size_type	operator- (const vector_iterator& other) const;
 
 	private:
 		Container*	target;
@@ -158,25 +158,23 @@ namespace ft
 		return vector_iterator(target, this->index - offset);
 	}
 	template <typename T, typename C>
-	vector_iterator<T,C> 	vector_iterator<T,C>::operator+ (const vector_iterator& other) const {
+	typename vector_iterator<T,C>::size_type 	vector_iterator<T,C>::operator+ (const vector_iterator& other) const {
 		AssertTarget(other);
-		return vector_iterator(target, this->index + other.index);
+		return this->index + other.index;
 	}
 	template <typename T, typename C>
-	vector_iterator<T,C> 	vector_iterator<T,C>::operator- (const vector_iterator& other) const {
+	typename vector_iterator<T,C>::size_type 	vector_iterator<T,C>::operator- (const vector_iterator& other) const {
 		AssertTarget(other);
-		return vector_iterator(target, this->index - other.index);
+		return this->index - other.index;
 	}
 	template <typename T, typename C>
-	vector_iterator<T,C>&	vector_iterator<T,C>::operator+=(const vector_iterator& other) {
-		AssertTarget(other);
-		this->index += other.index;
+	vector_iterator<T,C>&	vector_iterator<T,C>::operator+=(int offset) {
+		this->index += offset;
 		return *this;
 	}
 	template <typename T, typename C>
-	vector_iterator<T,C>&	vector_iterator<T,C>::operator-=(const vector_iterator& other) {
-		AssertTarget(other);
-		this->index -= other.index;
+	vector_iterator<T,C>&	vector_iterator<T,C>::operator-=(int offset) {
+		this->index -= offset;
 		return *this;
 	}
 
