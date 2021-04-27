@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/27 19:30:57 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/27 20:40:01 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,15 @@ namespace ft
 		this->_c = new value_type[size];
 		for (size_type i=0; i<size; i++)
 			_c[i] = value;
+	}
+	template <typename T, typename A>
+	vector<T,A>::vector(const vector& other) {
+		this->_allocator = other._allocator;
+		this->_capacity = other._capacity;
+		this->_size     = other._size;
+		this->_c = new value_type[_capacity];
+		for (size_type i=0; i<_size; i++)
+			this->_c[i] = other._c[i];
 	}
 	template <typename T, typename A>
 	template <typename IT>

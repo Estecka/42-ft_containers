@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 19:05:43 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/27 19:27:25 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/27 20:43:55 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	dump(const Container& c){
 		if (it+1 < c.end())
 			std::cout << ", ";
 	}
-	std::cout << " }";
+	std::cout << " }" << std::endl;
 }
 
 #endif

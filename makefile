@@ -1,4 +1,5 @@
 HDRS = \
+	dump.hpp \
 	vector.hpp \
 	vector_iterator.hpp \
 
