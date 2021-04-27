@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.vector.cpp                                    :+:      :+:    :+:   */
+/*   dump.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/27 16:07:06 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/27 19:26:55 by abaur            ###   ########.fr       */
+/*   Created: 2021/04/27 19:05:43 by abaur             #+#    #+#             */
+/*   Updated: 2021/04/27 19:27:25 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NS
- #error define NS needs to be explicitely set to either `std` or `ft`
-#endif
+#ifndef DUMP_HPP
+#define DUMP_HPP
 
-#include "vector.hpp"
-#include <vector>
+#include <iostream>
 
-#include "dump.hpp"
-
-extern int	main()
-{
-	NS::vector<int> decimals(10);
-	for (int i=0; i<10; i++)
-		decimals[i] = i;
-	dump(decimals);
+template<typename Container>
+void	dump(const Container& c){
+	std::cout << "{ ";
+	for (typename Container::const_iterator it=c.begin(); it<c.end(); it++)
+	{
+		std::cout << *it;
+		if (it+1 < c.end())
+			std::cout << ", ";
+	}
+	std::cout << " }";
 }
+
+#endif

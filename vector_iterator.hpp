@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 17:30:07 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/24 15:56:49 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/27 19:37:12 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define VECTOR_ITERATOR
 
 #include <stdlib.h>
+#include <stdexcept>
 
 namespace ft
 {
@@ -43,6 +44,8 @@ namespace ft
 		vector_iterator<T, Container> 	operator++(int);
 		vector_iterator<T, Container> 	operator--(int);
 
+		vector_iterator<T, Container> 	operator+ (int offset) const;
+		vector_iterator<T, Container> 	operator- (int offset) const;
 		vector_iterator<T, Container> 	operator+ (const vector_iterator& other) const;
 		vector_iterator<T, Container> 	operator- (const vector_iterator& other) const;
 		vector_iterator<T, Container>&	operator+=(const vector_iterator& other);
@@ -52,7 +55,7 @@ namespace ft
 		Container*	target;
 		size_type	index;
 
-		void	AssertTarget(const vector_iterator& other);
+		void	AssertTarget(const vector_iterator& other) const;
 	};
 
 
@@ -147,6 +150,14 @@ namespace ft
 	}
 
 	template <typename T, typename C>
+	vector_iterator<T,C> 	vector_iterator<T,C>::operator+ (int offset) const {
+		return vector_iterator(target, this->index + offset);
+	}
+	template <typename T, typename C>
+	vector_iterator<T,C> 	vector_iterator<T,C>::operator- (int offset) const {
+		return vector_iterator(target, this->index - offset);
+	}
+	template <typename T, typename C>
 	vector_iterator<T,C> 	vector_iterator<T,C>::operator+ (const vector_iterator& other) const {
 		AssertTarget(other);
 		return vector_iterator(target, this->index + other.index);
@@ -167,6 +178,12 @@ namespace ft
 		AssertTarget(other);
 		this->index -= other.index;
 		return *this;
+	}
+
+	template <typename T, typename C>
+	void	vector_iterator<T,C>::AssertTarget(const vector_iterator& other) const {
+		if (this->target != other.target)
+			throw std::domain_error("Iterators point to different Vectors");
 	}
 }
 
