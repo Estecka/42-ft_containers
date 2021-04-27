@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/27 21:09:29 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/27 21:55:32 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ namespace ft
 		void	reserve(size_type capacity);
 
 	// ## Element access
-		reference      	operator[](size_t index);
-		const_reference	operator[](size_t index) const;
-		reference      	at(size_t index);
-		const_reference	at(size_t index) const;
+		reference      	operator[](size_type index);
+		const_reference	operator[](size_type index) const;
+		reference      	at(size_type index);
+		const_reference	at(size_type index) const;
 		reference      	front();
 		const_reference	front() const;
 		reference      	back();
@@ -169,19 +169,19 @@ namespace ft
 	}
 	template <typename T, typename A>
 	typename vector<T,A>::reverse_iterator	vector<T,A>::rbegin() {
-		return reverse_iterator(iterator(this, 0));
-	}
-	template <typename T, typename A>
-	typename vector<T,A>::reverse_iterator	vector<T,A>::rend() {
 		return reverse_iterator(iterator(this, _size));
 	}
 	template <typename T, typename A>
+	typename vector<T,A>::reverse_iterator	vector<T,A>::rend() {
+		return reverse_iterator(iterator(this, 0));
+	}
+	template <typename T, typename A>
 	typename vector<T,A>::const_reverse_iterator	vector<T,A>::rbegin() const {
-		return const_reverse_iterator(const_iterator(this, 0));    
+		return const_reverse_iterator(const_iterator(this, _size));    
 	}
 	template <typename T, typename A>
 	typename vector<T,A>::const_reverse_iterator	vector<T,A>::rend() const {
-		return const_reverse_iterator(const_iterator(this, _size));
+		return const_reverse_iterator(const_iterator(this, 0));
 	}
 
 
@@ -228,21 +228,21 @@ namespace ft
 
 // ## Element access
 	template <typename T, typename A>
-	typename vector<T,A>::reference      	vector<T,A>::operator[](size_t index){
+	typename vector<T,A>::reference      	vector<T,A>::operator[](size_type index){
 		return this->_c[index];
 	}
 	template <typename T, typename A>
-	typename vector<T,A>::const_reference	vector<T,A>::operator[](size_t index) const{
+	typename vector<T,A>::const_reference	vector<T,A>::operator[](size_type index) const{
 		return this->_c[index];
 	}
 	template <typename T, typename A>
-	typename vector<T,A>::reference      	vector<T,A>::at(size_t index){
+	typename vector<T,A>::reference      	vector<T,A>::at(size_type index){
 		if (index < 0 || this->_size <= index)
 			throw std::out_of_range("Index is out of Range");
 		return (*this)[index];
 	}
 	template <typename T, typename A>
-	typename vector<T,A>::const_reference	vector<T,A>::at(size_t index) const{
+	typename vector<T,A>::const_reference	vector<T,A>::at(size_type index) const{
 		if (index < 0 || this->_size <= index)
 			throw std::out_of_range("Index is out of Range");
 		return (*this)[index];
