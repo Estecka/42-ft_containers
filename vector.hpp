@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/24 16:04:37 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/27 15:40:24 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ namespace ft
 	template <typename IT>
 	vector<T,A>::vector(IT begin, IT end, const A& allocator) {
 		if (begin > end)
-			throw std::logic_error("End came before Begin.");
+			throw std::invalid_argument("End came before Begin.");
 		this->_allocator = allocator;
 		this->_capacity = end - begin;
 		this->_size     = _capacity;
@@ -261,7 +261,7 @@ namespace ft
 	template <class IT>
 	void	vector<T,A>::assign(IT begin, IT end){
 		if (end < begin)
-			throw std::logic_error("End came before Begin");
+			throw std::invalid_argument("End came before Begin");
 		this->reserve(end - begin);
 		for (size_type i=0; begin<end; i++,begin++)
 			(*this)[i] = *begin;
@@ -285,41 +285,75 @@ namespace ft
 			throw std::length_error("Can't pop an empty vector.");
 		this->_size--;
 	}
-	/*
 	template <typename T, typename A>
 	void	vector<T,A>::insert(iterator index, const value_type& value){
-		
+		this->insert(index, 1, value);
 	}
 	template <typename T, typename A>
 	void	vector<T,A>::insert(iterator index, size_type amount, const value_type& value){
-		
+		this->reserve(_size + amount);
+
+		for (iterator it=this->end()-1; index+amount<=it; it--)
+			it[amount] = it[0];
+		for (iterator it=index; it<(index+amount); it++)
+			*it = value;
+
+		this->_size += amount;
 	}
 	template <typename T, typename A>
 	template <typename IT>
 	void	vector<T,A>::insert(iterator index, IT begin, IT end){
-		
+		if (end < begin)
+			throw std::invalid_argument("end came before begin.");
+
+		size_type amount = end - begin;
+		this->reserve(_size + amount);
+
+		for (iterator it=this->end()-1; index+amount<=it; it--)
+			it[amount] = it[0];
+		for (iterator it=index; it<(index+amount); it++)
+			*it = *(begin++);
+
+		this->_size += amount;
 	}
 	template <typename T, typename A>
 	typename vector<T,A>::iterator	vector<T,A>::erase(iterator position){
-		
+		this->erase(position, position+1);
 	}
 	template <typename T, typename A>
 	typename vector<T,A>::iterator	vector<T,A>::erase(iterator begin, iterator end){
-		
+		if (end < begin)
+			throw std::invalid_argument("End came before Begin");
+
+		size_type amount = end - begin;
+		for (iterator it=begin; it<this->end(); it++)
+			it[0] = it[amount];
 	}
 	template <typename T, typename A>
-	void       	vector<T,A>::swap(vector& other){
-		
+	void	vector<T,A>::swap(vector& other){
+		vector<T,A> oldthis(*this);
+
+		*this = other;
+		other = oldthis;
 	}
 	template <typename T, typename A>
 	void	swap(vector<T,A>& a, vector<T,A>& b){
-		
+		typename vector<T,A>::value_type* olda_c    = a._c;
+		typename vector<T,A>::size_type   olda_size = a._size;
+		typename vector<T,A>::size_type   olda_cap  = a._capacity;
+
+		a._c        = b._c;
+		a._size     = b._size;
+		a._capacity = b._capacity;
+
+		b._c        = olda_c;
+		b._size     = olda_size;
+		b._capacity = olda_cap;
 	}
 	template <typename T, typename A>
 	void	vector<T,A>::clear(){
-		
+		this->_size = 0;
 	}
-	*/
 }
 
 #endif
