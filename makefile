@@ -50,5 +50,7 @@ fclean: clean
 
 re: fclean all
 
+.SECONDARY:
+
 .PHONY: all clean fclean all \
 	header_test \

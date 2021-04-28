@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/27 22:39:50 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/28 15:17:53 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,11 +210,17 @@ namespace ft
 	}
 	template <typename T, typename A>
 	void	vector<T,A>::reserve(size_type targetCapacity) {
-		if (this->capacity < targetCapacity)
+		if (this->_capacity < targetCapacity)
 		{
+			size_type newCap = _capacity;
+			if (!newCap)
+				newCap = targetCapacity;
+			else while (newCap < targetCapacity)
+				newCap *= 2;
+
 			value_type* old_c = this->_c;
-			this->_c = new value_type[targetCapacity];
-			this->_capacity = targetCapacity;
+			this->_c = new value_type[newCap];
+			this->_capacity = newCap;
 			if (old_c != NULL)
 			{
 				for (size_type i=0; i<_size; i++)

@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:07:06 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/27 22:01:07 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/28 15:06:02 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,32 @@ static void	TestIterators(){
 	std::cout << std::endl;
 }
 
+static void	TestCapacity(){
+	NS::vector<int> vec;
+
+	std::cout << vec.max_size() << std::endl;
+	std::cout << vec.size() << std::endl;
+	vec.reserve(12);
+	std::cout << vec.capacity() << std::endl;
+	for (int i=0; i<10; i++)
+		vec.push_back(1);
+	dump(vec);
+	std::cout << vec.capacity() << std::endl;
+	vec.empty();
+	dump(vec);
+	std::cout << vec.capacity() << std::endl;
+	vec.resize(5, 6);
+	dump(vec);
+	std::cout << vec.capacity() << std::endl;
+	for (int i=0; i<10; i++)
+		vec.push_back(2*i);
+	dump(vec);
+	std::cout << vec.capacity() << std::endl;
+}
+
 extern int	main()
 {
 	TestConstructors();
 	TestIterators();
+	TestCapacity();
 }
