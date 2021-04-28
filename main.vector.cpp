@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:07:06 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/28 15:06:02 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/28 15:41:14 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <vector>
 
 #include "dump.hpp"
+#include <typeinfo>
 
 static const int	g_digits[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
@@ -84,9 +85,52 @@ static void	TestCapacity(){
 	std::cout << vec.capacity() << std::endl;
 }
 
+static void	TestAccess(){
+	NS::vector<int> vec;
+	const NS::vector<int>& cvec = vec;
+
+	vec.reserve(20);
+	for (int i=0; i<5; i++){
+		vec[i] = i;
+		std::cout << cvec[i];
+	}
+	std::cout << std::endl;
+	dump(vec);
+
+	vec.resize(10, 0);
+	for (int i=5; i<10; i++) {
+		vec.at(i) = i;
+		std::cout << cvec.at(i);
+	}
+	std::cout << std::endl;
+	dump(vec);
+
+	vec[15] = 10;
+	try { vec.at(-1); }
+	catch (const std::out_of_range& e) {
+		std::cout <<  typeid(e).name() << std::endl;
+	}
+	try { cvec.at(11); }
+	catch (const std::out_of_range& e) {
+		std::cout << typeid(e).name() << std::endl;
+	}
+	try { vec.at(-1); }
+	catch (const std::out_of_range& e) {
+		std::cout <<  typeid(e).name() << std::endl;
+	}
+	try { cvec.at(11); }
+	catch (const std::out_of_range& e) {
+		std::cout << typeid(e).name() << std::endl;
+	}
+
+	std::cout <<  vec.back() <<  vec.front() << std::endl;
+	std::cout << cvec.back() << cvec.front() << std::endl;
+}
+
 extern int	main()
 {
 	TestConstructors();
 	TestIterators();
 	TestCapacity();
+	TestAccess();
 }
