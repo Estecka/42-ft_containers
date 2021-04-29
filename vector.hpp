@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/29 18:00:10 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/29 18:15:33 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,9 +297,9 @@ namespace ft
 		if (end < begin)
 			throw std::invalid_argument("End came before Begin");
 		this->reserve(end - begin);
+		this->_size = end - begin;
 		for (size_type i=0; begin<end; i++,begin++)
 			(*this)[i] = *begin;
-		this->_size = end - begin;
 	}
 	template <typename T, typename A>
 	void	vector<T,A>::_Assign(size_type targetSize, const value_type& value, std::__true_type){
