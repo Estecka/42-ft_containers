@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/29 18:15:33 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/29 18:33:16 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,7 +324,7 @@ namespace ft
 	void	vector<T,A>::insert(iterator index, size_type amount, const value_type& value){
 		this->reserve(_size + amount);
 
-		for (iterator it=this->end()-1; index+amount<=it; it--)
+		for (iterator it=this->end()-1; index<=it; it--)
 			it[amount] = it[0];
 		for (iterator it=index; it<(index+amount); it++)
 			*it = value;
@@ -349,7 +349,7 @@ namespace ft
 		size_type amount = end - begin;
 		this->reserve(_size + amount);
 
-		for (iterator it=this->end()-1; index+amount<=it; it--)
+		for (iterator it=this->end()-1; index<=it; it--)
 			it[amount] = it[0];
 		for (iterator it=index; it<(index+amount); it++)
 			*it = *(begin++);

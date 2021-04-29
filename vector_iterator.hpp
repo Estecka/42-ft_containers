@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 17:30:07 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/27 22:38:19 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/29 18:23:45 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ namespace ft
 	}
 	template <typename T, typename C>
 	T&	vector_iterator<T,C>::operator[](size_type offset) const {
-		return (*target).at(this->index + offset);
+		return (*target)[this->index + offset];
 	}
 
 
