@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/28 15:57:22 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/29 18:00:10 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,14 @@ namespace ft
 		value_type*	_c;
 		size_type	_capacity;
 		size_type	_size;
+
+		template <class IT>
+		void	_Assign(IT begin, IT end, std::__false_type);
+		void	_Assign(size_type size, const value_type& value, std::__true_type);
+
+		template <typename IT>
+		void	_Insert(iterator index, IT begin, IT end, std::__false_type);
+		void	_Insert(iterator index, size_type amount, const value_type& value, std::__true_type);
 	};
 
 
@@ -274,6 +282,18 @@ namespace ft
 	template <typename T, typename A>
 	template <class IT>
 	void	vector<T,A>::assign(IT begin, IT end){
+		_Assign(begin, end, typename std::__is_integer<IT>::__type());
+	}
+	template <typename T, typename A>
+	void	vector<T,A>::assign(size_type targetSize, const value_type& value){
+		this->reserve(targetSize);
+		for (size_type i=0; i<targetSize; i++)
+			(*this)[i] = value;
+		this->_size = targetSize;
+	}
+	template <typename T, typename A>
+	template <class IT>
+	void	vector<T,A>::_Assign(IT begin, IT end, std::__false_type){
 		if (end < begin)
 			throw std::invalid_argument("End came before Begin");
 		this->reserve(end - begin);
@@ -282,11 +302,8 @@ namespace ft
 		this->_size = end - begin;
 	}
 	template <typename T, typename A>
-	void	vector<T,A>::assign(size_type targetSize, const value_type& value){
-		this->reserve(targetSize);
-		for (size_type i=0; i<targetSize; i++)
-			(*this)[i] = value;
-		this->_size = targetSize;
+	void	vector<T,A>::_Assign(size_type targetSize, const value_type& value, std::__true_type){
+		assign((size_type)targetSize, (const value_type&)value);
 	}
 	template <typename T, typename A>
 	void	vector<T,A>::push_back(const value_type& value){
@@ -317,6 +334,15 @@ namespace ft
 	template <typename T, typename A>
 	template <typename IT>
 	void	vector<T,A>::insert(iterator index, IT begin, IT end){
+		_Insert(index, begin, end, typename std::__is_integer<IT>::__type());
+	}
+	template <typename T, typename A>
+	void	vector<T,A>::_Insert(iterator index, size_type amount, const value_type& value, std::__true_type){
+		insert(index, (size_type)amount, (const value_type&)value);
+	}
+	template <typename T, typename A>
+	template <typename IT>
+	void	vector<T,A>::_Insert(iterator index, IT begin, IT end, std::__false_type){
 		if (end < begin)
 			throw std::invalid_argument("end came before begin.");
 

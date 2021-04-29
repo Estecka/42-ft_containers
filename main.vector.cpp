@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:07:06 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/28 15:56:36 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/29 17:48:19 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,12 @@ static void	TestModifiers(){
 	dump(vec);
 }
 
+// struct myint {
+// 	int i;
+
+// 	operator std::vector<int>::size_type() const { return (std::vector<int>::size_type)i; }
+// };
+
 extern int	main()
 {
 	TestConstructors();
@@ -156,4 +162,9 @@ extern int	main()
 	TestCapacity();
 	TestAccess();
 	TestModifiers();
+
+	// std::vector<int> std;
+	// ft ::vector<int> ft;
+	// std.assign(1, myint());
+	// ft .assign(1, myint());
 }
