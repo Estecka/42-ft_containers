@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/29 18:33:16 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/29 19:52:17 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,28 @@
 #include "reverse_iterator.hpp"
 #include "vector_iterator.hpp"
 
-#include <memory>
-#include <iterator>
-
 namespace ft
 {
-	template <typename T, typename Alloc = std::allocator<T> >
+	template <typename T, typename A>
+	class	vector;
+	template <typename T, typename A>
+	void	swap(vector<T,A>& a, vector<T,A>& b);
+
+
+	template <typename T, typename A = std::allocator<T> >
 	class vector
 	{
 	public:
 	// ## Member types
 		typedef T    	value_type;
-		typedef Alloc	allocator_type;
+		typedef A	allocator_type;
 		typedef typename allocator_type::reference      	reference;
 		typedef typename allocator_type::const_reference	const_reference;
 		typedef typename allocator_type::pointer        	pointer;
 		typedef typename allocator_type::const_pointer  	const_pointer;
 
-		typedef ft::vector_iterator<      value_type,       vector<T,Alloc> >	iterator;
-		typedef ft::vector_iterator<const value_type, const vector<T,Alloc> >	const_iterator;
+		typedef ft::vector_iterator<      value_type,       vector<T,A> >	iterator;
+		typedef ft::vector_iterator<const value_type, const vector<T,A> >	const_iterator;
 		typedef ft::reverse_iterator<iterator>      	reverse_iterator;
 		typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
@@ -91,7 +94,7 @@ namespace ft
 		iterator	erase(iterator position);
 		iterator	erase(iterator begin, iterator end);
 		void       	swap(vector& other);
-		friend void	swap(vector& a, vector& b);
+		friend void	ft::swap<T,A>(vector<T,A>& a, vector<T,A>& b);
 		void	clear();
 		
 
@@ -156,6 +159,22 @@ namespace ft
 		this->_c = NULL;
 	}
 
+	template <typename T, typename A>
+	vector<T,A>& vector<T,A>::operator=(const vector& other) {
+		if (this->_c)
+			delete[] _c;
+		this->_capacity = 0;
+		this->_size     = 0;
+
+		this->_c = new value_type[other._capacity];
+		this->_capacity = other._capacity;
+		this->_size     = other._size;
+		for (size_type i=0; i<_size; i++)
+			this->_c[i] = other._c[i];
+
+		return *this;
+	}
+	
 
 // ## Iterators
 	template <typename T, typename A>
@@ -358,7 +377,7 @@ namespace ft
 	}
 	template <typename T, typename A>
 	typename vector<T,A>::iterator	vector<T,A>::erase(iterator position){
-		this->erase(position, position+1);
+		return this->erase(position, position+1);
 	}
 	template <typename T, typename A>
 	typename vector<T,A>::iterator	vector<T,A>::erase(iterator begin, iterator end){
@@ -368,6 +387,9 @@ namespace ft
 		size_type amount = end - begin;
 		for (iterator it=begin; it<this->end(); it++)
 			it[0] = it[amount];
+
+		this->_size -= amount;
+		return begin;
 	}
 	template <typename T, typename A>
 	void	vector<T,A>::swap(vector& other){

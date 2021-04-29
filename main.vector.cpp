@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:07:06 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/29 18:32:39 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/29 19:57:21 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,34 @@ static void	TestModifiers(){
 	dump(vec);
 	vec.insert(vec.begin()+8, g_digits+2, g_digits+9);
 	dump(vec);
+
+	vec.erase(vec.begin()+2);
+	dump(vec);
+	vec.erase(vec.begin()+5, vec.end()-3);
+	dump(vec);
+
+	NS::vector<int>	a;
+	NS::vector<int>	b;
+	a.assign(3, 6);
+	b.assign(10, 12);
+	dump(a);
+	dump(b);
+	std::cout << b.capacity() << std::endl << a.capacity() << std::endl;
+	NS::swap(a, b);
+	dump(a);
+	dump(b);
+	std::cout << b.capacity() << std::endl << a.capacity() << std::endl;
+	b.swap(a);
+	dump(a);
+	dump(b);
+	std::cout << b.capacity() << std::endl << a.capacity() << std::endl;
+
+	vec.clear();
+	a.clear();
+	b.clear();
+	dump(vec);
+	dump(a);
+	dump(b);
 }
 
 
