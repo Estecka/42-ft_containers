@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/28 15:17:53 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/28 15:57:22 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,7 +301,7 @@ namespace ft
 	}
 	template <typename T, typename A>
 	void	vector<T,A>::insert(iterator index, const value_type& value){
-		this->insert(index, 1, value);
+		this->insert(index, (size_type)1, (const value_type&)value);
 	}
 	template <typename T, typename A>
 	void	vector<T,A>::insert(iterator index, size_type amount, const value_type& value){

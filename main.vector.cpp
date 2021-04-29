@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:07:06 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/28 15:41:14 by abaur            ###   ########.fr       */
+/*   Updated: 2021/04/28 15:56:36 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,10 +127,33 @@ static void	TestAccess(){
 	std::cout << cvec.back() << cvec.front() << std::endl;
 }
 
+static void	TestModifiers(){
+	NS::vector<int> vec;
+
+	vec.assign(10, 5);
+	dump(vec);
+	vec.assign(g_digits, g_digits+10);
+	dump(vec);
+
+	vec.push_back(-1);
+	vec.push_back(-2);
+	dump(vec);
+	vec.pop_back();
+	dump(vec);
+
+	vec.insert(vec.begin()+3, 10);
+	dump(vec);
+	vec.insert(vec.begin()+5, 5, 11);
+	dump(vec);
+	vec.insert(vec.begin()+8, g_digits+2, g_digits+9);
+	dump(vec);
+}
+
 extern int	main()
 {
 	TestConstructors();
 	TestIterators();
 	TestCapacity();
 	TestAccess();
+	TestModifiers();
 }
