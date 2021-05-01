@@ -2,6 +2,8 @@ HDRS = \
 	dump.hpp \
 	vector.hpp \
 	vector_iterator.hpp \
+	list.hpp \
+	list_iterator.hpp \
 
 SRCS = \
 
@@ -10,6 +12,7 @@ OBJS = ${SRCS:.cpp=.o}
 
 CLASSES = \
 	vector \
+	list \
 
 NAMES = \
 	${CLASSES:=.ft.out} \
