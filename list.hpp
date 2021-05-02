@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/02 19:16:47 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/02 19:20:44 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,6 +235,24 @@ namespace ft
 	}
 
 	// list& operator=(const list& other);
+
+	// ## Element Access
+	template <typename T, typename A>
+	typename list<T,A>::reference      	list<T,A>::front() {
+		return _first->value;
+	}
+	template <typename T, typename A>
+	typename list<T,A>::const_reference	list<T,A>::front() const {
+		return _first->value;
+	}
+	template <typename T, typename A>
+	typename list<T,A>::reference      	list<T,A>::back() {
+		return _last->value;
+	}
+	template <typename T, typename A>
+	typename list<T,A>::const_reference	list<T,A>::back() const {
+		return _last->value;
+	}
 
 }
 
