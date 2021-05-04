@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:56:38 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/04 17:24:25 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/04 19:11:23 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ namespace ft
 	list_iterator<T,C>&	list_iterator<T,C>::operator=(const list_iterator& other) {
 		this->target = other.target;
 		this->curr   = other.curr;
+		return *this;
 	}
 
 

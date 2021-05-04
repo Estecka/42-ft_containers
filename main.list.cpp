@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 15:24:51 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/04 17:21:40 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/04 19:10:32 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,27 @@ static void	TestConstructors() {
 	dump(iter1);
 	NS::list<int>	iter2(g_digits, g_digits + 10);
 	dump(iter2);
+}
+
+static void	TestIterators(){
+	NS::list<int> decimals(g_digits, g_digits+3);
+	const NS::list<int>& cdecimals = decimals;
+
+	for (NS::list<int>::iterator it=decimals.begin(); it!=decimals.end(); it++)
+		std::cout << *it;
+	std::cout << std::endl;
+
+	for (NS::list<int>::const_iterator it=cdecimals.begin(); it!=cdecimals.end(); it++)
+		std::cout << *it;
+	std::cout << std::endl;
+
+	for (NS::list<int>::reverse_iterator it=decimals.rbegin(); it!=decimals.rend(); it++)
+		std::cout << *it;
+	std::cout << std::endl;
+
+	for (NS::list<int>::const_reverse_iterator it=cdecimals.rbegin(); it!=cdecimals.rend(); it++)
+		std::cout << *it;
+	std::cout << std::endl;
 }
 
 extern int	main() {
