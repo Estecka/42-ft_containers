@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/04 17:55:09 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/04 18:42:53 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ namespace ft
 
 	// ## List Elements
 	template <typename T, typename A>
-	list<T,A>::lselt::lselt(const value_type& value, lselt* next, lselt* prev) {
+	list<T,A>::lselt::lselt(const value_type& value, lselt* prev, lselt* next) {
 		this->value = value;
 		this->prev  = prev;
 		this->next  = next;
@@ -215,7 +215,7 @@ namespace ft
 			this->_first = new lselt(other.front());
 			this->_last  =  _first;
 			this->_size  = 1;
-			for (lselt* ilt=other._first; ilt!=NULL; ilt=ilt->next) {
+			for (lselt* ilt=other._first->next; ilt!=NULL; ilt=ilt->next) {
 				lselt* prev = this->_last;
 				this->_last = new lselt(ilt->value, prev, NULL);
 				prev->next = _last;
@@ -254,6 +254,21 @@ namespace ft
 	template<typename T, typename A>
 	typename list<T,A>::const_reverse_iterator	list<T,A>::rend()   const { return reverse_iterator(const_iterator(this, NULL));   }
 
+
+	// ## Capacity
+	template <typename T, typename A>
+	typename list<T,A>::size_type	list<T,A>::size() const {
+		return this->_size;
+	}
+	template <typename T, typename A>
+	typename list<T,A>::size_type	list<T,A>::max_size() const {
+		return this->_allocator.max_size();
+	}
+	template <typename T, typename A>
+	bool	list<T,A>::empty() const {
+		return this->_size == 0;
+	}
+
 	// ## Element Access
 	template <typename T, typename A>
 	typename list<T,A>::reference      	list<T,A>::front() {
@@ -281,6 +296,7 @@ namespace ft
 		_first = neo;
 		if (!_last)
 			_last = neo;
+		_size++;
 	}
 	template <typename T, typename A>
 	void	list<T,A>::push_back (const value_type& value) {
@@ -290,6 +306,7 @@ namespace ft
 		_last = neo;
 		if (!_first)
 			_first = neo;
+		_size++;
 	}
 	template <typename T, typename A>
 	void	list<T,A>::pop_front() {
@@ -306,6 +323,8 @@ namespace ft
 			delete _first->prev;
 			_first->prev = NULL;
 		}
+
+		_size--;
 	}
 	template <typename T, typename A>
 	void	list<T,A>::pop_back () {
@@ -322,6 +341,8 @@ namespace ft
 			delete _last->next;
 			_last->next = NULL;
 		}
+
+		_size--;
 	}
 }
 

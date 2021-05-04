@@ -2,6 +2,7 @@
 
 TESTS=(
 	vector
+	list
 );
 
 make all || exit;
