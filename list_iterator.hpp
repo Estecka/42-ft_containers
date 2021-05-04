@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:56:38 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/02 17:03:48 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/04 17:18:44 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,41 +20,105 @@ namespace ft
 	template <typename T, typename Container>
 	struct list_iterator
 	{
+	private:
+		typedef typename Container::lselt	lselt;
 	public:
 		typedef T 	value_type;
 		typedef T*	pointer;
 		typedef T&	reference;
 		typedef typename Container::size_type	size_type;
 		typedef typename Container::size_type	difference_type;
-		typedef std::random_access_iterator_tag	iterator_category;
+		typedef std::bidirectional_iterator_tag	iterator_category;
 
 		list_iterator(void);
 		list_iterator(const list_iterator& other);
-		list_iterator(Container* target, size_type index);
+		list_iterator(Container* target, lselt* element);
 		list_iterator&	operator=(const list_iterator& other);
+
 		bool	operator==(const list_iterator& other) const;
 		bool	operator!=(const list_iterator& other) const;
-		bool	operator<=(const list_iterator& other) const;
-		bool	operator>=(const list_iterator& other) const;
-		bool	operator< (const list_iterator& other) const;
-		bool	operator> (const list_iterator& other) const;
 
 		T&	operator*() const;
 		T*	operator->() const;
-		T&	operator[](size_type offset) const;
 
 		list_iterator<T, Container>&	operator++();
 		list_iterator<T, Container>&	operator--();
 		list_iterator<T, Container> 	operator++(int);
 		list_iterator<T, Container> 	operator--(int);
 
-		list_iterator<T, Container> 	operator+ (int offset) const;
-		list_iterator<T, Container> 	operator- (int offset) const;
-		list_iterator<T, Container>&	operator-=(int offset);
-		list_iterator<T, Container>&	operator+=(int offset);
-		size_type	operator+ (const list_iterator& other) const;
-		size_type	operator- (const list_iterator& other) const;
+	private:
+		Container*	target;
+		lselt*	curr;
 	};
+
+	
+	template <typename T, typename C>
+	list_iterator<T,C>::list_iterator(void) {
+		this->target = NULL;
+		this->curr   = NULL;
+	}
+	template <typename T, typename C>
+	list_iterator<T,C>::list_iterator(const list_iterator& other) {
+		this->target = other.target;
+		this->curr   = other.curr;
+	}
+	template <typename T, typename C>
+	list_iterator<T,C>::list_iterator(C* target, lselt* element) {
+		this->target = target;
+		this->curr   = element;
+	}
+	template <typename T, typename C>
+	list_iterator<T,C>&	list_iterator<T,C>::operator=(const list_iterator& other) {
+		this->target = other.target;
+		this->curr   = other.curr;
+	}
+
+
+	template <typename T, typename C>
+	bool	list_iterator<T,C>::operator==(const list_iterator& other) const {
+		return this->target == other.target && this->curr == other.curr;
+	}
+	template <typename T, typename C>
+	bool	list_iterator<T,C>::operator!=(const list_iterator& other) const {
+		return this->target != other.target || this->curr != other.curr;
+	}
+
+	template <typename T, typename C>
+	T&	list_iterator<T,C>::operator*() const {
+		return this->curr.value;
+	}
+	template <typename T, typename C>
+	T*	list_iterator<T,C>::operator->() const {
+		return &*(*this);
+	}
+
+	template <typename T, typename C>
+	list_iterator<T, C>&	list_iterator<T,C>::operator++() {
+		if (!curr)
+			throw std::out_of_range("Past-the-End list iterator.");
+		this->curr = curr->next;
+		return (*this);
+	}
+	template <typename T, typename C>
+	list_iterator<T, C>&	list_iterator<T,C>::operator--() {
+		if (!curr)
+			curr = target->back();
+		else if (!curr->prev)		
+			throw std::out_of_range("Past-the-Beginning list iterator.");
+		return (*this);
+	}
+	template <typename T, typename C>
+	list_iterator<T, C> 	list_iterator<T,C>::operator++(int) {
+		list_iterator tmp(*this);
+		++(*this);
+		return tmp;
+	}
+	template <typename T, typename C>
+	list_iterator<T, C> 	list_iterator<T,C>::operator--(int) {
+		list_iterator tmp(*this);
+		--(*this);
+		return tmp;
+	}
 }
 
 #endif
