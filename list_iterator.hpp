@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:56:38 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/04 17:18:44 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/04 17:24:25 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ namespace ft
 
 	template <typename T, typename C>
 	T&	list_iterator<T,C>::operator*() const {
-		return this->curr.value;
+		return this->curr->value;
 	}
 	template <typename T, typename C>
 	T*	list_iterator<T,C>::operator->() const {
@@ -102,7 +102,7 @@ namespace ft
 	template <typename T, typename C>
 	list_iterator<T, C>&	list_iterator<T,C>::operator--() {
 		if (!curr)
-			curr = target->back();
+			curr = target->_last;
 		else if (!curr->prev)		
 			throw std::out_of_range("Past-the-Beginning list iterator.");
 		return (*this);

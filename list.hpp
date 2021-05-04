@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/02 19:20:44 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/04 17:55:09 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ namespace ft
 	template <class IT>
 	list<T,A>::list(IT begin, IT end, const allocator_type& allocator) {
 		this->_allocator = allocator;
-		if (end <= begin) {
+		if (end == begin) {
 			this->_size  = 0;
 			this->_first = NULL;
 			this->_last  = NULL;
@@ -195,9 +195,9 @@ namespace ft
 			this->_first = new lselt(*begin);
 			this->_last  = _first;
 			this->_size  = 1;
-			for (IT it=begin+1; it<end; it++) {
+			for (begin++; begin!=end; begin++) {
 				lselt* prev = _last;
-				this->_last = new lselt(*it, prev, NULL);
+				this->_last = new lselt(*begin, prev, NULL);
 				prev->next  = _last;
 				_size++;
 			}
@@ -236,6 +236,24 @@ namespace ft
 
 	// list& operator=(const list& other);
 
+	// ## Iterators
+	template<typename T, typename A>
+	typename list<T,A>::iterator	list<T,A>::begin() { return iterator(this, _first); }
+	template<typename T, typename A>
+	typename list<T,A>::iterator	list<T,A>::end()   { return iterator(this, NULL);   }
+	template<typename T, typename A>
+	typename list<T,A>::const_iterator	list<T,A>::begin() const { return const_iterator(this, _first); }
+	template<typename T, typename A>
+	typename list<T,A>::const_iterator	list<T,A>::end()   const { return const_iterator(this, NULL);   }
+	template<typename T, typename A>
+	typename list<T,A>::reverse_iterator	list<T,A>::rbegin() { return reverse_iterator(iterator(this, _first)); }
+	template<typename T, typename A>
+	typename list<T,A>::reverse_iterator	list<T,A>::rend()   { return reverse_iterator(iterator(this, NULL));   }
+	template<typename T, typename A>
+	typename list<T,A>::const_reverse_iterator	list<T,A>::rbegin() const { return reverse_iterator(const_iterator(this, _first)); }
+	template<typename T, typename A>
+	typename list<T,A>::const_reverse_iterator	list<T,A>::rend()   const { return reverse_iterator(const_iterator(this, NULL));   }
+
 	// ## Element Access
 	template <typename T, typename A>
 	typename list<T,A>::reference      	list<T,A>::front() {
@@ -254,6 +272,57 @@ namespace ft
 		return _last->value;
 	}
 
+	// ## Modifiers
+	template <typename T, typename A>
+	void	list<T,A>::push_front(const value_type& value) {
+		lselt* neo = new lselt(value);
+		if (_first)
+			_first->prev = neo;
+		_first = neo;
+		if (!_last)
+			_last = neo;
+	}
+	template <typename T, typename A>
+	void	list<T,A>::push_back (const value_type& value) {
+		lselt* neo = new lselt(value);
+		if (_last)
+			_last->next = neo;
+		_last = neo;
+		if (!_first)
+			_first = neo;
+	}
+	template <typename T, typename A>
+	void	list<T,A>::pop_front() {
+		if (!_first)
+			throw std::length_error("Popped empty list.");
+
+		if (_first == _last){
+			delete _first;
+			_last  = NULL;
+			_first = NULL;
+		} 
+		else {
+			_first = _first->next;
+			delete _first->prev;
+			_first->prev = NULL;
+		}
+	}
+	template <typename T, typename A>
+	void	list<T,A>::pop_back () {
+		if (!_last)
+			throw std::length_error("Popped empty list.");
+
+		if (_first == _last) {
+			delete _last;
+			_last  = NULL;
+			_first = NULL;
+		}
+		else {
+			_last = _last->prev;
+			delete _last->next;
+			_last->next = NULL;
+		}
+	}
 }
 
 #endif
