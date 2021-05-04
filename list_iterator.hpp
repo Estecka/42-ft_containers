@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:56:38 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/04 19:11:23 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/04 20:51:01 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ namespace ft
 			curr = target->_last;
 		else if (!curr->prev)		
 			throw std::out_of_range("Past-the-Beginning list iterator.");
+		else
+			curr = curr->prev;
 		return (*this);
 	}
 	template <typename T, typename C>

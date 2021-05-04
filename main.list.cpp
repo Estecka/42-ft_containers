@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 15:24:51 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/04 19:10:32 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/04 19:50:44 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,5 @@ static void	TestIterators(){
 
 extern int	main() {
 	TestConstructors();
+	TestIterators();
 }

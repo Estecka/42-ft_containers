@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/04 18:42:53 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/04 20:02:26 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,13 +246,13 @@ namespace ft
 	template<typename T, typename A>
 	typename list<T,A>::const_iterator	list<T,A>::end()   const { return const_iterator(this, NULL);   }
 	template<typename T, typename A>
-	typename list<T,A>::reverse_iterator	list<T,A>::rbegin() { return reverse_iterator(iterator(this, _first)); }
+	typename list<T,A>::reverse_iterator	list<T,A>::rbegin() { return reverse_iterator(iterator(this, NULL));   }
 	template<typename T, typename A>
-	typename list<T,A>::reverse_iterator	list<T,A>::rend()   { return reverse_iterator(iterator(this, NULL));   }
+	typename list<T,A>::reverse_iterator	list<T,A>::rend()   { return reverse_iterator(iterator(this, _first)); }
 	template<typename T, typename A>
-	typename list<T,A>::const_reverse_iterator	list<T,A>::rbegin() const { return reverse_iterator(const_iterator(this, _first)); }
+	typename list<T,A>::const_reverse_iterator	list<T,A>::rbegin() const { return const_reverse_iterator(const_iterator(this, NULL));   }
 	template<typename T, typename A>
-	typename list<T,A>::const_reverse_iterator	list<T,A>::rend()   const { return reverse_iterator(const_iterator(this, NULL));   }
+	typename list<T,A>::const_reverse_iterator	list<T,A>::rend()   const { return const_reverse_iterator(const_iterator(this, _first)); }
 
 
 	// ## Capacity

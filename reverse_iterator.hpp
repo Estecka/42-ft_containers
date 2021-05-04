@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 21:38:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/27 22:37:59 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/04 20:04:30 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,12 @@ namespace ft
 
 	template <typename IT>
 	typename IT::reference	reverse_iterator<IT>::operator*() const {
-		return _base[-1];
+		IT tmp = _base;
+		return *--tmp;
 	}
 	template <typename IT>
 	typename IT::pointer	reverse_iterator<IT>::operator->() const {
-		return &_base[-1];
+		return &**this;
 	}
 	template <typename IT>
 	typename IT::reference	reverse_iterator<IT>::operator[](size_type offset) const {
@@ -113,12 +114,12 @@ namespace ft
 
 	template <typename IT>
 	reverse_iterator<IT>&	reverse_iterator<IT>::operator++() {
-		++_base;
+		--_base;
 		return (*this);
 	}
 	template <typename IT>
 	reverse_iterator<IT>&	reverse_iterator<IT>::operator--() {
-		--_base;
+		++_base;
 		return (*this);
 	}
 	template <typename IT>
