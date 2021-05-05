@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/05 17:42:40 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/05 17:58:18 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,7 +290,7 @@ namespace ft
 	// ## Modifiers
 	template <typename T, typename A>
 	void	list<T,A>::push_front(const value_type& value) {
-		lselt* neo = new lselt(value);
+		lselt* neo = new lselt(value, NULL, _first);
 		if (_first)
 			_first->prev = neo;
 		_first = neo;
@@ -300,7 +300,7 @@ namespace ft
 	}
 	template <typename T, typename A>
 	void	list<T,A>::push_back (const value_type& value) {
-		lselt* neo = new lselt(value);
+		lselt* neo = new lselt(value, _last, NULL);
 		if (_last)
 			_last->next = neo;
 		_last = neo;

@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 15:24:51 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/05 17:08:45 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/05 17:59:18 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,20 @@ static void	TestCapacity(){
 	dump(ls);
 }
 
+static void	TestAccess(){
+	NS::list<int> ls;
+	for (int i=0; i<10; i++) {
+		rand() % 2 ?
+			ls.push_back (rand()%100):
+			ls.push_front(rand()%100);
+		std::cout << ls.front() << ls.back() << std::endl;
+		dump(ls);
+	}
+}
+
 extern int	main() {
 	TestConstructors();
 	TestIterators();
 	TestCapacity();
+	TestAccess();
 }
