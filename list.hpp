@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/04 20:02:26 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/05 17:42:40 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,7 +262,7 @@ namespace ft
 	}
 	template <typename T, typename A>
 	typename list<T,A>::size_type	list<T,A>::max_size() const {
-		return this->_allocator.max_size();
+		return std::allocator<lselt>().max_size();
 	}
 	template <typename T, typename A>
 	bool	list<T,A>::empty() const {

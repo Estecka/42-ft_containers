@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 15:24:51 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/04 19:50:44 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/05 17:08:45 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,22 @@ static void	TestIterators(){
 	std::cout << std::endl;
 }
 
+static void	TestCapacity(){
+	NS::list<int> ls;
+
+	std::cout << ls.max_size() << std::endl;
+	std::cout << ls.size() << std::endl;
+	std::cout << ls.empty() << std::endl;
+
+	for (int i=0; i<10; i++) {
+		ls.push_back(1);
+		std::cout << ls.empty() << ls.size() << std::endl;
+	}
+	dump(ls);
+}
+
 extern int	main() {
 	TestConstructors();
 	TestIterators();
+	TestCapacity();
 }

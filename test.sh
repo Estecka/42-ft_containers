@@ -6,6 +6,7 @@ TESTS=(
 );
 
 make all || exit;
+echo;
 
 for t in $TESTS;
 do;
@@ -18,4 +19,5 @@ do;
 
 	grep <$t.ft.leaks.log "no leaks"         | sed -e 's/==[[:digit:]]*== //';
 	grep <$t.ft.leaks.log "LEAK SUMMARY" -A5 | sed -e 's/==[[:digit:]]*== //';
+	echo;
 done;
