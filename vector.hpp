@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/29 19:52:17 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/06 17:17:07 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include "reverse_iterator.hpp"
 #include "vector_iterator.hpp"
+#include "not_integer.hpp"
 
 namespace ft
 {
@@ -48,7 +49,7 @@ namespace ft
 		explicit vector(const allocator_type& allocator = allocator_type());
 		explicit vector(size_type size, const value_type& value = value_type(), const allocator_type& allocator = allocator_type());
 		template <class IT>
-		vector(IT begin, IT end, const allocator_type& allocator = allocator_type());
+		vector(IT begin, IT end, const allocator_type& allocator = allocator_type(), NOT_INTEGER(IT) = 0);
 		vector(const vector& other);
 		~vector();
 		vector& operator=(const vector& other);
@@ -83,14 +84,14 @@ namespace ft
 
 	// ## Modifiers
 		template <class IT>
-		void	assign(IT begin, IT end);
+		void	assign(IT begin, IT end, NOT_INTEGER(IT) = 0);
 		void	assign(size_type size, const value_type& value);
 		void	push_back(const value_type& value);
 		void	pop_back();
+		template <typename IT>
+		void	insert(iterator index, IT begin, IT end, NOT_INTEGER(IT) = 0);
 		void	insert(iterator index, const value_type& value);
 		void	insert(iterator index, size_type amount, const value_type& value);
-		template <typename IT>
-		void	insert(iterator index, IT begin, IT end);
 		iterator	erase(iterator position);
 		iterator	erase(iterator begin, iterator end);
 		void       	swap(vector& other);
@@ -107,10 +108,6 @@ namespace ft
 		template <class IT>
 		void	_Assign(IT begin, IT end, std::__false_type);
 		void	_Assign(size_type size, const value_type& value, std::__true_type);
-
-		template <typename IT>
-		void	_Insert(iterator index, IT begin, IT end, std::__false_type);
-		void	_Insert(iterator index, size_type amount, const value_type& value, std::__true_type);
 	};
 
 
@@ -142,7 +139,7 @@ namespace ft
 	}
 	template <typename T, typename A>
 	template <typename IT>
-	vector<T,A>::vector(IT begin, IT end, const A& allocator) {
+	vector<T,A>::vector(IT begin, IT end, const A& allocator, NOT_INTEGER(IT)) {
 		if (begin > end)
 			throw std::invalid_argument("End came before Begin.");
 		this->_allocator = allocator;
@@ -300,19 +297,7 @@ namespace ft
 // ## Modifiers
 	template <typename T, typename A>
 	template <class IT>
-	void	vector<T,A>::assign(IT begin, IT end){
-		_Assign(begin, end, typename std::__is_integer<IT>::__type());
-	}
-	template <typename T, typename A>
-	void	vector<T,A>::assign(size_type targetSize, const value_type& value){
-		this->reserve(targetSize);
-		for (size_type i=0; i<targetSize; i++)
-			(*this)[i] = value;
-		this->_size = targetSize;
-	}
-	template <typename T, typename A>
-	template <class IT>
-	void	vector<T,A>::_Assign(IT begin, IT end, std::__false_type){
+	void	vector<T,A>::assign(IT begin, IT end, NOT_INTEGER(IT)){
 		if (end < begin)
 			throw std::invalid_argument("End came before Begin");
 		this->reserve(end - begin);
@@ -321,8 +306,11 @@ namespace ft
 			(*this)[i] = *begin;
 	}
 	template <typename T, typename A>
-	void	vector<T,A>::_Assign(size_type targetSize, const value_type& value, std::__true_type){
-		assign((size_type)targetSize, (const value_type&)value);
+	void	vector<T,A>::assign(size_type targetSize, const value_type& value){
+		this->reserve(targetSize);
+		for (size_type i=0; i<targetSize; i++)
+			(*this)[i] = value;
+		this->_size = targetSize;
 	}
 	template <typename T, typename A>
 	void	vector<T,A>::push_back(const value_type& value){
@@ -336,32 +324,8 @@ namespace ft
 		this->_size--;
 	}
 	template <typename T, typename A>
-	void	vector<T,A>::insert(iterator index, const value_type& value){
-		this->insert(index, (size_type)1, (const value_type&)value);
-	}
-	template <typename T, typename A>
-	void	vector<T,A>::insert(iterator index, size_type amount, const value_type& value){
-		this->reserve(_size + amount);
-
-		for (iterator it=this->end()-1; index<=it; it--)
-			it[amount] = it[0];
-		for (iterator it=index; it<(index+amount); it++)
-			*it = value;
-
-		this->_size += amount;
-	}
-	template <typename T, typename A>
 	template <typename IT>
-	void	vector<T,A>::insert(iterator index, IT begin, IT end){
-		_Insert(index, begin, end, typename std::__is_integer<IT>::__type());
-	}
-	template <typename T, typename A>
-	void	vector<T,A>::_Insert(iterator index, size_type amount, const value_type& value, std::__true_type){
-		insert(index, (size_type)amount, (const value_type&)value);
-	}
-	template <typename T, typename A>
-	template <typename IT>
-	void	vector<T,A>::_Insert(iterator index, IT begin, IT end, std::__false_type){
+	void	vector<T,A>::insert(iterator index, IT begin, IT end, typename not_integer<IT>::_true){
 		if (end < begin)
 			throw std::invalid_argument("end came before begin.");
 
@@ -372,6 +336,21 @@ namespace ft
 			it[amount] = it[0];
 		for (iterator it=index; it<(index+amount); it++)
 			*it = *(begin++);
+
+		this->_size += amount;
+	}
+	template <typename T, typename A>
+	void	vector<T,A>::insert(iterator index, const value_type& value){
+		this->insert(index, 1, (const value_type&)value);
+	}
+	template <typename T, typename A>
+	void	vector<T,A>::insert(iterator index, size_type amount, const value_type& value){
+		this->reserve(_size + amount);
+
+		for (iterator it=this->end()-1; index<=it; it--)
+			it[amount] = it[0];
+		for (iterator it=index; it<(index+amount); it++)
+			*it = value;
 
 		this->_size += amount;
 	}

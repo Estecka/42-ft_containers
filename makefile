@@ -1,10 +1,11 @@
 HDRS = \
 	dump.hpp \
+	list.hpp \
+	list_iterator.hpp \
+	not_integer.hpp \
 	reverse_iterator.hpp \
 	vector.hpp \
 	vector_iterator.hpp \
-	list.hpp \
-	list_iterator.hpp \
 
 SRCS = \
 

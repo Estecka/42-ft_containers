@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:07:06 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/29 19:57:21 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/06 17:00:13 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	TestConstructors() {
 	NS::vector<int> defaut;
 	dump(defaut);
 
-	NS::vector<int> sized(10);
+	NS::vector<int> sized(10, 5);
 	dump(sized);
 	for (int i=0; i<10; i++)
 		sized[i] = i;

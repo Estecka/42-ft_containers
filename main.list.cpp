@@ -35,6 +35,9 @@ static void	TestConstructors() {
 	NS::list<int> copy(sized);
 	dump(copy);
 
+	NS::list<int>	valued(10, 5);
+	dump(valued);
+
 	NS::list<int>	iter1(sized.begin(), sized.end());
 	dump(iter1);
 	NS::list<int>	iter2(g_digits, g_digits + 10);

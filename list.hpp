@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/05 17:58:18 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/06 17:19:06 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 #include "reverse_iterator.hpp"
 #include "list_iterator.hpp"
+#include "not_integer.hpp"
 
 namespace ft
 {
@@ -53,7 +54,7 @@ namespace ft
 		explicit list(const allocator_type& allocator = allocator_type());
 		explicit list(size_type size, const value_type& value = value_type(), const allocator_type& allocator = allocator_type());
 		template <class IT>
-		list(IT begin, IT end, const allocator_type& allocator = allocator_type());
+		list(IT begin, IT end, const allocator_type& allocator = allocator_type(), NOT_INTEGER(IT) = 0);
 		list(const list& other);
 		~list();
 		list& operator=(const list& other);
@@ -81,16 +82,16 @@ namespace ft
 
 		// ## Modifiers
 		template <class IT>
-		void	assign(IT begin, IT end);
+		void	assign(IT begin, IT end, NOT_INTEGER(IT) = 0);
 		void	assign(size_type size, const value_type& value);
 		void	push_front(const value_type& value);
 		void	push_back (const value_type& value);
 		void	pop_front();
 		void	pop_back ();
+		template <typename IT>
+		void	insert(iterator index, IT begin, IT end, NOT_INTEGER(IT) = 0);
 		void	insert(iterator index, const value_type& value);
 		void	insert(iterator index, size_type amount, const value_type& value);
-		template <typename IT>
-		void	insert(iterator index, IT begin, IT end);
 		iterator	erase(iterator position);
 		iterator	erase(iterator begin, iterator end);
 		void       	swap(list& other);
@@ -184,7 +185,7 @@ namespace ft
 	}
 	template <typename T, typename A>
 	template <class IT>
-	list<T,A>::list(IT begin, IT end, const allocator_type& allocator) {
+	list<T,A>::list(IT begin, IT end, const allocator_type& allocator, NOT_INTEGER(IT)) {
 		this->_allocator = allocator;
 		if (end == begin) {
 			this->_size  = 0;
