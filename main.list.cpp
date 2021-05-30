@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 15:24:51 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/05 17:59:18 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/30 10:10:44 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,37 @@ static void	TestAccess(){
 	}
 }
 
+static void	TestAssign(){
+	NS::list<int> ass1;
+	NS::list<int> ass2;
+	dump(ass1);
+	dump(ass2);
+	ass1.assign(3, 5);
+	ass2.assign(12, 6);
+	dump(ass1);
+	dump(ass2);
+	ass1.assign(g_digits+1, g_digits+6);
+	ass2.assign(++ass1.begin(), --ass1.end());
+	dump(ass1);
+	dump(ass2);
+	ass1.assign(g_digits+1, g_digits+3);
+	ass2.assign(g_digits, g_digits+10);
+	dump(ass1);
+	dump(ass2);
+
+	NS::list<std::string> ass3;
+	ass3.assign( 5, "abc"); dump(ass3);
+	ass3.assign(10, "def"); dump(ass3);
+	ass3.assign( 2, "ghi"); dump(ass3);
+}
+static void	TestModifiers(){
+	TestAssign();
+}
+
 extern int	main() {
 	TestConstructors();
 	TestIterators();
 	TestCapacity();
 	TestAccess();
+	TestModifiers();
 }

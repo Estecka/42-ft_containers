@@ -3,6 +3,7 @@ HDRS = \
 	list.hpp \
 	list_iterator.hpp \
 	not_integer.hpp \
+	reconstruct.hpp \
 	reverse_iterator.hpp \
 	vector.hpp \
 	vector_iterator.hpp \

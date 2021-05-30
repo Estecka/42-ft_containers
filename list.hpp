@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/06 17:19:06 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/30 09:58:26 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <memory>
 #include <stdlib.h>
 
+#include "reconstruct.hpp"
 #include "reverse_iterator.hpp"
 #include "list_iterator.hpp"
 #include "not_integer.hpp"
@@ -289,6 +290,39 @@ namespace ft
 	}
 
 	// ## Modifiers
+	template <typename T, typename A>
+	template <class IT>
+	void	list<T,A>::assign(IT begin, IT end, NOT_INTEGER(IT)){
+		iterator dst = this->begin();
+		IT       src = begin;
+		size_type targetsize = 0;
+
+		for (; dst!=this->end() && src!=end; dst++, src++) {
+			reconstruct(*dst, *src);
+			targetsize++;
+		}
+
+		while (targetsize < this->_size)
+			this->pop_back();
+
+		for (; src != end; src++)
+			this->push_back(*src);
+	}
+	template <typename T, typename A>
+	void	list<T,A>::assign(size_type size, const value_type& value){
+		while (size < this->_size)
+			this->pop_back();
+
+		if (0 < this->_size)
+		for (iterator it=this->begin(); it!=this->end(); it++) {
+			reconstruct(*it, value);
+			size--;
+		}
+
+		for (size_type i=0; i<size; i++)
+			this->push_back(value);
+	}
+
 	template <typename T, typename A>
 	void	list<T,A>::push_front(const value_type& value) {
 		lselt* neo = new lselt(value, NULL, _first);
