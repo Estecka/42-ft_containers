@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 15:24:51 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/30 10:10:44 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/30 10:16:47 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,20 @@ static void	TestAssign(){
 	ass3.assign(10, "def"); dump(ass3);
 	ass3.assign( 2, "ghi"); dump(ass3);
 }
+static void	TestPushPop(){
+	NS::list<int>	ls;
+	ls.push_back (0); dump(ls);
+	ls.push_back (1); dump(ls);
+	ls.push_front(2); dump(ls);
+	ls.push_front(3); dump(ls);
+	ls.pop_back  () ; dump(ls);
+	ls.pop_front () ; dump(ls);
+	ls.push_back (4); dump(ls);
+	ls.push_front(5); dump(ls);
+}
 static void	TestModifiers(){
 	TestAssign();
+	TestPushPop();
 }
 
 extern int	main() {
