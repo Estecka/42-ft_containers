@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/30 09:58:26 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/31 15:13:04 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -378,6 +378,44 @@ namespace ft
 		}
 
 		_size--;
+	}
+
+	template <typename T, typename A>
+	void	list<T,A>::insert(iterator index, const value_type& value) {
+		lselt* elt = new lselt(value);
+
+		if (index == this->end()) {
+			elt->prev = this->_last;
+			elt->next = NULL;
+			this->_last = elt;
+		}
+		else if (index == this->begin()) {
+			elt->prev = NULL;
+			elt->next = this->_first;
+			this->_first = elt;
+		}
+		else {
+			elt->next = index.curr;
+			elt->prev = index.curr->prev;
+		}
+
+		if (elt->prev)
+			elt->prev->next = elt;
+		if (elt->next)
+			elt->next->prev = elt;
+
+		this->_size++;
+	}
+	template <typename T, typename A>
+	void	list<T,A>::insert(iterator index, size_type amount, const value_type& value) {
+		while (0 < amount--)
+			this->insert(index, value);
+	}
+	template <typename T, typename A>
+	template <typename IT>
+	void	list<T,A>::insert(iterator index, IT begin, IT end, NOT_INTEGER(IT)) {
+		for (IT it=begin; it!=end; it++)
+			this->insert(index, *it);
 	}
 }
 

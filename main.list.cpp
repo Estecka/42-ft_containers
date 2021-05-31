@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 15:24:51 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/30 10:16:47 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/31 15:28:01 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,19 @@ static void	TestPushPop(){
 	ls.push_back (4); dump(ls);
 	ls.push_front(5); dump(ls);
 }
+static void	TestInsert(){
+	NS::list<int>	ls(2, 0);
+	ls.insert(ls.begin(), 2); dump(ls);
+	ls.insert(ls.end(),   1); dump(ls);
+	ls.insert(ls.begin(), 2, 2); dump(ls);
+	ls.insert(ls.end(),   3, 3); dump(ls);
+	ls.insert(ls.begin(), g_digits+8, g_digits+10); dump(ls);
+	ls.insert(ls.end(),   g_digits+5, g_digits+ 8); dump(ls);
+}
 static void	TestModifiers(){
 	TestAssign();
 	TestPushPop();
+	TestInsert();
 }
 
 extern int	main() {

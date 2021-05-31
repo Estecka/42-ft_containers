@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:56:38 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/04 20:51:01 by abaur            ###   ########.fr       */
+/*   Updated: 2021/05/31 15:28:31 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 #include <iterator>
 
+#include "not_integer.hpp"
+
 namespace ft
 {
 	template <typename T, typename Container>
@@ -22,6 +24,9 @@ namespace ft
 	{
 	private:
 		typedef typename Container::lselt	lselt;
+
+		friend	void Container::insert(list_iterator, const T&);
+
 	public:
 		typedef T 	value_type;
 		typedef T*	pointer;
