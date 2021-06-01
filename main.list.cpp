@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 15:24:51 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/31 15:28:01 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/01 13:39:54 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,10 +133,23 @@ static void	TestInsert(){
 	ls.insert(ls.begin(), g_digits+8, g_digits+10); dump(ls);
 	ls.insert(ls.end(),   g_digits+5, g_digits+ 8); dump(ls);
 }
+static void	TestErase(){
+	NS::list<int>	ls;
+	ls.assign(g_digits, g_digits+10);
+	ls.erase(  ls.begin());	dump(ls);
+	ls.erase(++ls.begin());	dump(ls);
+	ls.erase(--ls.end());	dump(ls);
+	//ls.erase(  ls.end());	dump(ls); // Crashes in the std, so cannot be tested.
+
+	ls.erase(++ls.begin(), --ls.end());	dump(ls);
+	ls.erase(++ls.begin(), --ls.end());	dump(ls);
+	ls.erase(  ls.begin(),   ls.end());	dump(ls);
+}
 static void	TestModifiers(){
 	TestAssign();
 	TestPushPop();
 	TestInsert();
+	TestErase();
 }
 
 extern int	main() {

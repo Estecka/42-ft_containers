@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/31 15:13:04 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/01 14:15:55 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -416,6 +416,55 @@ namespace ft
 	void	list<T,A>::insert(iterator index, IT begin, IT end, NOT_INTEGER(IT)) {
 		for (IT it=begin; it!=end; it++)
 			this->insert(index, *it);
+	}
+
+	template <typename T, typename A>
+	typename list<T,A>::iterator	list<T,A>::erase(iterator position) {
+		if (position == this->end())
+			return this->end();
+
+		lselt* elt = position.curr;
+		position++;
+		if (elt->prev)
+			elt->prev->next = elt->next;
+		if (elt->next)
+			elt->next->prev = elt->prev;
+
+		if (this->_first == elt)
+			this->_first = elt->next;
+		if (this->_last == elt)
+			this->_last = elt->prev;
+
+		delete elt;
+		this->_size--;
+		return position;
+	}
+	template <typename T, typename A>
+	typename list<T,A>::iterator	list<T,A>::erase(iterator begin, iterator end) {
+		if (begin == end)
+			return end;
+
+		lselt* first = begin.curr;
+		lselt* last  = (end==this->end()) ? this->_last : end.curr->prev;
+
+		if (first->prev)
+			first->prev->next = last->next;
+		if (last->next)
+			last->next->prev = first->prev;
+
+		if (this->_first == first)
+			this->_first = last->next;
+		if (this->_last == last)
+			this->_last = first->prev;
+
+		lselt* nextilt = NULL; // Extra steps required to avoid invalid reads.
+		lselt* lastilt = last->next;
+		for (lselt* ilt=first; ilt!=lastilt; ilt=nextilt) {
+			nextilt = ilt->next; 
+			delete ilt;
+			this->_size--;
+		}
+		return end;
 	}
 }
 
