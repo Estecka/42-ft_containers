@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 15:24:51 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/01 14:38:19 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/01 14:42:51 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,13 @@ static void	TestConstructors() {
 	dump(iter1);
 	NS::list<int>	iter2(g_digits, g_digits + 10);
 	dump(iter2);
+
+	iter1 = defaut;
+	dump(iter1);
+	iter1 = iter2;
+	dump(iter1);
+	iter1 = sized;
+	dump(iter1);
 }
 
 static void	TestIterators(){

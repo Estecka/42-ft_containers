@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/01 14:38:38 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/01 14:49:43 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,7 +231,11 @@ namespace ft
 		this->clear();
 	}
 
-	// list& operator=(const list& other);
+	template <typename T, typename A>
+	list<T,A>& list<T,A>::operator=(const list& other){
+		this->assign(other.begin(), other.end());
+		return *this;
+	}
 
 	// ## Iterators
 	template<typename T, typename A>
