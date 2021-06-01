@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 15:24:51 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/01 14:30:18 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/01 14:38:19 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,15 @@ static void	TestResize(){
 	ls.resize(20, 20);	dump(ls);
 	ls.resize(18, 30);	dump(ls);
 }
+static void	TestClear(){
+	NS::list<int> ls(g_digits, g_digits+8);
+
+	dump(ls); ls.clear();
+	dump(ls); ls.assign(g_digits+2, g_digits+7);
+	dump(ls); ls.clear();
+	dump(ls); ls.resize(10, 20);
+	dump(ls); ls.clear();
+}
 static void	TestModifiers(){
 	TestAssign();
 	TestPushPop();
@@ -173,6 +182,7 @@ static void	TestModifiers(){
 	TestErase();
 	TestSwap();
 	TestResize();
+	TestClear();
 }
 
 extern int	main() {

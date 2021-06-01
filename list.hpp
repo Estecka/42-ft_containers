@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/01 14:27:29 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/01 14:38:38 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,13 +228,7 @@ namespace ft
 	}
 	template <typename T, typename A>
 	list<T,A>::~list() {
-		lselt* current = _first;
-		lselt* next;
-		while (current) {
-			next = current->next;
-			delete current;
-			current = next;
-		}
+		this->clear();
 	}
 
 	// list& operator=(const list& other);
@@ -490,6 +484,19 @@ namespace ft
 			this->push_back(value);
 		while (this->_size > targetsize)
 			this->pop_back();
+	}
+
+
+	template <typename T, typename A>
+	void	list<T,A>::clear() {
+		lselt*	next;
+		for (lselt* ilt=this->_first; ilt!=NULL; ilt=next) {
+			next = ilt->next;
+			delete ilt;
+		}
+		this->_size  = 0;
+		this->_first = NULL;
+		this->_last  = NULL;
 	}
 }
 
