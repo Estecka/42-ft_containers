@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/01 14:22:40 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/01 14:27:29 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -482,6 +482,14 @@ namespace ft
 		ft::swap(a._size,  b._size );
 		ft::swap(a._first, b._first);
 		ft::swap(a._last,  b._last );
+	}
+
+	template <typename T, typename A>
+	void	list<T,A>::resize(size_type targetsize, value_type value) {
+		while (this->_size < targetsize)
+			this->push_back(value);
+		while (this->_size > targetsize)
+			this->pop_back();
 	}
 }
 
