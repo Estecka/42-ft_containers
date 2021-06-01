@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/01 14:15:55 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/01 14:22:40 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 #include "reconstruct.hpp"
 #include "reverse_iterator.hpp"
+#include "swap.hpp"
 #include "list_iterator.hpp"
 #include "not_integer.hpp"
 
@@ -465,6 +466,22 @@ namespace ft
 			this->_size--;
 		}
 		return end;
+	}
+
+	template <typename T, typename A>
+	void	list<T,A>::swap(list& other){
+		list	oldthis(*this);
+		
+		this->assign(other.begin(),   other.end()  );
+		other.assign(oldthis.begin(), oldthis.end());
+	}
+	template <typename T, typename A>
+	void	swap(list<T,A>& a, list<T,A>& b){
+
+		ft::swap(a._allocator, b._allocator);
+		ft::swap(a._size,  b._size );
+		ft::swap(a._first, b._first);
+		ft::swap(a._last,  b._last );
 	}
 }
 

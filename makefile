@@ -5,6 +5,7 @@ HDRS = \
 	not_integer.hpp \
 	reconstruct.hpp \
 	reverse_iterator.hpp \
+	swap.hpp \
 	vector.hpp \
 	vector_iterator.hpp \
 
