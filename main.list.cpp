@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 15:24:51 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/01 14:42:51 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/03 17:02:18 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,10 +192,27 @@ static void	TestModifiers(){
 	TestClear();
 }
 
+static void	TestReverse(){
+	NS::list<int> ls;
+
+	ls.reverse();
+	dump(ls);
+	ls.push_back(0);
+	ls.reverse();
+	dump(ls);
+	ls.assign(g_digits, g_digits+10);
+	ls.reverse();
+	dump(ls);
+}
+static void	TestOperations(){
+	TestReverse();
+}
+
 extern int	main() {
 	TestConstructors();
 	TestIterators();
 	TestCapacity();
 	TestAccess();
 	TestModifiers();
+	TestOperations();
 }

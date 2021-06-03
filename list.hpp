@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/01 14:49:43 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/03 17:02:31 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -501,6 +501,15 @@ namespace ft
 		this->_size  = 0;
 		this->_first = NULL;
 		this->_last  = NULL;
+	}
+
+// ## Operations
+	template <typename T, typename A>
+	void	list<T,A>::reverse() {
+		ft::swap(this->_first, this->_last);
+
+		for (lselt* ilt=_first; ilt!=NULL; ilt=ilt->next)
+			ft::swap(ilt->prev, ilt->next);
 	}
 }
 
