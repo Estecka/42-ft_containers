@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/04 16:55:50 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/04 18:59:52 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ namespace ft
 		void	splice(iterator index, list& source, iterator sourceIndex);
 		void	splice(iterator index, list& source, iterator begin, iterator end);
 		template <typename Predicate>
-		void	removeif(Predicate predicate);
+		void	remove_if(Predicate predicate);
 		void	remove(const value_type& value);
 		template <typename BinaryPredicate>
 		void	unique(BinaryPredicate predicate);
@@ -557,6 +557,43 @@ namespace ft
 		srcleft ->prev = dstleft;
 		srcright->next = dstright;
 		this->_size += amount;
+	}
+	template <typename T, typename A>
+	void	list<T,A>::remove(const value_type& value) {
+		lselt* ilt = this->_first;
+		lselt* next;
+
+		while (ilt != NULL) {
+			next = ilt->next;
+			if (ilt->value == value) {
+				if (ilt->prev) ilt->prev->next = ilt->next;
+				if (ilt->next) ilt->next->prev = ilt->prev;
+				if (ilt == this->_first) this->_first = ilt->next;
+				if (ilt == this->_last)  this->_last  = ilt->prev;
+				delete ilt;
+				this->_size--;
+			}
+			ilt = next;
+		}
+	}
+	template <typename T, typename A>
+	template <typename P>
+	void	list<T,A>::remove_if(P predicate) {
+		lselt* ilt = this->_first;
+		lselt* next;
+
+		while (ilt != NULL) {
+			next = ilt->next;
+			if (predicate(ilt->value)) {
+				if (ilt->prev) ilt->prev->next = ilt->next;
+				if (ilt->next) ilt->next->prev = ilt->prev;
+				if (ilt == this->_first) this->_first = ilt->next;
+				if (ilt == this->_last)  this->_last  = ilt->prev;
+				delete ilt;
+				this->_size--;
+			}
+			ilt = next;
+		}
 	}
 	template <typename T, typename A>
 	void	list<T,A>::reverse() {

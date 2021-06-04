@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 15:24:51 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/04 17:17:24 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/04 19:00:54 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,8 +243,22 @@ static void	TestReverse(){
 	ls.reverse();
 	dump(ls);
 }
+static bool	iseven(int i){
+	return i % 2;
+}
+static void	TestRemove(){
+	NS::list<int> ls(g_digits, g_digits+10);
+
+	ls.remove(7);   	dump(ls);
+	ls.push_back(6);	dump(ls);
+	ls.remove(6);   	dump(ls);
+	ls.remove(0);   	dump(ls);
+	ls.remove_if(&iseven); dump(ls);
+	ls.remove(2);   	dump(ls);
+}
 static void	TestOperations(){
 	TestSplice();
+	TestRemove();
 	TestReverse();
 }
 
