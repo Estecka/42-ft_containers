@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/03 17:02:31 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/04 16:55:50 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -504,6 +504,60 @@ namespace ft
 	}
 
 // ## Operations
+	template <typename T, typename A>
+	void	list<T,A>::splice(iterator dstpos, list& src) {
+		if (src._size <= 0)
+			return;
+		else
+			this->splice(dstpos, src, src.begin(), src.end());
+	}
+	template <typename T, typename A>
+	void	list<T,A>::splice(iterator dstpos, list& src, iterator srcpos) {
+		this->splice(dstpos, src, srcpos, ++srcpos);
+	}
+	template <typename T, typename A>
+	void	list<T,A>::splice(iterator dstpos, list& src, iterator srcbegin, iterator srcend) {
+		size_type amount = 0;
+		for (iterator it=srcbegin; it!=srcend; it++)
+			amount++;
+		if (amount <= 0)
+			return;
+
+		lselt* srcleft  = srcbegin.curr;
+		lselt* srcright = (--srcend).curr;
+		lselt* dstleft  = NULL;
+		lselt* dstright = NULL;
+		if (dstpos == this->end())
+			dstleft = this->_last;
+		else {
+			dstright  = dstpos.curr;
+			dstleft   = dstright->prev;
+		}
+
+		// Extract elts from the source.
+		if (srcleft->prev)
+			srcleft->prev->next = srcright->next;
+		else
+			src._first = srcright->next;
+		if (srcright->next)
+			srcright->next->prev = srcleft->prev;
+		else
+			src._last  = srcleft ->prev;
+		src._size -= amount;
+
+		// Insert the dangling elts into the destination
+		if (dstleft)
+			dstleft ->next = srcleft ;
+		else
+			this->_first = srcleft ;
+		if (dstright)
+			dstright->prev = srcright;
+		else
+			this->_last  = srcright;
+		srcleft ->prev = dstleft;
+		srcright->next = dstright;
+		this->_size += amount;
+	}
 	template <typename T, typename A>
 	void	list<T,A>::reverse() {
 		ft::swap(this->_first, this->_last);

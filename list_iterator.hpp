@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:56:38 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/31 15:58:41 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/04 16:52:56 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ namespace ft
 		friend	void Container::insert(list_iterator, const T&);
 		friend	list_iterator Container::erase(list_iterator);
 		friend	list_iterator Container::erase(list_iterator, list_iterator);
+		friend	void Container::splice(list_iterator, Container&, list_iterator, list_iterator);
 
 	public:
 		typedef T 	value_type;

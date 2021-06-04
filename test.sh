@@ -1,9 +1,14 @@
 #!/bin/zsh
 
-TESTS=(
-	vector
-	list
-);
+if [ -z "$@" ]
+then
+	TESTS=(
+		vector
+		list
+	);
+else
+	TESTS="$@";
+fi
 
 make all || exit;
 echo;

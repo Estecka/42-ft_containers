@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 15:24:51 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/03 17:02:18 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/04 17:17:24 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,45 @@ static void	TestModifiers(){
 	TestClear();
 }
 
+static void TestSplice() {
+	NS::list<int>	src;
+	NS::list<int>	dst;
+
+	src.assign(g_digits, g_digits+2);
+	dst.splice(dst.end(), src);
+	dump(src); dump(dst);
+
+	dst.clear();
+	src.assign(g_digits, g_digits+1);
+	dst.splice(dst.end(), src);
+	dump(src); dump(dst);
+
+	src.assign(g_digits+1, g_digits+3);
+	dst.splice(dst.begin(), src);
+	dump(src); dump(dst);
+
+	src.assign(g_digits, g_digits+2);
+	dst.splice(++dst.begin(), src);
+	dump(src); dump(dst);
+
+	dst.clear();
+	src.assign(g_digits, g_digits+6);
+	dst.splice(dst.end(), src, ++src.begin(), --src.end());
+	dump(src); dump(dst);
+	dst.splice(dst.begin(), src, src.begin(), ++src.begin());
+	dump(src); dump(dst);
+	dst.splice(dst.begin(), src, src.begin());
+	dump(src); dump(dst);
+
+	dst.clear();
+	src.assign(g_digits, g_digits+4);
+	dst.splice(dst.end(), src, ++src.begin());
+	dump(src); dump(dst);
+	dst.splice(dst.end(), src, ++src.begin());
+	dump(src); dump(dst);
+	dst.splice(dst.begin(), src, --src.end());
+	dump(src); dump(dst);
+}
 static void	TestReverse(){
 	NS::list<int> ls;
 
@@ -205,6 +244,7 @@ static void	TestReverse(){
 	dump(ls);
 }
 static void	TestOperations(){
+	TestSplice();
 	TestReverse();
 }
 
