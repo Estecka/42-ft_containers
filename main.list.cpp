@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 15:24:51 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/04 19:00:54 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/05 16:05:12 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 
 #include "dump.hpp"
 #include <typeinfo>
+
+#pragma clang diagnostic ignored "-Wunused-function"
 
 static const int	g_digits[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
@@ -231,18 +233,6 @@ static void TestSplice() {
 	dst.splice(dst.begin(), src, --src.end());
 	dump(src); dump(dst);
 }
-static void	TestReverse(){
-	NS::list<int> ls;
-
-	ls.reverse();
-	dump(ls);
-	ls.push_back(0);
-	ls.reverse();
-	dump(ls);
-	ls.assign(g_digits, g_digits+10);
-	ls.reverse();
-	dump(ls);
-}
 static bool	iseven(int i){
 	return i % 2;
 }
@@ -256,9 +246,37 @@ static void	TestRemove(){
 	ls.remove_if(&iseven); dump(ls);
 	ls.remove(2);   	dump(ls);
 }
+static void	TestReverse(){
+	NS::list<int> ls;
+
+	ls.reverse();
+	dump(ls);
+	ls.push_back(0);
+	ls.reverse();
+	dump(ls);
+	ls.assign(g_digits, g_digits+10);
+	ls.reverse();
+	dump(ls);
+}
+static bool	equateseven(int a, int b){
+	return (a%2) == (b%2);
+}
+static void	TestUnique() {
+	NS::list<int> ls;
+
+	ls.assign(g_digits, g_digits+10);
+	ls.insert(ls.end(), g_digits, g_digits+10);
+	ls.unique();	dump(ls);
+	ls.unique(&equateseven);	dump(ls);
+	ls.push_back(4);
+	ls.unique(&equateseven);	dump(ls);
+	ls.push_front(3);
+	ls.unique(&equateseven);	dump(ls);
+}
 static void	TestOperations(){
 	TestSplice();
 	TestRemove();
+	TestUnique();
 	TestReverse();
 }
 

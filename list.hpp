@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/05 15:19:34 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/05 16:02:50 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -583,6 +583,27 @@ namespace ft
 			ilt = next;
 		}
 	}
+
+	template <typename T>
+	static bool	unique(const T& a, const T& b) {
+		return a == b;
+	}
+	template <typename T, typename A>
+	void	list<T,A>::unique() {
+		this->unique(&ft::unique<T>);
+	}
+	template <typename T, typename A>
+	template <typename P>
+	void	list<T,A>::unique(P predicate) {
+		for (lselt* ilt=_first; ilt!=NULL && ilt->next!=NULL; ilt=ilt->next) {
+			while (predicate(ilt->next->value, ilt->value)) {
+				lselt* del = ilt->next;
+				this->extract(*del);
+				delete del;
+			}
+		}
+	}
+
 	template <typename T, typename A>
 	void	list<T,A>::reverse() {
 		ft::swap(this->_first, this->_last);
