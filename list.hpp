@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/04 18:59:52 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/05 15:19:34 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,11 @@ namespace ft
 		size_type	_size;
 		lselt*	_first;
 		lselt*	_last;
+
+		// Removes an element from the list.
+		// The list itself is left in a valid state afterward.
+		// The element itself is left untouched and can be destroyed or reinserted somewhere else.
+		void	extract(lselt&);
 	};
 
 	// ## List Elements
@@ -422,20 +427,10 @@ namespace ft
 		if (position == this->end())
 			return this->end();
 
-		lselt* elt = position.curr;
+		lselt& elt = *position.curr;
 		position++;
-		if (elt->prev)
-			elt->prev->next = elt->next;
-		if (elt->next)
-			elt->next->prev = elt->prev;
-
-		if (this->_first == elt)
-			this->_first = elt->next;
-		if (this->_last == elt)
-			this->_last = elt->prev;
-
-		delete elt;
-		this->_size--;
+		this->extract(elt);
+		delete &elt;
 		return position;
 	}
 	template <typename T, typename A>
@@ -558,6 +553,7 @@ namespace ft
 		srcright->next = dstright;
 		this->_size += amount;
 	}
+
 	template <typename T, typename A>
 	void	list<T,A>::remove(const value_type& value) {
 		lselt* ilt = this->_first;
@@ -566,12 +562,8 @@ namespace ft
 		while (ilt != NULL) {
 			next = ilt->next;
 			if (ilt->value == value) {
-				if (ilt->prev) ilt->prev->next = ilt->next;
-				if (ilt->next) ilt->next->prev = ilt->prev;
-				if (ilt == this->_first) this->_first = ilt->next;
-				if (ilt == this->_last)  this->_last  = ilt->prev;
+				this->extract(*ilt);
 				delete ilt;
-				this->_size--;
 			}
 			ilt = next;
 		}
@@ -585,12 +577,8 @@ namespace ft
 		while (ilt != NULL) {
 			next = ilt->next;
 			if (predicate(ilt->value)) {
-				if (ilt->prev) ilt->prev->next = ilt->next;
-				if (ilt->next) ilt->next->prev = ilt->prev;
-				if (ilt == this->_first) this->_first = ilt->next;
-				if (ilt == this->_last)  this->_last  = ilt->prev;
+				this->extract(*ilt);
 				delete ilt;
-				this->_size--;
 			}
 			ilt = next;
 		}
@@ -601,6 +589,20 @@ namespace ft
 
 		for (lselt* ilt=_first; ilt!=NULL; ilt=ilt->next)
 			ft::swap(ilt->prev, ilt->next);
+	}
+
+// ## Privates
+	template <typename T, typename A>
+	void	list<T,A>::extract(lselt& element) {
+		if (element.next)
+			element.next->prev = element.prev;
+		else
+			this->_last = element.prev;
+		if (element.prev)
+			element.prev->next = element.next;
+		else
+			this->_first = element.next;
+		this->_size--;
 	}
 }
 
