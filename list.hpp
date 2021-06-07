@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/07 14:26:01 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/07 15:40:50 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,9 @@ namespace ft
 		// The list itself is left in a valid state afterward.
 		// The element itself is left untouched and can be destroyed or reinserted somewhere else.
 		void	extract(lselt&);
+		// Insert src right before dst. If dst is NULL, it will be inserted at the end of the list.
+		// The list is left in a valid state afterward.
+		void	insert(lselt& src, lselt* dst);
 	};
 
 	// ## List Elements
@@ -387,30 +390,7 @@ namespace ft
 	template <typename T, typename A>
 	void	list<T,A>::insert(iterator index, const value_type& value) {
 		lselt* elt = new lselt(value);
-
-		if (index == this->end()) {
-			elt->prev = this->_last;
-			elt->next = NULL;
-			this->_last = elt;
-			if (this->_size == 0)
-				this->_first = elt;
-		}
-		else if (index == this->begin()) {
-			elt->prev = NULL;
-			elt->next = this->_first;
-			this->_first = elt;
-		}
-		else {
-			elt->next = index.curr;
-			elt->prev = index.curr->prev;
-		}
-
-		if (elt->prev)
-			elt->prev->next = elt;
-		if (elt->next)
-			elt->next->prev = elt;
-
-		this->_size++;
+		this->insert(*elt, index.curr);
 	}
 	template <typename T, typename A>
 	void	list<T,A>::insert(iterator index, size_type amount, const value_type& value) {
@@ -626,6 +606,32 @@ namespace ft
 		else
 			this->_first = element.next;
 		this->_size--;
+	}
+	template <typename T, typename A>
+	void	list<T,A>::insert(lselt& elt, lselt* dst) {
+		if (dst == NULL) {
+			elt.prev = this->_last;
+			elt.next = NULL;
+			this->_last = &elt;
+			if (this->_size == 0)
+				this->_first = &elt;
+		}
+		else if (dst == this->_first) {
+			elt.prev = NULL;
+			elt.next = this->_first;
+			this->_first = &elt;
+		}
+		else {
+			elt.next = dst;
+			elt.prev = dst->prev;
+		}
+
+		if (elt.prev)
+			elt.prev->next = &elt;
+		if (elt.next)
+			elt.next->prev = &elt;
+
+		this->_size++;
 	}
 }
 
