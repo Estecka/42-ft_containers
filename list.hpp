@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/05 16:02:50 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/07 14:26:01 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -392,6 +392,8 @@ namespace ft
 			elt->prev = this->_last;
 			elt->next = NULL;
 			this->_last = elt;
+			if (this->_size == 0)
+				this->_first = elt;
 		}
 		else if (index == this->begin()) {
 			elt->prev = NULL;

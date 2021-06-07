@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 15:24:51 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/05 16:05:12 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/05 16:08:55 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,13 @@ static void	TestInsert(){
 	ls.insert(ls.end(),   3, 3); dump(ls);
 	ls.insert(ls.begin(), g_digits+8, g_digits+10); dump(ls);
 	ls.insert(ls.end(),   g_digits+5, g_digits+ 8); dump(ls);
+
+	ls.clear();
+	ls.insert(ls.end(), 3);	dump(ls);
+	ls.clear();
+	ls.insert(ls.end(), 4, 5);	dump(ls);
+	ls.clear();
+	ls.insert(ls.end(), g_digits, g_digits+10);	dump(ls);
 }
 static void	TestErase(){
 	NS::list<int>	ls;
