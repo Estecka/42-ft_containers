@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 15:24:51 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/05 16:08:55 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/07 16:16:50 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,18 +253,6 @@ static void	TestRemove(){
 	ls.remove_if(&iseven); dump(ls);
 	ls.remove(2);   	dump(ls);
 }
-static void	TestReverse(){
-	NS::list<int> ls;
-
-	ls.reverse();
-	dump(ls);
-	ls.push_back(0);
-	ls.reverse();
-	dump(ls);
-	ls.assign(g_digits, g_digits+10);
-	ls.reverse();
-	dump(ls);
-}
 static bool	equateseven(int a, int b){
 	return (a%2) == (b%2);
 }
@@ -280,10 +268,31 @@ static void	TestUnique() {
 	ls.push_front(3);
 	ls.unique(&equateseven);	dump(ls);
 }
+static void	TestSort(){
+	NS::list<int> ls;
+
+	ls.assign(g_digits, g_digits+10);
+	ls.reverse();
+	ls.sort();
+	dump(ls);
+}
+static void	TestReverse(){
+	NS::list<int> ls;
+
+	ls.reverse();
+	dump(ls);
+	ls.push_back(0);
+	ls.reverse();
+	dump(ls);
+	ls.assign(g_digits, g_digits+10);
+	ls.reverse();
+	dump(ls);
+}
 static void	TestOperations(){
 	TestSplice();
 	TestRemove();
 	TestUnique();
+	TestSort();
 	TestReverse();
 }
 

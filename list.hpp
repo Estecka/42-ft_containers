@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/07 15:40:50 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/07 16:34:49 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -582,6 +582,33 @@ namespace ft
 				lselt* del = ilt->next;
 				this->extract(*del);
 				delete del;
+			}
+		}
+	}
+
+	template <typename T>
+	static bool	issmallerthan(T& a, T& b) {
+		return a < b;
+	}
+
+	template <typename T, typename A>
+	void	list<T,A>::sort() {
+		return this->sort(&ft::issmallerthan<T>);
+	}
+	template <typename T, typename A>
+	template <typename C>
+	void	list<T,A>::sort(C goesbefore) {
+		for (lselt* ilt=this->_first; ilt!=NULL && ilt->next!=NULL; ilt=ilt->next) {
+			while (ilt->next && !goesbefore(ilt->value, ilt->next->value))
+			{
+				lselt* transit = ilt->next;
+				this->extract(*ilt->next);
+				for (lselt* jlt=ilt; true; jlt=jlt->prev) {
+					if (jlt->prev == NULL || !goesbefore(transit->value, jlt->prev->value)) {
+						this->insert(*transit, jlt);
+						break;
+					}
+				}
 			}
 		}
 	}
