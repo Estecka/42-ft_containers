@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 15:24:51 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/07 16:16:50 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/07 17:19:06 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,12 +268,17 @@ static void	TestUnique() {
 	ls.push_front(3);
 	ls.unique(&equateseven);	dump(ls);
 }
+static bool	reversesort(int a, int b) {
+	return a > b;
+}
 static void	TestSort(){
 	NS::list<int> ls;
 
 	ls.assign(g_digits, g_digits+10);
 	ls.reverse();
 	ls.sort();
+	dump(ls);
+	ls.sort(&reversesort);
 	dump(ls);
 }
 static void	TestReverse(){
