@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/07 16:34:49 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/10 17:31:46 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -610,6 +610,30 @@ namespace ft
 					}
 				}
 			}
+		}
+	}
+
+	template <typename T, typename A>
+	void	list<T,A>::merge(list& other) {
+		return this->merge(other, &ft::issmallerthan<T>);
+	}
+	template <typename T, typename A>
+	template <typename C>
+	void	list<T,A>::merge(list& other, C goesbefore) {
+		if (this->empty())
+			return ft::swap(*this, other);
+		
+		iterator srcit = other.begin();
+		iterator dstit = this->begin();
+		while (srcit != other.end()) {
+			iterator nextit = srcit;
+			nextit++;
+
+			while (dstit!=this->end() && !goesbefore(*srcit, *dstit))
+				dstit++;
+			this->splice(dstit, other, srcit);
+
+			srcit = nextit;
 		}
 	}
 

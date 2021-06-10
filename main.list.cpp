@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 15:24:51 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/07 17:19:06 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/10 17:39:57 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,16 @@
 #include "dump.hpp"
 #include <typeinfo>
 
+#include <iostream>
+
 #pragma clang diagnostic ignored "-Wunused-function"
 
 static const int	g_digits[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
+static inline void	log(const char* str) { std::cout << str << std::endl; };
+
 static void	TestConstructors() {
+	log("Constructors");
 	NS::list<int> defaut;
 	dump(defaut);
 
@@ -54,6 +59,7 @@ static void	TestConstructors() {
 }
 
 static void	TestIterators(){
+	log("Iterators");
 	NS::list<int> decimals(g_digits, g_digits+3);
 	const NS::list<int>& cdecimals = decimals;
 
@@ -75,6 +81,7 @@ static void	TestIterators(){
 }
 
 static void	TestCapacity(){
+	log("Capacity");
 	NS::list<int> ls;
 
 	std::cout << ls.max_size() << std::endl;
@@ -89,6 +96,7 @@ static void	TestCapacity(){
 }
 
 static void	TestAccess(){
+	log("Access");
 	NS::list<int> ls;
 	for (int i=0; i<10; i++) {
 		rand() % 2 ?
@@ -100,6 +108,7 @@ static void	TestAccess(){
 }
 
 static void	TestAssign(){
+	log("Assign");
 	NS::list<int> ass1;
 	NS::list<int> ass2;
 	dump(ass1);
@@ -123,6 +132,7 @@ static void	TestAssign(){
 	ass3.assign( 2, "ghi"); dump(ass3);
 }
 static void	TestPushPop(){
+	log("Push/Pop");
 	NS::list<int>	ls;
 	ls.push_back (0); dump(ls);
 	ls.push_back (1); dump(ls);
@@ -134,6 +144,7 @@ static void	TestPushPop(){
 	ls.push_front(5); dump(ls);
 }
 static void	TestInsert(){
+	log("insert");
 	NS::list<int>	ls(2, 0);
 	ls.insert(ls.begin(), 2); dump(ls);
 	ls.insert(ls.end(),   1); dump(ls);
@@ -150,6 +161,7 @@ static void	TestInsert(){
 	ls.insert(ls.end(), g_digits, g_digits+10);	dump(ls);
 }
 static void	TestErase(){
+	log("Erase");
 	NS::list<int>	ls;
 	ls.assign(g_digits, g_digits+10);
 	ls.erase(  ls.begin());	dump(ls);
@@ -162,6 +174,7 @@ static void	TestErase(){
 	ls.erase(  ls.begin(),   ls.end());	dump(ls);
 }
 static void	TestSwap(){
+	log("Swap");
 	NS::list<int> a, b;
 
 	a.assign(g_digits, g_digits+10);
@@ -176,6 +189,7 @@ static void	TestSwap(){
 	dump(a); dump(b);
 }
 static void	TestResize(){
+	log("Resize");
 	NS::list<int> ls(g_digits, g_digits+10);
 
 	ls.resize(15);    	dump(ls);
@@ -183,6 +197,7 @@ static void	TestResize(){
 	ls.resize(18, 30);	dump(ls);
 }
 static void	TestClear(){
+	log("Clear");
 	NS::list<int> ls(g_digits, g_digits+8);
 
 	dump(ls); ls.clear();
@@ -202,6 +217,7 @@ static void	TestModifiers(){
 }
 
 static void TestSplice() {
+	log("Splice");
 	NS::list<int>	src;
 	NS::list<int>	dst;
 
@@ -244,6 +260,7 @@ static bool	iseven(int i){
 	return i % 2;
 }
 static void	TestRemove(){
+	log("Remove");
 	NS::list<int> ls(g_digits, g_digits+10);
 
 	ls.remove(7);   	dump(ls);
@@ -257,6 +274,7 @@ static bool	equateseven(int a, int b){
 	return (a%2) == (b%2);
 }
 static void	TestUnique() {
+	log("Unique");
 	NS::list<int> ls;
 
 	ls.assign(g_digits, g_digits+10);
@@ -272,6 +290,7 @@ static bool	reversesort(int a, int b) {
 	return a > b;
 }
 static void	TestSort(){
+	log("Sort");
 	NS::list<int> ls;
 
 	ls.assign(g_digits, g_digits+10);
@@ -281,7 +300,27 @@ static void	TestSort(){
 	ls.sort(&reversesort);
 	dump(ls);
 }
+static void TestMerge() {
+	log("Merge");
+	NS::list<int> src;
+	NS::list<int> dst;
+
+	src.assign(g_digits+1, g_digits+7);
+	dst.merge(src);
+	dump(src); dump(dst);
+
+	src.assign(g_digits, g_digits+10);
+	dst.merge(src);
+	dump(src); dump(dst);
+
+	src.assign(g_digits+3, g_digits+6);
+	src.sort(&reversesort);
+	dst.sort(&reversesort);
+	dst.merge(src);
+	dump(src); dump(dst);
+}
 static void	TestReverse(){
+	log("Reverse");
 	NS::list<int> ls;
 
 	ls.reverse();
@@ -298,6 +337,7 @@ static void	TestOperations(){
 	TestRemove();
 	TestUnique();
 	TestSort();
+	TestMerge();
 	TestReverse();
 }
 
