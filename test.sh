@@ -6,6 +6,7 @@ then
 		vector
 		list
 		stack
+		queue
 	);
 else
 	TESTS="$@";

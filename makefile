@@ -3,6 +3,7 @@ HDRS = \
 	list.hpp \
 	list_iterator.hpp \
 	not_integer.hpp \
+	queue.hpp \
 	reconstruct.hpp \
 	reverse_iterator.hpp \
 	stack.hpp \
@@ -19,6 +20,7 @@ CLASSES = \
 	vector \
 	list \
 	stack \
+	queue \
 
 NAMES = \
 	${CLASSES:=.ft.out} \
