@@ -5,6 +5,7 @@ then
 	TESTS=(
 		vector
 		list
+		stack
 	);
 else
 	TESTS="$@";

@@ -5,6 +5,7 @@ HDRS = \
 	not_integer.hpp \
 	reconstruct.hpp \
 	reverse_iterator.hpp \
+	stack.hpp \
 	swap.hpp \
 	vector.hpp \
 	vector_iterator.hpp \
@@ -17,6 +18,7 @@ OBJS = ${SRCS:.cpp=.o}
 CLASSES = \
 	vector \
 	list \
+	stack \
 
 NAMES = \
 	${CLASSES:=.ft.out} \
