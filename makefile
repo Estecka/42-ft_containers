@@ -2,7 +2,10 @@ HDRS = \
 	dump.hpp \
 	list.hpp \
 	list_iterator.hpp \
+	map.hpp \
+	map_iterator.hpp \
 	not_integer.hpp \
+	pair.hpp \
 	queue.hpp \
 	reconstruct.hpp \
 	reverse_iterator.hpp \
@@ -21,6 +24,7 @@ CLASSES = \
 	list \
 	stack \
 	queue \
+	map \
 
 NAMES = \
 	${CLASSES:=.ft.out} \
