@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/13 17:25:56 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/14 19:50:24 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,22 @@ namespace ft
 		typedef __gnu_cxx::ptrdiff_t	difference_type;
 		typedef size_t   	size_type;
 
+	private:
+		struct node {
+			node*	parent;
+			node*	left, right;
+
+			node();
+			node(const node& other);
+			node(node* parent, node* left=NULL, node* right=NULL);
+			~node();
+			node&	operator=(const node& other);
+
+			node*	next() const;
+			node*	previous() const;
+		};
+
+	public:
 	// ## Constructors
 		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
 		map(const map& other);
@@ -114,7 +130,69 @@ namespace ft
 	private:
 		allocator_type	_allocator;
 		key_compare   	_comparator;
+		node*	_root;
+		size_type	_size;
 	};
+
+// ## Nodes
+	template <typename K, typename V, typename C, typename A>
+	map<K,V,C,A>::node::node() {
+		new(this) node(NULL,NULL,NULL);
+	}
+	template <typename K, typename V, typename C, typename A>
+	map<K,V,C,A>::node::node(const node& other) {
+		new(this) node(other.parent, other.left, other.right);
+	}
+	template <typename K, typename V, typename C, typename A>
+	map<K,V,C,A>::node::node(node* parent, node* left, node* right) : parent(parent), left(left), right(right){
+	}
+	template <typename K, typename V, typename C, typename A>
+	map<K,V,C,A>::node::~node() {
+	}
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::node&	map<K,V,C,A>::node::operator=(const node& other) {
+		this->parent = other.parent;
+		this->left   = other.left;
+		this->right  = other.right;
+	}
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::node*	map<K,V,C,A>::node::next() const {
+		node* parent = this->parent;
+		node* current = this;
+		node* previous = this;
+
+		while (true)
+		{
+			if ((current->right != NULL) && (current->right != previous))
+				return current->right;
+			if (!parent)
+				return NULL;
+			if (current == parent->left)
+				return parent;
+			previous = current;
+			current = parent;
+			parent = current->parent;
+		}
+	}
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::node*	map<K,V,C,A>::node::previous() const {
+		node* parent = this->parent;
+		node* current = this;
+		node* previous = this;
+
+		while (true)
+		{
+			if ((current->left != NULL) && (current->left != previous))
+				return current->left;
+			if (!parent)
+				return NULL;
+			if (current == parent->right)
+				return parent;
+			previous = current;
+			current = parent;
+			parent = current->parent;
+		}
+	}
 }
 
 #endif
