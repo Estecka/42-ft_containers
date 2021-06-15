@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/15 21:02:22 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/15 21:16:20 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ namespace ft
 		struct node {
 			pair_type	value;
 			node*	parent;
-			node*	left, right;
+			node*	left;
+			node*	right;
 
 			node();
 			node(const node& other);
