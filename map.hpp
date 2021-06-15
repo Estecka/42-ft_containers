@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/14 19:50:24 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/14 22:22:38 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,38 +157,32 @@ namespace ft
 	}
 	template <typename K, typename V, typename C, typename A>
 	typename map<K,V,C,A>::node*	map<K,V,C,A>::node::next() const {
-		node* parent = this->parent;
+		if (this->right)
+			return this->right;
+	
 		node* current = this;
-		node* previous = this;
-
-		while (true)
-		{
-			if ((current->right != NULL) && (current->right != previous))
-				return current->right;
+		node* parent  = this->parent;
+		while (true) {
 			if (!parent)
 				return NULL;
 			if (current == parent->left)
 				return parent;
-			previous = current;
 			current = parent;
 			parent = current->parent;
 		}
 	}
 	template <typename K, typename V, typename C, typename A>
 	typename map<K,V,C,A>::node*	map<K,V,C,A>::node::previous() const {
-		node* parent = this->parent;
+		if (this->left)
+			return this->left;
+	
 		node* current = this;
-		node* previous = this;
-
-		while (true)
-		{
-			if ((current->left != NULL) && (current->left != previous))
-				return current->left;
+		node* parent  = this->parent;
+		while (true) {
 			if (!parent)
 				return NULL;
 			if (current == parent->right)
 				return parent;
-			previous = current;
 			current = parent;
 			parent = current->parent;
 		}
