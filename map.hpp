@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/15 15:34:16 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/15 16:02:09 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ namespace ft
 
 	private:
 		allocator_type	_allocator;
-		key_compare   	_comparator;
+		key_compare   	_kcomp;
 		node*	_root;
 		size_type	_size;
 	};
@@ -188,6 +188,20 @@ namespace ft
 			parent = current->parent;
 		}
 	}
+
+// ## Constructors
+	template <typename K, typename V, typename C, typename A>
+	map<K,V,C,A>::map(const key_compare& comp, const allocator_type& alloc) {
+		this->_allocator = alloc;
+		this->_kcomp = comp;
+		this->_root = NULL;
+		this->_size = 0;
+	}
+	template <typename K, typename V, typename C, typename A>
+	map<K,V,C,A>::~map() {
+		// this->clear();
+	}
+
 }
 
 #endif
