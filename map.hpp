@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/15 17:35:17 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/15 19:40:18 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ namespace ft
 
 			node*	next() const;
 			node*	previous() const;
+			node&	leftmost() const;
+			node&	rightmost() const;
 		};
 
 	public:
@@ -162,7 +164,7 @@ namespace ft
 	template <typename K, typename V, typename C, typename A>
 	typename map<K,V,C,A>::node*	map<K,V,C,A>::node::next() const {
 		if (this->right)
-			return this->right;
+			return this->right->leftmost();
 	
 		node* current = this;
 		node* parent  = this->parent;
@@ -178,7 +180,7 @@ namespace ft
 	template <typename K, typename V, typename C, typename A>
 	typename map<K,V,C,A>::node*	map<K,V,C,A>::node::previous() const {
 		if (this->left)
-			return this->left;
+			return this->left->rightmost();
 	
 		node* current = this;
 		node* parent  = this->parent;
@@ -190,6 +192,18 @@ namespace ft
 			current = parent;
 			parent = current->parent;
 		}
+	}
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::node&	map<K,V,C,A>::node::leftmost() const {
+		for (node* ilt=this; true; ilt=ilt->left)
+			if (ilt->left == NULL)
+				return *ilt;
+	}
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::node&	map<K,V,C,A>::node::rightmost() const {
+		for (node* ilt=this; true; ilt=ilt->right)
+			if (ilt->right == NULL)
+				return *ilt;
 	}
 
 // ## Constructors
