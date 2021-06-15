@@ -6,15 +6,16 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/14 22:22:38 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/15 15:34:16 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_HPP
 #define MAP_HPP
 
-#include "pair.hpp"
+#include "less.hpp"
 #include "map_iterator.hpp"
+#include "pair.hpp"
 #include "reverse_iterator.hpp"
 
 #include <memory>
@@ -32,8 +33,8 @@ namespace ft
 	template <
 		typename K,
 		typename V,
-		typename Compare, // = less<K>
-		typename Alloc    // = allocator<pair<const K, V>>
+		typename Compare = ft::less<K>,
+		typename Alloc = std::allocator< pair<const K,V> >
 		>
 	class map 
 	{

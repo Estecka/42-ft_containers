@@ -1,5 +1,6 @@
 HDRS = \
 	dump.hpp \
+	less.hpp \
 	list.hpp \
 	list_iterator.hpp \
 	map.hpp \
