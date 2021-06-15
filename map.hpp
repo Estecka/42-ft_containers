@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/15 16:02:09 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/15 17:35:17 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,9 @@ namespace ft
 		key_compare   	_kcomp;
 		node*	_root;
 		size_type	_size;
+
+		node*	first();
+		node*	last();
 	};
 
 // ## Nodes
