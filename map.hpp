@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/15 19:40:18 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/15 19:44:08 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,19 @@ namespace ft
 		typedef __gnu_cxx::ptrdiff_t	difference_type;
 		typedef size_t   	size_type;
 
+		friend struct ft::map_iterator<      key_type,       mapped_type, map>;
+		friend struct ft::map_iterator<const key_type, const mapped_type, map>;
+
 	private:
 		struct node {
+			pair_type	value;
 			node*	parent;
 			node*	left, right;
 
 			node();
 			node(const node& other);
-			node(node* parent, node* left=NULL, node* right=NULL);
+			node(const pair_type& value, node* parent=NULL, node* left=NULL, node* right=NULL);
+			node(const key_type& key, const mapped_type& value, node* parent=NULL, node* left=NULL, node* right=NULL);
 			~node();
 			node&	operator=(const node& other);
 
@@ -142,15 +147,20 @@ namespace ft
 
 // ## Nodes
 	template <typename K, typename V, typename C, typename A>
-	map<K,V,C,A>::node::node() {
-		new(this) node(NULL,NULL,NULL);
+	map<K,V,C,A>::node::node() 
+	: value(), parent(NULL), left(NULL), right(NULL) {
 	}
 	template <typename K, typename V, typename C, typename A>
 	map<K,V,C,A>::node::node(const node& other) {
-		new(this) node(other.parent, other.left, other.right);
+		new(this) node(other.value, other.parent, other.left, other.right);
 	}
 	template <typename K, typename V, typename C, typename A>
-	map<K,V,C,A>::node::node(node* parent, node* left, node* right) : parent(parent), left(left), right(right){
+	map<K,V,C,A>::node::node(const key_type& key, const mapped_type& value, node* parent, node* left, node* right) 
+	: value(key, value), parent(parent), left(left), right(right){
+	}
+	template <typename K, typename V, typename C, typename A>
+	map<K,V,C,A>::node::node(const pair_type& value, node* parent, node* left, node* right) 
+	: value(value), parent(parent), left(left), right(right){
 	}
 	template <typename K, typename V, typename C, typename A>
 	map<K,V,C,A>::node::~node() {
