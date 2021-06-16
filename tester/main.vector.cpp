@@ -6,21 +6,14 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:07:06 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/06 17:00:13 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/16 18:28:06 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#ifndef NS
- #error define NS needs to be explicitely set to either `std` or `ft`
-#endif
 
 #include "vector.hpp"
 #include <vector>
 
-#include "dump.hpp"
-#include <typeinfo>
-
-static const int	g_digits[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+#include "tester.hpp"
 
 static void	TestConstructors() {
 	NS::vector<int> defaut;

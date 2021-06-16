@@ -1,19 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dump.hpp                                           :+:      :+:    :+:   */
+/*   tester.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/27 19:05:43 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/04 17:23:06 by abaur            ###   ########.fr       */
+/*   Created: 2021/06/16 18:22:48 by abaur             #+#    #+#             */
+/*   Updated: 2021/06/16 18:31:10 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DUMP_HPP
-#define DUMP_HPP
+#ifndef TESTER_HPP
+#define TESTER_HPP
 
+#ifndef NS
+ #error define NS needs to be explicitely set to either `std` or `ft`
+#endif
+
+#include <typeinfo>
 #include <iostream>
+
+#pragma clang diagnostic ignored "-Wunused-function"
+#pragma clang diagnostic ignored "-Wunused-parameter"
+
+static const int	g_digits[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+static inline void	log(const char* str) {
+	std::cout << str << std::endl;
+};
 
 template<typename Container>
 void	dump(const Container& c){

@@ -23,7 +23,7 @@ PROJECT_SRCS = \
 
 
 TEST_HDRS = \
-	dump.hpp \
+	tester.hpp \
 
 HDRS = ${TEST_HDRS} $(addprefix ${PROJECT_DIR},${PROJECT_HDRS})
 
