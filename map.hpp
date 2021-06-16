@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/16 16:27:11 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/16 17:05:19 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,16 @@ namespace ft
 		typedef typename allocator_type::pointer      	pointer;
 		typedef typename allocator_type::const_pointer	const_pointer;
 
-		typedef ft::map_iterator<      K,       V, map>	iterator;
-		typedef ft::map_iterator<const K, const V, map>	const_iterator;
+		typedef ft::map_iterator<      pair_type,       map>	iterator;
+		typedef ft::map_iterator<const pair_type, const map>	const_iterator;
 		typedef ft::reverse_iterator<iterator>      	      reverse_iterator;
 		typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
 		typedef __gnu_cxx::ptrdiff_t	difference_type;
 		typedef size_t   	size_type;
 
-		friend struct ft::map_iterator<      key_type,       mapped_type, map>;
-		friend struct ft::map_iterator<const key_type, const mapped_type, map>;
+		friend struct ft::map_iterator<      pair_type,       map>;
+		friend struct ft::map_iterator<const pair_type, const map>;
 
 	private:
 		struct node {
@@ -77,10 +77,10 @@ namespace ft
 			~node();
 			node&	operator=(const node& other);
 
-			node*	next() const;
-			node*	previous() const;
-			node&	leftmost() const;
-			node&	rightmost() const;
+			node*	next();
+			node*	previous();
+			node&	leftmost();
+			node&	rightmost();
 		};
 
 	public:
@@ -142,8 +142,9 @@ namespace ft
 		node*	_root;
 		size_type	_size;
 
-		node*	first();
-		node*	last();
+		node*	first() const;
+		node*	last() const;
+
 		// Recursively frees the node and its children.
 		void	clear(node&);
 		// Inserts an element somewhere below the given node.
@@ -177,9 +178,9 @@ namespace ft
 		this->right  = other.right;
 	}
 	template <typename K, typename V, typename C, typename A>
-	typename map<K,V,C,A>::node*	map<K,V,C,A>::node::next() const {
+	typename map<K,V,C,A>::node*	map<K,V,C,A>::node::next() {
 		if (this->right)
-			return this->right->leftmost();
+			return &this->right->leftmost();
 	
 		node* current = this;
 		node* parent  = this->parent;
@@ -193,9 +194,9 @@ namespace ft
 		}
 	}
 	template <typename K, typename V, typename C, typename A>
-	typename map<K,V,C,A>::node*	map<K,V,C,A>::node::previous() const {
+	typename map<K,V,C,A>::node*	map<K,V,C,A>::node::previous() {
 		if (this->left)
-			return this->left->rightmost();
+			return &this->left->rightmost();
 	
 		node* current = this;
 		node* parent  = this->parent;
@@ -209,13 +210,13 @@ namespace ft
 		}
 	}
 	template <typename K, typename V, typename C, typename A>
-	typename map<K,V,C,A>::node&	map<K,V,C,A>::node::leftmost() const {
+	typename map<K,V,C,A>::node&	map<K,V,C,A>::node::leftmost() {
 		for (node* ilt=this; true; ilt=ilt->left)
 			if (ilt->left == NULL)
 				return *ilt;
 	}
 	template <typename K, typename V, typename C, typename A>
-	typename map<K,V,C,A>::node&	map<K,V,C,A>::node::rightmost() const {
+	typename map<K,V,C,A>::node&	map<K,V,C,A>::node::rightmost() {
 		for (node* ilt=this; true; ilt=ilt->right)
 			if (ilt->right == NULL)
 				return *ilt;

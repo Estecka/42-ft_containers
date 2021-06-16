@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:01:10 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/16 16:10:45 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/16 17:06:08 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@
 
 #include "map.hpp"
 #include <map>
+
+// Required by function `dump` in order to work with maps.
+template <typename K, typename V>
+std::ostream&	operator<<(std::ostream& dst, const NS::pair<K,V>& src) {
+	return dst << src.first << "=>" << src.second;
+}
 
 #include "dump.hpp"
 #include <typeinfo>
@@ -32,4 +38,5 @@ extern int	main() {
 	NS::map<int, float> map;
 
 	map.insert(NS::pair<int, float>(5, 5.5f));
+	dump(map);
 }
