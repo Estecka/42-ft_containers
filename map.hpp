@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/16 17:05:19 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/16 17:38:05 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,20 @@ namespace ft
 			if (ilt->right == NULL)
 				return *ilt;
 	}
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::node*	map<K,V,C,A>::first() const {
+		if (this->_root)
+			return &_root->leftmost();
+		else
+			return NULL;
+	}
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::node*	map<K,V,C,A>::last() const {
+		if (this->_root)
+			return &_root->rightmost();
+		else
+			return NULL;
+	}
 
 // ## Constructors
 	template <typename K, typename V, typename C, typename A>
@@ -233,6 +247,34 @@ namespace ft
 	template <typename K, typename V, typename C, typename A>
 	map<K,V,C,A>::~map() {
 		this->clear();
+	}
+
+// ## Iterators
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::iterator	map<K,V,C,A>::begin() { return iterator(*this, this->first()); }
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::iterator	map<K,V,C,A>::end()   { return iterator(*this, NULL);          }
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::const_iterator	map<K,V,C,A>::begin() const { return const_iterator(*this, this->first()); }
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::const_iterator	map<K,V,C,A>::end()   const { return const_iterator(*this, NULL);          }
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::reverse_iterator	map<K,V,C,A>::rbegin() { return reverse_iterator(this->end());   }
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::reverse_iterator	map<K,V,C,A>::rend()   { return reverse_iterator(this->begin()); }
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::const_reverse_iterator	map<K,V,C,A>::rbegin() const { return reverse_iterator(this->end());   }
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::const_reverse_iterator	map<K,V,C,A>::rend()   const { return reverse_iterator(this->begin()); }
+
+// ## Capacity
+	template <typename K, typename V, typename C, typename A>
+	bool	map<K,V,C,A>::empty() const {
+		return this->_size > 0;
+	}
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::size_type	map<K,V,C,A>::size() const {
+		return this->_size;
 	}
 
 // ## Modifiers
