@@ -1,5 +1,6 @@
-HDRS = \
-	dump.hpp \
+PROJECT_DIR = ../
+
+PROJECT_HDRS = \
 	less.hpp \
 	list.hpp \
 	list_iterator.hpp \
@@ -15,10 +16,18 @@ HDRS = \
 	vector.hpp \
 	vector_iterator.hpp \
 
-SRCS = \
+PROJECT_SRCS = \
 
-OBJS = ${SRCS:.cpp=.o}
 
+######################
+
+
+TEST_HDRS = \
+	dump.hpp \
+
+HDRS = ${TEST_HDRS} $(addprefix ${PROJECT_DIR},${PROJECT_HDRS})
+
+OBJS = ${PROJECT_SRCS:.cpp=.o}
 
 CLASSES = \
 	vector \
@@ -31,15 +40,16 @@ NAMES = \
 	${CLASSES:=.ft.out} \
 	${CLASSES:=.std.out} \
 
-CPPFLAGS = -Wall -Wextra -Werror -std=c++98
+CPPFLAGS = -Wall -Wextra -Werror -std=c++98 -I ${PROJECT_DIR}
 CXX=clang++
+
 
 all: ${NAMES}
 
-%.ft.out: ${OBJS} ${HDRS} main.%.ft.o
+%.ft.out:  ${OBJS} ${HDRS} main.%.ft.o
 	${CXX} ${CPPFLAGS} main.$*.ft.o ${OBJS} -o $@
 
-%.std.out: main.%.std.o ${OBJS} ${HDRS}
+%.std.out: ${OBJS} ${HDRS} main.%.std.o
 	${CXX} ${CPPFLAGS} main.$*.std.o ${OBJS} -o $@
 
 ${OBJS}: ${HDRS}

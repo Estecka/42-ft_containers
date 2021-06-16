@@ -7,6 +7,7 @@ then
 		list
 		stack
 		queue
+		map
 	);
 else
 	TESTS="$@";
