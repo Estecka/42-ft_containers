@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/15 21:16:20 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/16 16:27:11 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ namespace ft
 		typedef typename allocator_type::pointer      	pointer;
 		typedef typename allocator_type::const_pointer	const_pointer;
 
-		typedef ft::map_iterator<      K,       V, Compare>	iterator;
-		typedef ft::map_iterator<const K, const V, Compare>	const_iterator;
+		typedef ft::map_iterator<      K,       V, map>	iterator;
+		typedef ft::map_iterator<const K, const V, map>	const_iterator;
 		typedef ft::reverse_iterator<iterator>      	      reverse_iterator;
 		typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
@@ -147,7 +147,7 @@ namespace ft
 		// Recursively frees the node and its children.
 		void	clear(node&);
 		// Inserts an element somewhere below the given node.
-		pair<iterator, bool>	insert(pair_type& item, node& root);
+		pair<iterator, bool>	insert(const pair_type& item, node& root);
 	};
 
 // ## Nodes
@@ -239,22 +239,22 @@ namespace ft
 	ft::pair<typename map<K,V,C,A>::iterator, bool>	map<K,V,C,A>::insert(const pair_type& item) {
 		if (!this->_root) {
 			this->_root = new node(item);
-			return ft::pair<iterator, bool>(iterator(this, _root), true);
+			return ft::pair<iterator, bool>(iterator(*this, _root), true);
 		}
 		else
 			return this->insert(item, *_root);
 	}
 	template <typename K, typename V, typename C, typename A>
-	ft::pair<typename map<K,V,C,A>::iterator, bool>	map<K,V,C,A>::insert(pair_type& item, node& root) {
+	ft::pair<typename map<K,V,C,A>::iterator, bool>	map<K,V,C,A>::insert(const pair_type& item, node& root) {
 		if (item.first == root.value.first)
-			return ft::pair<iterator, bool>(iterator(this, root), false);
+			return ft::pair<iterator, bool>(iterator(*this, &root), false);
 
-		node* direction = (this->_kcomp(item.first, root.value.first)) ? 
+		node*& direction = (this->_kcomp(item.first, root.value.first)) ? 
 		                  root.left :
 		                  root.right;
 		if (!direction) {
 			direction = new node(item, &root);
-			return ft::pair<iterator, bool>(iterator(this, direction), true);
+			return ft::pair<iterator, bool>(iterator(*this, direction), true);
 		}
 		else
 			return this->insert(item, *direction);

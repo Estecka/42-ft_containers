@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:01:10 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/15 15:58:55 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/16 16:10:45 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,6 @@ static const int	g_digits[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 static inline void	log(const char* str) { std::cout << str << std::endl; };
 extern int	main() {
 	NS::map<int, float> map;
+
+	map.insert(NS::pair<int, float>(5, 5.5f));
 }
