@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:01:10 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/16 17:06:08 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/16 17:42:41 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,9 @@ extern int	main() {
 	NS::map<int, float> map;
 
 	map.insert(NS::pair<int, float>(5, 5.5f));
+	map.insert(NS::pair<int, float>(8, 7.0f));
+	map.insert(NS::pair<int, float>(1, 1.2f));
+	map.insert(NS::pair<int, float>(6, 5.2f));
+	map.insert(NS::pair<int, float>(2, 1.3f));
 	dump(map);
 }

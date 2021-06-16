@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/16 17:38:05 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/16 17:41:40 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,6 +282,7 @@ namespace ft
 	ft::pair<typename map<K,V,C,A>::iterator, bool>	map<K,V,C,A>::insert(const pair_type& item) {
 		if (!this->_root) {
 			this->_root = new node(item);
+			this->_size++;
 			return ft::pair<iterator, bool>(iterator(*this, _root), true);
 		}
 		else
@@ -297,6 +298,7 @@ namespace ft
 		                  root.right;
 		if (!direction) {
 			direction = new node(item, &root);
+			this->_size++;
 			return ft::pair<iterator, bool>(iterator(*this, direction), true);
 		}
 		else
