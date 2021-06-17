@@ -25,7 +25,7 @@ PROJECT_SRCS = \
 TEST_HDRS = \
 	tester.hpp \
 
-HDRS = ${TEST_HDRS} $(addprefix ${PROJECT_DIR},${PROJECT_HDRS})
+HDRS = $(addprefix ${PROJECT_DIR},${PROJECT_HDRS})
 
 OBJS = ${PROJECT_SRCS:.cpp=.o}
 
@@ -46,25 +46,25 @@ CXX=clang++
 
 all: ${NAMES}
 
-%.ft.out:  ${OBJS} ${HDRS} main.%.ft.o
+%.ft.out:  ${OBJS} ${HDRS} ${TEST_HDRS} main.%.ft.o
 	${CXX} ${CPPFLAGS} main.$*.ft.o ${OBJS} -o $@
 
-%.std.out: ${OBJS} ${HDRS} main.%.std.o
+%.std.out: ${OBJS} ${HDRS} ${TEST_HDRS} main.%.std.o
 	${CXX} ${CPPFLAGS} main.$*.std.o ${OBJS} -o $@
 
-${OBJS}: ${HDRS}
+${OBJS}: ${HDRS} ${TEST_HDRS}
 
-main.%.ft.o: main.%.cpp ${HDRS}
+main.%.ft.o: main.%.cpp ${HDRS} ${TEST_HDRS}
 	${CXX} ${CPPFLAGS} main.$*.cpp -c -o $@ -D NS=ft
 
-main.%.std.o: main.%.cpp ${HDRS}
+main.%.std.o: main.%.cpp ${HDRS} ${TEST_HDRS}
 	${CXX} ${CPPFLAGS} main.$*.cpp -c -o $@ -D NS=std
 
 # For some reason, the `.test` pre-extension is absolutely needed.
 # The rule breaks completely if the files are named `.hpp.cpp` and `.hpp.o`.
 headers_test: ${HDRS:.hpp=.hpp.test.o}
 ${HDRS:.hpp=.hpp.test.cpp}: ${HDRS}
-	cp ${@F:.hpp.test.cpp=.hpp} ${@F} ;
+	cp ${@:.hpp.test.cpp=.hpp} ${@} ;
 
 clean:
 	rm -f *.o

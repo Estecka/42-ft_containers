@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/16 17:41:40 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/17 17:54:24 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "reverse_iterator.hpp"
 
 #include <memory>
+#include <new>
 #include <stdlib.h>
 
 namespace ft
@@ -241,8 +242,21 @@ namespace ft
 	map<K,V,C,A>::map(const key_compare& comp, const allocator_type& alloc) {
 		this->_allocator = alloc;
 		this->_kcomp = comp;
-		this->_root = NULL;
-		this->_size = 0;
+		this->_root  = NULL;
+		this->_size  = 0;
+	}
+	template <typename K, typename V, typename C, typename A>
+	map<K,V,C,A>::map(const map& other) {
+		new(this) map(other.begin(), other.end(), other._kcomp, other._allocator);
+	}
+	template <typename K, typename V, typename C, typename A>
+	template <typename IT>
+	map<K,V,C,A>::map(IT begin, IT end, const key_compare& comp, const allocator_type& alloc) {
+		this->_allocator = alloc;
+		this->_kcomp = comp;
+		this->_root  = NULL;
+		this->_size  = 0;
+		this->insert(begin, end);
 	}
 	template <typename K, typename V, typename C, typename A>
 	map<K,V,C,A>::~map() {
@@ -278,6 +292,12 @@ namespace ft
 	}
 
 // ## Modifiers
+	template <typename K, typename V, typename C, typename A>
+	template <typename IT>
+	void	map<K,V,C,A>::insert(IT begin, IT end) {
+		for (IT it=begin; it!=end; it++)
+			this->insert(*it);
+	}
 	template <typename K, typename V, typename C, typename A>
 	ft::pair<typename map<K,V,C,A>::iterator, bool>	map<K,V,C,A>::insert(const pair_type& item) {
 		if (!this->_root) {
