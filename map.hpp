@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/18 16:28:04 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/18 16:49:57 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,11 +301,15 @@ namespace ft
 // ## Capacity
 	template <typename K, typename V, typename C, typename A>
 	bool	map<K,V,C,A>::empty() const {
-		return this->_size > 0;
+		return this->_size <= 0;
 	}
 	template <typename K, typename V, typename C, typename A>
 	typename map<K,V,C,A>::size_type	map<K,V,C,A>::size() const {
 		return this->_size;
+	}
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::size_type	map<K,V,C,A>::max_size() const {
+		return std::allocator<node>().max_size();
 	}
 
 // ## Modifiers
@@ -345,6 +349,8 @@ namespace ft
 	void	map<K,V,C,A>::clear() {
 		if (this->_root)
 			this->clear(*_root);
+		this->_size = 0;
+		this->_root = NULL;
 	}
 	template <typename K, typename V, typename C, typename A>
 	void	map<K,V,C,A>::clear(node& root) {

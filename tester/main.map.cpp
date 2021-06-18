@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:01:10 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/18 16:29:57 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/18 16:47:08 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,24 @@ static void	TestIterators(){
 	dump(cmap.rbegin(), cmap.rend());
 }
 
+static void	TestCapacity(){
+	NS::map<int, float>	map;
+	std::cout << map.empty() << map.size() << std::endl;
+
+	map.insert(endless_pair_iterator(5), endless_pair_iterator(6));
+	std::cout << map.empty() << map.size() << std::endl;
+	
+	map.insert(endless_pair_iterator(5), endless_pair_iterator(6));
+	std::cout << map.empty() << map.size() << std::endl;
+
+	map.clear();
+	std::cout << map.empty() << map.size() << std::endl;
+
+	map.max_size();
+}
+
 extern int	main() {
 	TestConstructors();
 	TestIterators();
+	TestCapacity();
 }
