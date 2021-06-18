@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:01:10 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/18 16:12:34 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/18 16:29:57 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,18 @@ static void	TestConstructors(){
 	dump(equals);
 }
 
+static void	TestIterators(){
+	NS::map<int, float>	map;
+	const NS::map<int, float>&	cmap = map;
+	map.insert(endless_pair_iterator(10), endless_pair_iterator(50));
+
+	dump( map.begin(),  map.end());
+	dump(cmap.begin(), cmap.end());
+	dump( map.rbegin(),  map.rend());
+	dump(cmap.rbegin(), cmap.rend());
+}
+
 extern int	main() {
 	TestConstructors();
+	TestIterators();
 }

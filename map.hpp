@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/18 16:13:14 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/18 16:28:04 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,9 +294,9 @@ namespace ft
 	template <typename K, typename V, typename C, typename A>
 	typename map<K,V,C,A>::reverse_iterator	map<K,V,C,A>::rend()   { return reverse_iterator(this->begin()); }
 	template <typename K, typename V, typename C, typename A>
-	typename map<K,V,C,A>::const_reverse_iterator	map<K,V,C,A>::rbegin() const { return reverse_iterator(this->end());   }
+	typename map<K,V,C,A>::const_reverse_iterator	map<K,V,C,A>::rbegin() const { return const_reverse_iterator(this->end());   }
 	template <typename K, typename V, typename C, typename A>
-	typename map<K,V,C,A>::const_reverse_iterator	map<K,V,C,A>::rend()   const { return reverse_iterator(this->begin()); }
+	typename map<K,V,C,A>::const_reverse_iterator	map<K,V,C,A>::rend()   const { return const_reverse_iterator(this->begin()); }
 
 // ## Capacity
 	template <typename K, typename V, typename C, typename A>

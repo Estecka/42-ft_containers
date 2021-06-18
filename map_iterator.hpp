@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:30:54 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/16 16:57:55 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/18 16:27:33 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ namespace ft
 		map_iterator<T,C>&	map_iterator<T,C>::operator=(const map_iterator& other){
 			this->target   = other.target;
 			this->position = other.position;
+			return *this;
 		}
 		template <typename T, class C>
 		bool	map_iterator<T,C>::operator==(const map_iterator& other) const {

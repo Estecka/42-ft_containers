@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 18:22:48 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/16 18:31:10 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/18 16:25:08 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,18 @@ void	dump(const Container& c){
 		std::cout << *it;
 		if (it != --c.end())
 			std::cout << ", ";
+	}
+	std::cout << " }" << std::endl;
+}
+
+template<typename IT>
+void	dump(IT begin, IT end){
+	std::cout << "{ ";
+	for (IT it=begin; it!=end; it++)
+		{
+		if (it != begin)
+			std::cout << ", ";
+		std::cout << *it;
 	}
 	std::cout << " }" << std::endl;
 }
