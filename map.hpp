@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/18 16:49:57 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/18 18:23:54 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,8 +149,6 @@ namespace ft
 
 		// Recursively frees the node and its children.
 		void	clear(node&);
-		// Inserts an element somewhere below the given node.
-		pair<iterator, bool>	insert(const pair_type& item, node& root);
 
 		// Restructures the tree into a simple chained list.
 		void	linearize();
@@ -311,6 +309,10 @@ namespace ft
 	typename map<K,V,C,A>::size_type	map<K,V,C,A>::max_size() const {
 		return std::allocator<node>().max_size();
 	}
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::mapped_type&	map<K,V,C,A>::operator[](const key_type& key) {
+		return (this->insert(pair_type(key, mapped_type())).first)->second;
+	}
 
 // ## Modifiers
 	template <typename K, typename V, typename C, typename A>
@@ -321,29 +323,23 @@ namespace ft
 	}
 	template <typename K, typename V, typename C, typename A>
 	ft::pair<typename map<K,V,C,A>::iterator, bool>	map<K,V,C,A>::insert(const pair_type& item) {
-		if (!this->_root) {
-			this->_root = new node(item);
-			this->_size++;
-			return ft::pair<iterator, bool>(iterator(*this, _root), true);
-		}
-		else
-			return this->insert(item, *_root);
-	}
-	template <typename K, typename V, typename C, typename A>
-	ft::pair<typename map<K,V,C,A>::iterator, bool>	map<K,V,C,A>::insert(const pair_type& item, node& root) {
-		if (item.first == root.value.first)
-			return ft::pair<iterator, bool>(iterator(*this, &root), false);
+		node*	parent  = NULL;
+		node**	current = &_root;
 
-		node*& direction = (this->_kcomp(item.first, root.value.first)) ? 
-		                  root.left :
-		                  root.right;
-		if (!direction) {
-			direction = new node(item, &root);
-			this->_size++;
-			return ft::pair<iterator, bool>(iterator(*this, direction), true);
+		while (*current != NULL) {
+			parent = (*current);
+			if (_kcomp(item.first, (**current).value.first))
+				current = &(**current).left;
+			else if (_kcomp((**current).value.first, item.first))
+				current = &(**current).right;
+			else
+				return ft::pair<iterator,bool> (iterator(*this, *current), false);
 		}
-		else
-			return this->insert(item, *direction);
+
+		*current = new node(item);
+		(**current).parent = parent;
+		_size++;
+		return ft::pair<iterator,bool> (iterator(*this, *current), true);
 	}
 	template <typename K, typename V, typename C, typename A>
 	void	map<K,V,C,A>::clear() {

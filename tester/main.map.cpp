@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:01:10 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/18 16:47:08 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/18 18:33:45 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,18 @@ static void	TestCapacity(){
 	map.insert(endless_pair_iterator(5), endless_pair_iterator(6));
 	std::cout << map.empty() << map.size() << std::endl;
 	
-	map.insert(endless_pair_iterator(5), endless_pair_iterator(6));
+	map.insert(endless_pair_iterator(6), endless_pair_iterator(20));
 	std::cout << map.empty() << map.size() << std::endl;
+
+	for (int i=5; i<20; i++)
+		std::cout << map[i] << ", ";
+	std::cout << std::endl;
 
 	map.clear();
 	std::cout << map.empty() << map.size() << std::endl;
 
 	map.max_size();
+
 }
 
 extern int	main() {
