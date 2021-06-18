@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/30 09:23:53 by abaur             #+#    #+#             */
-/*   Updated: 2021/05/30 09:57:47 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/18 16:10:19 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ namespace ft
 	// @param T& object	The object to reconstruct.
 	// @param const T&	The value to to copy into the object.
 	template <typename T>
-	void	reconstruct(T& object, const T& value)
+	inline void	reconstruct(T& object, const T& value)
 	{
 		object.~T();           // Manually destruct the object
 		new(&object) T(value); // Manually re-call the constructor on the existing object

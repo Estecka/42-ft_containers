@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/17 20:05:43 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/18 16:13:14 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "map_iterator.hpp"
 #include "pair.hpp"
 #include "reverse_iterator.hpp"
+#include "reconstruct.hpp"
 
 #include <memory>
 #include <new>
@@ -155,6 +156,10 @@ namespace ft
 		void	linearize();
 	};
 
+/******************************************************************************/
+/* # Nodes                                                                    */
+/******************************************************************************/
+
 // ## Nodes
 	template <typename K, typename V, typename C, typename A>
 	map<K,V,C,A>::node::node() 
@@ -240,6 +245,10 @@ namespace ft
 			return NULL;
 	}
 
+/******************************************************************************/
+/* # Map                                                                      */
+/******************************************************************************/
+
 // ## Constructors
 	template <typename K, typename V, typename C, typename A>
 	map<K,V,C,A>::map(const key_compare& comp, const allocator_type& alloc) {
@@ -264,6 +273,11 @@ namespace ft
 	template <typename K, typename V, typename C, typename A>
 	map<K,V,C,A>::~map() {
 		this->clear();
+	}
+	template <typename K, typename V, typename C, typename A>
+	map<K,V,C,A>&	map<K,V,C,A>::operator=(const map& other) {
+		reconstruct(*this, other);
+		return *this;
 	}
 
 // ## Iterators
@@ -352,7 +366,7 @@ namespace ft
 		node*	left;
 		node*	prev;
 
-		for (it=this->last(); it->parent()!=NULL; it=it->parent;) {
+		for (it=this->last(); it->parent()!=NULL; it=it->parent) {
 			if (!it->left)
 				continue;
 			parent = it->parent;

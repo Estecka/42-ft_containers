@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:01:10 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/17 19:17:46 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/18 16:12:34 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,12 @@ static void	TestConstructors(){
 	NS::map<int, float>	copyb(iterator);
 	dump(copya);
 	dump(copyb);
+
+	NS::map<int, float>	equals;
+	equals = defaut;
+	dump(equals);
+	equals = iterator;
+	dump(equals);
 }
 
 extern int	main() {
