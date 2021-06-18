@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/17 17:54:24 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/17 20:05:43 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,9 @@ namespace ft
 		void	clear(node&);
 		// Inserts an element somewhere below the given node.
 		pair<iterator, bool>	insert(const pair_type& item, node& root);
+
+		// Restructures the tree into a simple chained list.
+		void	linearize();
 	};
 
 // ## Nodes
@@ -336,6 +339,34 @@ namespace ft
 		if (root.right)
 			this->clear(*root.right);
 		delete &root;
+	}
+
+// ## Miscellaneous
+	template <typename K, typename V, typename C, typename A>
+	void	map<K,V,C,A>::linearize() {
+		if (this->_size < 2)
+			return;
+
+		node*	it;
+		node*	parent;
+		node*	left;
+		node*	prev;
+
+		for (it=this->last(); it->parent()!=NULL; it=it->parent;) {
+			if (!it->left)
+				continue;
+			parent = it->parent;
+			left   = it->left;
+			prev   = it->previous();
+
+			it->parent  = prev;
+			prev->right = it;
+
+			left->parent  = parent;
+			parent->right = left;
+		}
+
+		this->_root = it;
 	}
 
 }
