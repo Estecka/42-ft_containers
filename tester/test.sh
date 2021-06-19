@@ -13,6 +13,7 @@ else
 	TESTS="$@";
 fi
 
+make header_test || exit;
 make all || exit;
 echo;
 

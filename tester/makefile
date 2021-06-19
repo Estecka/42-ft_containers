@@ -60,11 +60,14 @@ main.%.ft.o: main.%.cpp ${HDRS} ${TEST_HDRS}
 main.%.std.o: main.%.cpp ${HDRS} ${TEST_HDRS}
 	${CXX} ${CPPFLAGS} main.$*.cpp -c -o $@ -D NS=std
 
-# For some reason, the `.test` pre-extension is absolutely needed.
-# The rule breaks completely if the files are named `.hpp.cpp` and `.hpp.o`.
-headers_test: ${HDRS:.hpp=.hpp.test.o}
-${HDRS:.hpp=.hpp.test.cpp}: ${HDRS}
-	cp ${@:.hpp.test.cpp=.hpp} ${@} ;
+
+headers_test: ${HDRS:.hpp=.hpp.o}
+%.hpp.o: ${HDRS}
+	${CXX} ${CPPFLAGS} ${@:.o=} -c -o $@
+%.hpp: #Required for header tests somehow.
+# Otherwise, make will complain about circular dependency between .hpp and 
+# .hpp.o, and may even _delete_ .hpp files altogether.
+
 
 clean:
 	rm -f *.o
