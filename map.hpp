@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/19 19:03:36 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/19 19:15:54 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ namespace ft
 
 	template<typename K, typename V, typename C, typename A>
 	class	map;
+	template<typename P, typename C>
+	struct	map_iterator;
 	template<typename K, typename V, typename C, typename A>
 	void	swap(map<K,V,C,A>& a, map<K,V,C,A>& b);
 
