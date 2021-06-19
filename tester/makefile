@@ -68,8 +68,9 @@ ${HDRS:.hpp=.hpp.test.cpp}: ${HDRS}
 
 clean:
 	rm -f *.o
-	rm -f *.hpp.cpp
 	rm -f *.hpp.test.cpp
+	rm -f ${PROJECT_DIR}*.o
+	rm -f ${PROJECT_DIR}*.hpp.test.cpp
 
 fclean: clean
 	rm -f *.out

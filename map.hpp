@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/18 18:23:54 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/19 19:03:36 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,6 +341,27 @@ namespace ft
 		_size++;
 		return ft::pair<iterator,bool> (iterator(*this, *current), true);
 	}
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::iterator	map<K,V,C,A>::insert(iterator prev, const pair_type& pair) {
+		if (prev == this->end() || !_kcomp(prev.position->value.first, pair.first))
+			invalid_hint:
+			return this->insert(pair).first;
+		iterator next = prev;
+		next++;
+		if (next != this->end() && !_kcomp(pair.first, next.position->value.first))
+			goto invalid_hint;
+
+		node* it = new node(pair);
+		it->parent = prev.position;
+		it->right  = prev.position->right;
+		it->parent->right = it;
+		if (it->right)
+			it->right->parent = it;
+
+		this->_size++;
+		return iterator(*this, it);
+	}
+	
 	template <typename K, typename V, typename C, typename A>
 	void	map<K,V,C,A>::clear() {
 		if (this->_root)

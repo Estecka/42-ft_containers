@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:30:54 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/18 16:27:33 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/19 17:01:16 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 #define MAP_ITERATOR_HPP
 
 #include "pair.hpp"
+#include "map.hpp"
 
 #include <iterator>
 #include <stdexcept>
 
 namespace ft
 {
+	template <typename K, typename V, typename C, typename A>
+	class map;
+
 	template <typename T, typename Container>
 	struct map_iterator 
 	{
@@ -33,6 +37,8 @@ namespace ft
 		typedef typename Container::size_type	size_type;
 		typedef typename Container::size_type	difference_type;
 		typedef std::bidirectional_iterator_tag	iterator_category;
+
+		friend class ft::map<typename Container::key_type, typename Container::mapped_type, typename Container::key_compare, typename Container::allocator_type>;
 
 	public:
 		map_iterator();

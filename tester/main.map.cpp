@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:01:10 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/18 18:33:45 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/19 18:53:42 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ std::ostream&	operator<<(std::ostream& dst, const NS::pair<K,V>& src) {
 
 #include "tester.hpp"
 
+typedef	NS::pair<int,float>	pairif;
+
 struct endless_pair_iterator
 {
 	int	index;
-	NS::pair<int, float>	value;
+	pairif	value;
 
 	endless_pair_iterator(int index) {
 		this->index = index;
@@ -36,8 +38,8 @@ struct endless_pair_iterator
 		this->value.second = index + (index/2.0f);
 	}
 
-	NS::pair<int, float>&	operator* () { return this->value; }
-	NS::pair<int, float>*	operator->() { return &**this; }
+	pairif&	operator* () { return this->value; }
+	pairif*	operator->() { return &**this; }
 	endless_pair_iterator&	operator++() { this->index++; this->Update(); return *this; }
 	endless_pair_iterator&	operator--() { this->index--; this->Update(); return *this; }
 	endless_pair_iterator	operator++(int) { ++*this; return endless_pair_iterator(index-1); }
@@ -97,8 +99,31 @@ static void	TestCapacity(){
 
 }
 
+static void	TestModifiers(){
+	NS::map<int,float>	map;
+
+	NS::map<int,float>::iterator	five, seven, eight;
+
+	map.insert(endless_pair_iterator(3), endless_pair_iterator(6));
+	dump(map);
+
+	five  = --map.end();
+	eight = map.insert(pairif(8, 16)).first;
+	dump(map);
+	seven = map.insert(pairif(7, 4.5)).first;
+	dump(map);
+
+	map.insert(five, pairif(6, 3.5));
+	dump(map);
+	map.insert(eight, pairif(9, 4.5));
+	dump(map);
+	map.insert(seven, pairif(10, 12.0));
+	dump(map);
+}
+
 extern int	main() {
 	TestConstructors();
 	TestIterators();
 	TestCapacity();
+	TestModifiers();
 }
