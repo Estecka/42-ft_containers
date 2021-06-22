@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/19 19:15:54 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/22 16:56:26 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,9 @@ namespace ft
 
 		node*	first() const;
 		node*	last() const;
+		node*	at(const key_type& key);
 
+		void	erase(node&);
 		// Recursively frees the node and its children.
 		void	clear(node&);
 
@@ -315,6 +317,20 @@ namespace ft
 	typename map<K,V,C,A>::mapped_type&	map<K,V,C,A>::operator[](const key_type& key) {
 		return (this->insert(pair_type(key, mapped_type())).first)->second;
 	}
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::node*	map<K,V,C,A>::at(const key_type& key) {
+		node* it = _root;
+
+		while (it != NULL) {
+			if (_kcomp(key, it->value.first))
+				it = it->left;
+			else if (_kcomp(it->value.first, key))
+				it = it->right;
+			else
+				return it;
+		}
+		return NULL;
+	}
 
 // ## Modifiers
 	template <typename K, typename V, typename C, typename A>
@@ -363,7 +379,52 @@ namespace ft
 		this->_size++;
 		return iterator(*this, it);
 	}
-	
+
+	template <typename K, typename V, typename C, typename A>
+	void	map<K,V,C,A>::erase(iterator position) {
+		if (position.position != NULL)
+			this->erase(*position.position);
+	}
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::size_type	map<K,V,C,A>::erase(const key_type& key) {
+		node* position = this->at(key);
+		if (position) {
+			this->erase(*position);
+			return 1;
+		}
+		else
+			return 0;
+	}
+	template <typename K, typename V, typename C, typename A>
+	void	map<K,V,C,A>::erase(node& position) {
+		node*	parent = position.parent;
+		node*	left   = position.left;
+		node*	right  = position.right;
+
+		node*	firstheir  = left ? left  : right;
+		node*	secondheir = left ? right : NULL;
+
+		if (parent) {
+			if (parent->left == &position)
+				parent->left = firstheir;
+			else
+				parent->right = firstheir;
+		}
+		else
+			this->_root = firstheir;
+
+		if (firstheir) {
+			firstheir->parent = parent;
+			if (secondheir) {
+				secondheir->parent = &firstheir->rightmost();
+				secondheir->parent->right = secondheir;
+			}
+		}
+
+		delete &position;
+		this->_size--;
+	}
+
 	template <typename K, typename V, typename C, typename A>
 	void	map<K,V,C,A>::clear() {
 		if (this->_root)

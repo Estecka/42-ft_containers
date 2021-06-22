@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:01:10 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/19 18:53:42 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/22 16:54:42 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,17 +108,17 @@ static void	TestModifiers(){
 	dump(map);
 
 	five  = --map.end();
-	eight = map.insert(pairif(8, 16)).first;
-	dump(map);
-	seven = map.insert(pairif(7, 4.5)).first;
-	dump(map);
+	eight = map.insert(pairif(8, 16)).first; 	dump(map);
+	seven = map.insert(pairif(7, 4.5)).first;	dump(map);
 
-	map.insert(five, pairif(6, 3.5));
-	dump(map);
-	map.insert(eight, pairif(9, 4.5));
-	dump(map);
-	map.insert(seven, pairif(10, 12.0));
-	dump(map);
+	map.insert(five, pairif(6, 3.5));   	dump(map);
+	map.insert(eight, pairif(9, 4.5));  	dump(map);
+	map.insert(seven, pairif(10, 12.0));	dump(map);
+
+	map.erase(9);    	dump(map);
+	map.erase(seven);	dump(map);
+	map.erase(five); 	dump(map);
+	map.erase(1000); 	dump(map);
 }
 
 extern int	main() {
