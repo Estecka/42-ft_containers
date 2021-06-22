@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/22 17:58:36 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/22 18:42:12 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "pair.hpp"
 #include "reverse_iterator.hpp"
 #include "reconstruct.hpp"
+#include "swap.hpp"
 
 #include <memory>
 #include <new>
@@ -37,8 +38,8 @@ namespace ft
 	template <
 		typename K,
 		typename V,
-		typename Compare = ft::less<K>,
-		typename Alloc = std::allocator< pair<const K,V> >
+		typename C = ft::less<K>,
+		typename A = std::allocator< pair<const K,V> >
 		>
 	class map 
 	{
@@ -47,10 +48,10 @@ namespace ft
 		typedef V	mapped_type;
 		typedef pair<K,V>	value_type;
 		typedef value_type	pair_type;
-		typedef Compare	key_compare;
+		typedef C	key_compare;
 		typedef void	value_compare; // !
 
-		typedef Alloc	allocator_type;
+		typedef A	allocator_type;
 		typedef typename allocator_type::reference      	reference;
 		typedef typename allocator_type::const_reference	const_reference;
 		typedef typename allocator_type::pointer      	pointer;
@@ -64,8 +65,9 @@ namespace ft
 		typedef __gnu_cxx::ptrdiff_t	difference_type;
 		typedef size_t   	size_type;
 
-		friend struct ft::map_iterator<      pair_type,       map>;
-		friend struct ft::map_iterator<const pair_type, const map>;
+		friend	struct ft::map_iterator<      pair_type,       map>;
+		friend	struct ft::map_iterator<const pair_type, const map>;
+		friend	void swap<K,V,C,A>(map&, map&);
 
 	private:
 		struct node {
@@ -442,6 +444,18 @@ namespace ft
 	}
 
 	template <typename K, typename V, typename C, typename A>
+	void	map<K,V,C,A>::swap(map& other) {
+		ft::swap<K,V,C,A>(*this, other);
+	}
+	template <typename K, typename V, typename C, typename A>
+	void	swap(map<K,V,C,A>& a, map<K,V,C,A>& b) {
+		ft::swap(a._allocator, b._allocator);
+		ft::swap(a._kcomp, b._kcomp);
+		ft::swap(a._root, b._root);
+		ft::swap(a._size, b._size);
+	}
+
+	template <typename K, typename V, typename C, typename A>
 	void	map<K,V,C,A>::clear() {
 		if (this->_root)
 			this->clear(*_root);
@@ -484,7 +498,6 @@ namespace ft
 
 		this->_root = it;
 	}
-
 }
 
 #endif
