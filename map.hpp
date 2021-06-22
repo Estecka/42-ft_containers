@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/22 16:56:26 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/22 17:58:36 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ namespace ft
 		node*	at(const key_type& key);
 
 		void	erase(node&);
+		void	erase_reconnect(node* parent, node* left, node* right, bool left_to_parent);
 		// Recursively frees the node and its children.
 		void	clear(node&);
 
@@ -400,13 +401,31 @@ namespace ft
 		node*	parent = position.parent;
 		node*	left   = position.left;
 		node*	right  = position.right;
+		bool	left_to_parent = (parent && parent->left==&position);
 
+		delete &position;
+		this->_size--;
+		this->erase_reconnect(parent, left, right, left_to_parent);
+	}
+	template <typename K, typename V, typename C, typename A>
+	void	map<K,V,C,A>::erase(iterator begin, iterator end) {
+		node*	first = begin.position;
+		node*	last  = end.position;
+
+		node*	iltpp;
+		for (node*ilt=first; ilt!=last; ilt=iltpp) {
+			iltpp = ilt->next();
+			this->erase(*ilt);
+		}
+	}
+	template <typename K, typename V, typename C, typename A>
+	void	map<K,V,C,A>::erase_reconnect(node* parent, node* left, node* right, bool left_to_parent) {
 		node*	firstheir  = left ? left  : right;
 		node*	secondheir = left ? right : NULL;
 
 		if (parent) {
-			if (parent->left == &position)
-				parent->left = firstheir;
+			if (left_to_parent)
+				parent->left  = firstheir;
 			else
 				parent->right = firstheir;
 		}
@@ -420,9 +439,6 @@ namespace ft
 				secondheir->parent->right = secondheir;
 			}
 		}
-
-		delete &position;
-		this->_size--;
 	}
 
 	template <typename K, typename V, typename C, typename A>

@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:01:10 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/22 16:54:42 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/22 17:54:20 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,9 @@ static void	TestModifiers(){
 	map.erase(seven);	dump(map);
 	map.erase(five); 	dump(map);
 	map.erase(1000); 	dump(map);
+
+	map.erase(++map.begin(), --map.end());	dump(map);
+	map.erase(  map.begin(),   map.end());	dump(map);
 }
 
 extern int	main() {
