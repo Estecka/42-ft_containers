@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/23 19:33:46 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/23 19:49:46 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -492,6 +492,11 @@ namespace ft
 	template <typename K, typename V, typename C, typename A>
 	typename map<K,V,C,A>::const_iterator	map<K,V,C,A>::find(const key_type& key) const {
 		return const_iterator(*this, at(key));
+	}
+
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::size_type	map<K,V,C,A>::count(const key_type& key) const {
+		return this->at(key) ? 1 : 0;
 	}
 
 // ## Miscellaneous
