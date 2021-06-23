@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/23 19:49:46 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/23 21:12:59 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,9 @@ namespace ft
 		node*	first() const;
 		node*	last() const;
 		node*	at(const key_type& key) const;
+		node*	closest(const key_type& key) const;
+		node*	upper_boundn(const key_type& key) const;
+		node*	lower_boundn(const key_type& key) const;
 
 		void	erase(node&);
 		void	erase_reconnect(node* parent, node* left, node* right, bool left_to_parent);
@@ -337,6 +340,22 @@ namespace ft
 		}
 		return NULL;
 	}
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::node*	map<K,V,C,A>::closest(const key_type& key) const {
+		node* it = _root;
+		node* previt = NULL;
+
+		while (it != NULL) {
+			previt = it;
+			if (_kcomp(key, it->value.first))
+				it = it->left;
+			else if (_kcomp(it->value.first, key))
+				it = it->right;
+			else
+				return it;
+		}
+		return previt;
+	}
 
 // ## Modifiers
 	template <typename K, typename V, typename C, typename A>
@@ -497,6 +516,44 @@ namespace ft
 	template <typename K, typename V, typename C, typename A>
 	typename map<K,V,C,A>::size_type	map<K,V,C,A>::count(const key_type& key) const {
 		return this->at(key) ? 1 : 0;
+	}
+
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::iterator	map<K,V,C,A>::upper_bound(const key_type& key) {
+		return iterator(*this, upper_boundn(key));
+	}
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::const_iterator	map<K,V,C,A>::upper_bound(const key_type& key) const {
+		return const_iterator(*this, upper_boundn(key));
+	}
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::node*	map<K,V,C,A>::upper_boundn(const key_type& key) const {
+		if (this->_size <= 0)
+			return NULL;
+		node* closest = this->closest(key);
+		if (!_kcomp(key, closest->value.first))
+			return closest->next();
+		else
+			return closest;
+	}
+
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::iterator	map<K,V,C,A>::lower_bound(const key_type& key) {
+		return iterator(*this, lower_boundn(key));
+	}
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::const_iterator	map<K,V,C,A>::lower_bound(const key_type& key) const {
+		return const_iterator(*this, lower_boundn(key));
+	}
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::node*	map<K,V,C,A>::lower_boundn(const key_type& key) const {
+		if (this->_size <= 0)
+			return NULL;
+		node* closest = this->closest(key);
+		if (_kcomp(closest->value.first, key))
+			return closest->next();
+		else
+			return closest;
 	}
 
 // ## Miscellaneous

@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:01:10 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/23 19:50:28 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/23 21:13:36 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,21 @@ static void	TestOperations(){
 	NS::map<int,float>	map(endless_pair_iterator(-30,3), endless_pair_iterator(60,3));
 
 	for (int i=-40; i<70; i++) {
-		if (map.count(i))
-			std::cout << *map.find(i) << std::endl;
+		const char*	labels[3] = {" find:", " lower:", " upper:"};
+		NS::map<int, float>::iterator	it[3];
+		it[0] = map.find(i);
+		it[1] = map.lower_bound(i);
+		it[2] = map.upper_bound(i);
+
+		std::cout << map.count (i);
+		for (int j=0; j<3; j++) {
+			std::cout << labels[j];
+			if (it[j] != map.end())
+				std::cout << *it[j];
+			else
+				std::cout << "end";
+		}
+		std::cout << std::endl;
 	}
 }
 
