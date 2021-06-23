@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:01:10 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/22 18:41:39 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/23 18:22:32 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,9 +128,9 @@ static void	TestModifiers(){
 	map.insert(endless_pair_iterator(-5), endless_pair_iterator(5));	dump(map); dump(other);
 	map.swap(other);             	dump(map); dump(other);
 	other.insert(pairif(5, 7.5));	dump(map); dump(other);
-	NS::swap(map, other);            	dump(map); dump(other);
+	NS::swap(map, other);        	dump(map); dump(other);
 	map.clear();                 	dump(map); dump(other);
-	NS::swap(map, other);            	dump(map); dump(other);
+	NS::swap(map, other);        	dump(map); dump(other);
 }
 
 extern int	main() {

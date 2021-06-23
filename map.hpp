@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/22 18:42:12 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/23 19:18:45 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ namespace ft
 		typedef pair<K,V>	value_type;
 		typedef value_type	pair_type;
 		typedef C	key_compare;
-		typedef void	value_compare; // !
+		typedef ft::less<mapped_type>	value_compare;
 
 		typedef A	allocator_type;
 		typedef typename allocator_type::reference      	reference;
@@ -145,12 +145,13 @@ namespace ft
 	private:
 		allocator_type	_allocator;
 		key_compare   	_kcomp;
+		value_compare 	_vcomp;
 		node*	_root;
 		size_type	_size;
 
 		node*	first() const;
 		node*	last() const;
-		node*	at(const key_type& key);
+		node*	at(const key_type& key) const;
 
 		void	erase(node&);
 		void	erase_reconnect(node* parent, node* left, node* right, bool left_to_parent);
@@ -259,6 +260,7 @@ namespace ft
 	map<K,V,C,A>::map(const key_compare& comp, const allocator_type& alloc) {
 		this->_allocator = alloc;
 		this->_kcomp = comp;
+		this->_vcomp = value_compare();
 		this->_root  = NULL;
 		this->_size  = 0;
 	}
@@ -271,6 +273,7 @@ namespace ft
 	map<K,V,C,A>::map(IT begin, IT end, const key_compare& comp, const allocator_type& alloc) {
 		this->_allocator = alloc;
 		this->_kcomp = comp;
+		this->_vcomp = value_compare();
 		this->_root  = NULL;
 		this->_size  = 0;
 		this->insert(begin, end);
@@ -321,7 +324,7 @@ namespace ft
 		return (this->insert(pair_type(key, mapped_type())).first)->second;
 	}
 	template <typename K, typename V, typename C, typename A>
-	typename map<K,V,C,A>::node*	map<K,V,C,A>::at(const key_type& key) {
+	typename map<K,V,C,A>::node*	map<K,V,C,A>::at(const key_type& key) const {
 		node* it = _root;
 
 		while (it != NULL) {
@@ -469,6 +472,16 @@ namespace ft
 		if (root.right)
 			this->clear(*root.right);
 		delete &root;
+	}
+
+// ## Observers
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::key_compare	map<K,V,C,A>::key_comp() const {
+		return this->_kcomp;
+	}
+	template <typename K, typename V, typename C, typename A>
+	typename map<K,V,C,A>::value_compare	map<K,V,C,A>::value_comp() const {
+		return this->_vcomp;
 	}
 
 // ## Miscellaneous

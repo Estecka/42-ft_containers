@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 15:29:07 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/15 15:30:57 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/23 19:19:25 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ namespace ft
 {
 	template <typename T>
 	struct less {
-		bool	operator()(T a, T b) { return a<b; }
+		bool	operator()(T a, T b) const { return a < b; }
 	};
 }
 
