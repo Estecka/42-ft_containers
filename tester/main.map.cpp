@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:01:10 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/23 18:22:32 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/23 19:48:04 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,12 @@ typedef	NS::pair<int,float>	pairif;
 struct endless_pair_iterator
 {
 	int	index;
+	int	increment;
 	pairif	value;
 
-	endless_pair_iterator(int index) {
-		this->index = index;
+	endless_pair_iterator(int index, int increment = 1) {
+		this->index     = index;
+		this->increment = increment;
 		this->Update();
 	}
 
@@ -40,10 +42,10 @@ struct endless_pair_iterator
 
 	pairif&	operator* () { return this->value; }
 	pairif*	operator->() { return &**this; }
-	endless_pair_iterator&	operator++() { this->index++; this->Update(); return *this; }
-	endless_pair_iterator&	operator--() { this->index--; this->Update(); return *this; }
-	endless_pair_iterator	operator++(int) { ++*this; return endless_pair_iterator(index-1); }
-	endless_pair_iterator	operator--(int) { --*this; return endless_pair_iterator(index+1); }
+	endless_pair_iterator&	operator++() { this->index+=increment; this->Update(); return *this; }
+	endless_pair_iterator&	operator--() { this->index-=increment; this->Update(); return *this; }
+	endless_pair_iterator	operator++(int) { ++*this; return endless_pair_iterator(index-increment); }
+	endless_pair_iterator	operator--(int) { --*this; return endless_pair_iterator(index+increment); }
 	bool	operator==(const endless_pair_iterator& other) { return this->index == other.index; }
 	bool	operator!=(const endless_pair_iterator& other) { return this->index != other.index; }
 };
@@ -133,9 +135,20 @@ static void	TestModifiers(){
 	NS::swap(map, other);        	dump(map); dump(other);
 }
 
+static void	TestOperations(){
+	NS::map<int,float>	map(endless_pair_iterator(-30,3), endless_pair_iterator(60,3));
+
+	for (int i=-40; i<70; i++) {
+		NS::map<int,float>::iterator it = map.find(i);
+		if (it != map.end())
+			std::cout << *it << std::endl;
+	}
+}
+
 extern int	main() {
 	TestConstructors();
 	TestIterators();
 	TestCapacity();
 	TestModifiers();
+	TestOperations();
 }
