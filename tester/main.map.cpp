@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:01:10 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/23 21:13:36 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/24 16:59:01 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ static void	TestOperations(){
 		it[1] = map.lower_bound(i);
 		it[2] = map.upper_bound(i);
 
-		std::cout << map.count (i);
+		std::cout << i << ": " << map.count (i);
 		for (int j=0; j<3; j++) {
 			std::cout << labels[j];
 			if (it[j] != map.end())
@@ -154,6 +154,13 @@ static void	TestOperations(){
 				std::cout << "end";
 		}
 		std::cout << std::endl;
+	}
+
+	for (int i=0; i<30; i++) {
+		std::cout << i << ": ";
+		NS::pair<NS::map<int,float>::iterator, NS::map<int,float>::iterator> range;
+		range = map.equal_range(i);
+		dump(range.first, range.second);
 	}
 }
 

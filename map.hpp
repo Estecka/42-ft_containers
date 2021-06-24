@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/23 21:12:59 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/24 16:48:26 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -554,6 +554,21 @@ namespace ft
 			return closest->next();
 		else
 			return closest;
+	}
+
+	template <typename K, typename V, typename C, typename A>
+	ft::pair<typename map<K,V,C,A>::iterator, typename map<K,V,C,A>::iterator>	map<K,V,C,A>::equal_range(const key_type& key) {
+		return ft::pair<iterator, iterator>(
+			this->lower_bound(key),
+			this->upper_bound(key)
+		);
+	}
+	template <typename K, typename V, typename C, typename A>
+	ft::pair<typename map<K,V,C,A>::const_iterator, typename map<K,V,C,A>::const_iterator>	map<K,V,C,A>::equal_range(const key_type& key) const {
+		return ft::pair<const_iterator, const_iterator>(
+			this->lower_bound(key),
+			this->upper_bound(key)
+		);
 	}
 
 // ## Miscellaneous
