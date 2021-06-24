@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/11 18:29:28 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/11 19:26:28 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/24 19:15:16 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,41 @@ namespace ft
 		void	push(const value_type& val) { return _base.push_back(val); }
 		void	pop() { return _base.pop_front(); }
 
+		friend	bool operator==(const queue&, const queue&);
+		friend	bool operator!=(const queue&, const queue&);
+		friend	bool operator< (const queue&, const queue&);
+		friend	bool operator> (const queue&, const queue&);
+		friend	bool operator<=(const queue&, const queue&);
+		friend	bool operator>=(const queue&, const queue&);
+
 	private:
 		container_type	_base;
 	};
 }
+
+template <typename T, typename C>
+bool	operator==(const ft::queue<T,C>& a, const ft::queue<T,C>& b) {
+	return a._base == b._base;
+}
+template <typename T, typename C>
+bool	operator!=(const ft::queue<T,C>& a, const ft::queue<T,C>& b) {
+	return a._base != b._base;
+}
+template <typename T, typename C>
+bool	operator< (const ft::queue<T,C>& a, const ft::queue<T,C>& b) {
+	return a._base <  b._base;
+}
+template <typename T, typename C>
+bool	operator> (const ft::queue<T,C>& a, const ft::queue<T,C>& b) {
+	return a._base >  b._base;
+}
+template <typename T, typename C>
+bool	operator<=(const ft::queue<T,C>& a, const ft::queue<T,C>& b) {
+	return a._base <= b._base;
+}
+template <typename T, typename C>
+bool	operator>=(const ft::queue<T,C>& a, const ft::queue<T,C>& b) {
+	return a._base >= b._base;
+}
+
 #endif

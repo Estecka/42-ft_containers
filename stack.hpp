@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/11 18:29:28 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/11 19:06:59 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/24 19:15:00 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,41 @@ namespace ft
 		void	push(const value_type& val) { return _base.push_back(val); }
 		void	pop() { return _base.pop_back(); }
 
+		friend	bool operator==(const stack&, const stack&);
+		friend	bool operator!=(const stack&, const stack&);
+		friend	bool operator< (const stack&, const stack&);
+		friend	bool operator> (const stack&, const stack&);
+		friend	bool operator<=(const stack&, const stack&);
+		friend	bool operator>=(const stack&, const stack&);
+
 	private:
 		container_type	_base;
 	};
 }
+
+template <typename T, typename C>
+bool	operator==(const ft::stack<T,C>& a, const ft::stack<T,C>& b) {
+	return a._base == b._base;
+}
+template <typename T, typename C>
+bool	operator!=(const ft::stack<T,C>& a, const ft::stack<T,C>& b) {
+	return a._base != b._base;
+}
+template <typename T, typename C>
+bool	operator< (const ft::stack<T,C>& a, const ft::stack<T,C>& b) {
+	return a._base <  b._base;
+}
+template <typename T, typename C>
+bool	operator> (const ft::stack<T,C>& a, const ft::stack<T,C>& b) {
+	return a._base >  b._base;
+}
+template <typename T, typename C>
+bool	operator<=(const ft::stack<T,C>& a, const ft::stack<T,C>& b) {
+	return a._base <= b._base;
+}
+template <typename T, typename C>
+bool	operator>=(const ft::stack<T,C>& a, const ft::stack<T,C>& b) {
+	return a._base >= b._base;
+}
+
 #endif

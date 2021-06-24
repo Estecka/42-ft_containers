@@ -2,6 +2,7 @@ PROJECT_DIR = ../
 
 PROJECT_HDRS = \
 	less.hpp \
+	lexicographical_compare.hpp \
 	list.hpp \
 	list_iterator.hpp \
 	map.hpp \

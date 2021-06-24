@@ -6,21 +6,22 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/10 17:31:46 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/24 18:57:41 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIST_HPP
 #define LIST_HPP
 
-#include <memory>
-#include <stdlib.h>
+#include "list_iterator.hpp"
 
+#include "lexicographical_compare.hpp"
+#include "not_integer.hpp"
 #include "reconstruct.hpp"
 #include "reverse_iterator.hpp"
 #include "swap.hpp"
-#include "list_iterator.hpp"
-#include "not_integer.hpp"
+#include <memory>
+#include <stdlib.h>
 
 namespace ft
 {
@@ -144,7 +145,24 @@ namespace ft
 		void	insert(lselt& src, lselt* dst);
 	};
 
-	// ## List Elements
+	// ## Operators
+	template <typename T, typename A>
+	bool	operator==(const list<T,A>&, const list<T,A>&);
+	template <typename T, typename A>
+	bool	operator!=(const list<T,A>&, const list<T,A>&);
+	template <typename T, typename A>
+	bool	operator< (const list<T,A>&, const list<T,A>&);
+	template <typename T, typename A>
+	bool	operator> (const list<T,A>&, const list<T,A>&);
+	template <typename T, typename A>
+	bool	operator<=(const list<T,A>&, const list<T,A>&);
+	template <typename T, typename A>
+	bool	operator>=(const list<T,A>&, const list<T,A>&);
+
+/******************************************************************************/
+/* # List Elements                                                            */
+/******************************************************************************/
+
 	template <typename T, typename A>
 	list<T,A>::lselt::lselt(const value_type& value, lselt* prev, lselt* next) {
 		this->value = value;
@@ -164,6 +182,9 @@ namespace ft
 		this->next = other.next;
 	}
 
+/******************************************************************************/
+/* # List                                                                     */
+/******************************************************************************/
 
 	// ## Constructors
 	template<typename T, typename A>
@@ -683,6 +704,32 @@ namespace ft
 			elt.next->prev = &elt;
 
 		this->_size++;
+	}
+
+	// ## Operators
+	template <typename T, typename A>
+	bool	operator==(const list<T,A>& a, const list<T,A>& b) {
+		return ft::lexicograph_compare(a, b) == 0;
+	}
+	template <typename T, typename A>
+	bool	operator!=(const list<T,A>& a, const list<T,A>& b) {
+		return ft::lexicograph_compare(a, b) != 0;
+	}
+	template <typename T, typename A>
+	bool	operator< (const list<T,A>& a, const list<T,A>& b) {
+		return ft::lexicograph_compare(a, b) <  0;
+	}
+	template <typename T, typename A>
+	bool	operator> (const list<T,A>& a, const list<T,A>& b) {
+		return ft::lexicograph_compare(a, b) >  0;
+	}
+	template <typename T, typename A>
+	bool	operator<=(const list<T,A>& a, const list<T,A>& b) {
+		return ft::lexicograph_compare(a, b) <= 0;
+	}
+	template <typename T, typename A>
+	bool	operator>=(const list<T,A>& a, const list<T,A>& b) {
+		return ft::lexicograph_compare(a, b) >= 0;
 	}
 }
 
