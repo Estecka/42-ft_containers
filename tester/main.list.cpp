@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 15:24:51 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/16 18:25:04 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/26 15:50:29 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,6 +328,19 @@ static void	TestOperations(){
 	TestReverse();
 }
 
+static char
+	_a[] = "Beep",
+	_b[] = "Booop",
+	_c[] = "Booopa";
+static void	TestComparisonOperators(){
+	NS::list<char>	a(_a, _a+4);
+	NS::list<char>	b(_b, _b+5);
+	NS::list<char>	c(_c, _c+6);
+	NS::list<char>	d;
+	NS::list<char>*	array[] = { &a, &b, &c, &d };
+	TestLexicograpCompare(array, 4);
+}
+
 extern int	main() {
 	TestConstructors();
 	TestIterators();
@@ -335,4 +348,5 @@ extern int	main() {
 	TestAccess();
 	TestModifiers();
 	TestOperations();
+	TestComparisonOperators();
 }

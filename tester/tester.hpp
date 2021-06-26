@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 18:22:48 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/18 16:25:08 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/26 15:44:12 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@
 
 static const int	g_digits[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-static inline void	log(const char* str) {
-	std::cout << str << std::endl;
+template <typename T>
+static inline void	log(T item) {
+	std::cout << item << std::endl;
 };
 
 template<typename Container>
@@ -51,6 +52,22 @@ void	dump(IT begin, IT end){
 		std::cout << *it;
 	}
 	std::cout << " }" << std::endl;
+}
+
+template <class Container>
+static void	TestLexicograpCompare(Container** containers, int amount) {
+	for (int i=0; i<amount; i++)
+	for (int j=0; j<amount; j++){
+		std::cout 
+			<< (char)('a'+i) << " vs " << (char)('a'+j) << ": " << std::endl
+			<< "== " << (*containers[i] == *containers[j]) << std::endl
+			<< "!= " << (*containers[i] != *containers[j]) << std::endl
+			<< "<  " << (*containers[i] <  *containers[j]) << std::endl
+			<< "<= " << (*containers[i] <= *containers[j]) << std::endl
+			<< ">  " << (*containers[i] >  *containers[j]) << std::endl
+			<< ">= " << (*containers[i] >= *containers[j]) << std::endl
+		;
+	}
 }
 
 #endif

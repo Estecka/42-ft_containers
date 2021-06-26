@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 17:30:07 by abaur             #+#    #+#             */
-/*   Updated: 2021/04/29 18:23:45 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/26 15:33:13 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ namespace ft
 	
 	template <typename T, typename C>
 	bool	vector_iterator<T,C>::operator==(const vector_iterator& other) const {
-		return this->target = other.target && this->index == other.index;
+		return this->target == other.target && this->index == other.index;
 	}
 	template <typename T, typename C>
 	bool	vector_iterator<T,C>::operator!=(const vector_iterator& other) const {

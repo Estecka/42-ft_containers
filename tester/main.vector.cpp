@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:07:06 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/16 18:28:06 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/26 15:48:22 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,19 @@ static void	TestModifiers(){
 	dump(b);
 }
 
+static const char
+	_a[] = "Beep",
+	_b[] = "Booop",
+	_c[] = "Booopa";
+static void	TestComparisonOperator() {
+	NS::vector<char>	a(_a+0, _a+4);
+	NS::vector<char>	b(_b+0, _b+5);
+	NS::vector<char>	c(_c+0, _c+6);
+	NS::vector<char>	d;
+	NS::vector<char>* array[4] = { &a, &b, &c, &d };
+	TestLexicograpCompare(array, 4);
+}
+
 
 extern int	main()
 {
@@ -178,4 +191,5 @@ extern int	main()
 	TestCapacity();
 	TestAccess();
 	TestModifiers();
+	TestComparisonOperator();
 }

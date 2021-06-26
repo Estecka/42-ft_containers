@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 18:18:45 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/24 19:15:57 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/26 15:32:11 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ namespace ft
 	short	lexicograph_compare(const Container& a, const Container& b){
 		typename Container::const_iterator
 			ait=a.begin(), 
-			bit=b.begint();
+			bit=b.begin();
 
 		while (true) {
 			if (ait == a.end())
