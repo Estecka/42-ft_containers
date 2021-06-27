@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/24 18:56:49 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/27 18:26:52 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,21 +111,6 @@ namespace ft
 		void	_Assign(IT begin, IT end, std::__false_type);
 		void	_Assign(size_type size, const value_type& value, std::__true_type);
 	};
-
-	// ## Operators
-	template <typename T, typename A>
-	bool	operator==(const vector<T,A>&, const vector<T,A>&);
-	template <typename T, typename A>
-	bool	operator!=(const vector<T,A>&, const vector<T,A>&);
-	template <typename T, typename A>
-	bool	operator< (const vector<T,A>&, const vector<T,A>&);
-	template <typename T, typename A>
-	bool	operator> (const vector<T,A>&, const vector<T,A>&);
-	template <typename T, typename A>
-	bool	operator<=(const vector<T,A>&, const vector<T,A>&);
-	template <typename T, typename A>
-	bool	operator>=(const vector<T,A>&, const vector<T,A>&);
-
 
 /******************************************************************************/
 /* # Implementations                                                          */
@@ -416,31 +401,32 @@ namespace ft
 		this->_size = 0;
 	}
 
-	// ## Operators
-	template <typename T, typename A>
-	bool	operator==(const vector<T,A>& a, const vector<T,A>& b) {
-		return ft::lexicograph_compare(a, b) == 0;
-	}
-	template <typename T, typename A>
-	bool	operator!=(const vector<T,A>& a, const vector<T,A>& b) {
-		return ft::lexicograph_compare(a, b) != 0;
-	}
-	template <typename T, typename A>
-	bool	operator< (const vector<T,A>& a, const vector<T,A>& b) {
-		return ft::lexicograph_compare(a, b) <  0;
-	}
-	template <typename T, typename A>
-	bool	operator> (const vector<T,A>& a, const vector<T,A>& b) {
-		return ft::lexicograph_compare(a, b) >  0;
-	}
-	template <typename T, typename A>
-	bool	operator<=(const vector<T,A>& a, const vector<T,A>& b) {
-		return ft::lexicograph_compare(a, b) <= 0;
-	}
-	template <typename T, typename A>
-	bool	operator>=(const vector<T,A>& a, const vector<T,A>& b) {
-		return ft::lexicograph_compare(a, b) >= 0;
-	}
+}
+
+// ## Operators
+template <typename T, typename A>
+bool	operator==(const ft::vector<T,A>& a, const ft::vector<T,A>& b) {
+	return ft::lexicograph_compare(a, b) == 0;
+}
+template <typename T, typename A>
+bool	operator!=(const ft::vector<T,A>& a, const ft::vector<T,A>& b) {
+	return ft::lexicograph_compare(a, b) != 0;
+}
+template <typename T, typename A>
+bool	operator< (const ft::vector<T,A>& a, const ft::vector<T,A>& b) {
+	return ft::lexicograph_compare(a, b) <  0;
+}
+template <typename T, typename A>
+bool	operator> (const ft::vector<T,A>& a, const ft::vector<T,A>& b) {
+	return ft::lexicograph_compare(a, b) >  0;
+}
+template <typename T, typename A>
+bool	operator<=(const ft::vector<T,A>& a, const ft::vector<T,A>& b) {
+	return ft::lexicograph_compare(a, b) <= 0;
+}
+template <typename T, typename A>
+bool	operator>=(const ft::vector<T,A>& a, const ft::vector<T,A>& b) {
+	return ft::lexicograph_compare(a, b) >= 0;
 }
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 18:18:45 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/27 15:29:39 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/27 18:02:51 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,11 @@ namespace ft
 		}
 	}
 
-	short	lexicograph_compare(const char*	a, const char* b) {
+	template <>
+	short	lexicograph_compare(const std::string& stra, const std::string& strb) {
+		const char*	a = stra.c_str();
+		const char*	b = strb.c_str();
+
 		if (!a)
 			return (!b) ? 0 : -1;
 		if (!b)
@@ -54,10 +58,6 @@ namespace ft
 				return 1;
 			a++, b++;
 		}
-	}
-
-	short	lexicograph_compare(const std::string& a, const std::string& b) {
-		return lexicograph_compare(a.c_str(), b.c_str());
 	}
 
 }

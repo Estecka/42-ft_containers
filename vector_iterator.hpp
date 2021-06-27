@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 17:30:07 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/26 15:33:13 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/27 18:24:25 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ namespace ft
 		void	AssertTarget(const vector_iterator& other) const;
 	};
 
-
+/******************************************************************************/
+/* # Implementation                                                           */
+/******************************************************************************/
 
 	template<typename T, typename C>
 	vector_iterator<T,C>::vector_iterator(void){

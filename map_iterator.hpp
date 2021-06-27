@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:30:54 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/19 17:01:16 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/27 18:24:23 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,78 +62,81 @@ namespace ft
 		node*     	position;
 	};
 
-	
-		template <typename T, class C>
-		map_iterator<T,C>::map_iterator()
-		: target(), position() {
-		}
-		template <typename T, class C>
-		map_iterator<T,C>::map_iterator(const map_iterator& other)
-		:target(other.target), position(other.position) {
-		}
-		template <typename T, class C>
-		map_iterator<T,C>::map_iterator(C& target, node* position)
-		: target(&target), position(position) {
-		}
+/******************************************************************************/
+/* # Implementation                                                           */
+/******************************************************************************/
 
-		template <typename T, class C>
-		map_iterator<T,C>&	map_iterator<T,C>::operator=(const map_iterator& other){
-			this->target   = other.target;
-			this->position = other.position;
+	template <typename T, class C>
+	map_iterator<T,C>::map_iterator()
+	: target(), position() {
+	}
+	template <typename T, class C>
+	map_iterator<T,C>::map_iterator(const map_iterator& other)
+	:target(other.target), position(other.position) {
+	}
+	template <typename T, class C>
+	map_iterator<T,C>::map_iterator(C& target, node* position)
+	: target(&target), position(position) {
+	}
+
+	template <typename T, class C>
+	map_iterator<T,C>&	map_iterator<T,C>::operator=(const map_iterator& other){
+		this->target   = other.target;
+		this->position = other.position;
+		return *this;
+	}
+	template <typename T, class C>
+	bool	map_iterator<T,C>::operator==(const map_iterator& other) const {
+		return (this->target == other.target) && (this->position == other.position);
+	}
+	template <typename T, class C>
+	bool	map_iterator<T,C>::operator!=(const map_iterator& other) const {
+		return (this->target != other.target) || (this->position != other.position);
+	}
+
+	template <typename T, class C>
+	typename map_iterator<T,C>::value_type&	map_iterator<T,C>::operator*() const {
+		return (position->value);
+	}
+	template <typename T, class C>
+	typename map_iterator<T,C>::value_type*	map_iterator<T,C>::operator->() const {
+		return &**this;
+	}
+
+	template <typename T, class C>
+	map_iterator<T,C>&	map_iterator<T,C>::operator++(){
+		if (this->position) {
+			this->position = position->next();
 			return *this;
 		}
-		template <typename T, class C>
-		bool	map_iterator<T,C>::operator==(const map_iterator& other) const {
-			return (this->target == other.target) && (this->position == other.position);
-		}
-		template <typename T, class C>
-		bool	map_iterator<T,C>::operator!=(const map_iterator& other) const {
-			return (this->target != other.target) || (this->position != other.position);
-		}
-
-		template <typename T, class C>
-		typename map_iterator<T,C>::value_type&	map_iterator<T,C>::operator*() const {
-			return (position->value);
-		}
-		template <typename T, class C>
-		typename map_iterator<T,C>::value_type*	map_iterator<T,C>::operator->() const {
-			return &**this;
-		}
-
-		template <typename T, class C>
-		map_iterator<T,C>&	map_iterator<T,C>::operator++(){
-			if (this->position) {
-				this->position = position->next();
-				return *this;
-			}
+		else
+			throw std::length_error("Past-the-end map iterator.");
+	}
+	template <typename T, class C>
+	map_iterator<T,C>&	map_iterator<T,C>::operator--(){
+		if (!this->position)
+			this->position = target->last();
+		else {
+			node* prev = position->previous();
+			if (prev)
+				this->position = prev;
 			else
-				throw std::length_error("Past-the-end map iterator.");
+				throw std::length_error("Past-the-beginning map iterator.");
 		}
-		template <typename T, class C>
-		map_iterator<T,C>&	map_iterator<T,C>::operator--(){
-			if (!this->position)
-				this->position = target->last();
-			else {
-				node* prev = position->previous();
-				if (prev)
-					this->position = prev;
-				else
-					throw std::length_error("Past-the-beginning map iterator.");
-			}
-			return *this;
-		}
-		template <typename T, class C>
-		map_iterator<T,C> 	map_iterator<T,C>::operator++(int){
-			map_iterator	oldthis(*this);
-			++*this;
-			return oldthis;
-		}
-		template <typename T, class C>
-		map_iterator<T,C> 	map_iterator<T,C>::operator--(int){
-			map_iterator	oldthis(*this);
-			--*this;
-			return oldthis;
-		}
+		return *this;
+	}
+	template <typename T, class C>
+	map_iterator<T,C> 	map_iterator<T,C>::operator++(int){
+		map_iterator	oldthis(*this);
+		++*this;
+		return oldthis;
+	}
+	template <typename T, class C>
+	map_iterator<T,C> 	map_iterator<T,C>::operator--(int){
+		map_iterator	oldthis(*this);
+		--*this;
+		return oldthis;
+	}
 }
 
 

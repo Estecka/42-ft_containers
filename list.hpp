@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/24 18:57:41 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/27 18:11:05 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,20 +144,6 @@ namespace ft
 		// The list is left in a valid state afterward.
 		void	insert(lselt& src, lselt* dst);
 	};
-
-	// ## Operators
-	template <typename T, typename A>
-	bool	operator==(const list<T,A>&, const list<T,A>&);
-	template <typename T, typename A>
-	bool	operator!=(const list<T,A>&, const list<T,A>&);
-	template <typename T, typename A>
-	bool	operator< (const list<T,A>&, const list<T,A>&);
-	template <typename T, typename A>
-	bool	operator> (const list<T,A>&, const list<T,A>&);
-	template <typename T, typename A>
-	bool	operator<=(const list<T,A>&, const list<T,A>&);
-	template <typename T, typename A>
-	bool	operator>=(const list<T,A>&, const list<T,A>&);
 
 /******************************************************************************/
 /* # List Elements                                                            */
@@ -705,32 +691,32 @@ namespace ft
 
 		this->_size++;
 	}
+}
 
-	// ## Operators
-	template <typename T, typename A>
-	bool	operator==(const list<T,A>& a, const list<T,A>& b) {
-		return ft::lexicograph_compare(a, b) == 0;
-	}
-	template <typename T, typename A>
-	bool	operator!=(const list<T,A>& a, const list<T,A>& b) {
-		return ft::lexicograph_compare(a, b) != 0;
-	}
-	template <typename T, typename A>
-	bool	operator< (const list<T,A>& a, const list<T,A>& b) {
-		return ft::lexicograph_compare(a, b) <  0;
-	}
-	template <typename T, typename A>
-	bool	operator> (const list<T,A>& a, const list<T,A>& b) {
-		return ft::lexicograph_compare(a, b) >  0;
-	}
-	template <typename T, typename A>
-	bool	operator<=(const list<T,A>& a, const list<T,A>& b) {
-		return ft::lexicograph_compare(a, b) <= 0;
-	}
-	template <typename T, typename A>
-	bool	operator>=(const list<T,A>& a, const list<T,A>& b) {
-		return ft::lexicograph_compare(a, b) >= 0;
-	}
+// ## Operators
+template <typename T, typename A>
+bool	operator==(const ft::list<T,A>& a, const ft::list<T,A>& b) {
+	return ft::lexicograph_compare(a, b) == 0;
+}
+template <typename T, typename A>
+bool	operator!=(const ft::list<T,A>& a, const ft::list<T,A>& b) {
+	return ft::lexicograph_compare(a, b) != 0;
+}
+template <typename T, typename A>
+bool	operator< (const ft::list<T,A>& a, const ft::list<T,A>& b) {
+	return ft::lexicograph_compare(a, b) <  0;
+}
+template <typename T, typename A>
+bool	operator> (const ft::list<T,A>& a, const ft::list<T,A>& b) {
+	return ft::lexicograph_compare(a, b) >  0;
+}
+template <typename T, typename A>
+bool	operator<=(const ft::list<T,A>& a, const ft::list<T,A>& b) {
+	return ft::lexicograph_compare(a, b) <= 0;
+}
+template <typename T, typename A>
+bool	operator>=(const ft::list<T,A>& a, const ft::list<T,A>& b) {
+	return ft::lexicograph_compare(a, b) >= 0;
 }
 
 #endif
