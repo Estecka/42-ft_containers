@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:56:38 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/27 18:24:23 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/27 18:45:46 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,19 @@
 
 #include <iterator>
 
+#include "list.hpp"
 #include "not_integer.hpp"
 
 namespace ft
 {
+	template <typename T, typename A>
+	class list;
+
 	template <typename T, typename Container>
 	struct list_iterator
 	{
 	private:
 		typedef typename Container::lselt	lselt;
-
-		friend	void Container::insert(list_iterator, const T&);
-		friend	list_iterator Container::erase(list_iterator);
-		friend	list_iterator Container::erase(list_iterator, list_iterator);
-		friend	void Container::splice(list_iterator, Container&, list_iterator, list_iterator);
 
 	public:
 		typedef T 	value_type;
@@ -37,6 +36,7 @@ namespace ft
 		typedef typename Container::size_type	size_type;
 		typedef typename Container::size_type	difference_type;
 		typedef std::bidirectional_iterator_tag	iterator_category;
+		friend	class ft::list<typename Container::value_type, typename Container::allocator_type>;
 
 		list_iterator(void);
 		list_iterator(const list_iterator& other);

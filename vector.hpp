@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/27 18:26:52 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/27 18:51:08 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ namespace ft
 		iterator	erase(iterator position);
 		iterator	erase(iterator begin, iterator end);
 		void       	swap(vector& other);
-		friend void	ft::swap<T,A>(vector<T,A>& a, vector<T,A>& b);
+		friend void	ft::swap<T,A>(vector& a, vector& b);
 		void	clear();
 		
 

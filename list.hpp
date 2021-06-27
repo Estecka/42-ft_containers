@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/27 18:11:05 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/27 18:49:57 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ namespace ft
 {
 	template <typename T, typename A>
 	class	list;
+	template <typename T, typename C>
+	struct	list_iterator;
 	template <typename T, typename A>
 	void	swap(list<T,A>& a, list<T,A>& b);
 
@@ -98,7 +100,7 @@ namespace ft
 		iterator	erase(iterator position);
 		iterator	erase(iterator begin, iterator end);
 		void       	swap(list& other);
-		friend void	ft::swap<T,A>(list<T,A>& a, list<T,A>& b);
+		friend void	ft::swap<T,A>(list& a, list& b);
 		void	resize(size_type size, value_type value = value_type());
 		void	clear();
 

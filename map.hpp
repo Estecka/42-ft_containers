@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/24 16:48:26 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/27 18:49:38 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ namespace ft
 
 		friend	struct ft::map_iterator<      pair_type,       map>;
 		friend	struct ft::map_iterator<const pair_type, const map>;
-		friend	void swap<K,V,C,A>(map&, map&);
 
 	private:
 		struct node {
@@ -123,7 +122,7 @@ namespace ft
 		size_type	erase(const key_type& key);
 		void	erase(iterator begin, iterator end);
 		void	swap(map& other);
-		friend void	ft::swap(map& a, map& b);
+		friend void	ft::swap<K,V,C,A>(map& a, map& b);
 		void	clear();
 
 	// ## Observers
