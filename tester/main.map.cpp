@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/14 20:01:10 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/24 16:59:01 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/27 17:41:31 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,10 +164,31 @@ static void	TestOperations(){
 	}
 }
 
+template <typename T>
+static void	GetSampleMap(NS::map<T,int>& target, const char* samples[], int samplecount) {
+	for (int i=0; i<samplecount; i++) {
+		NS::pair<T, int>	pair(samples[i], i);
+		target.insert(pair);
+	}
+}
+static void	TestStringKey() {
+	static const char*	samples[] = { "Beep", "Booop", "Booopa", "Tourte", "Shrimp gf", "Iredeemable posture", "Ah, psych, `const char*` are sorted by pointer value." };
+	NS::map<const char*, int>	cchar;
+	NS::map<std::string, int>	vstr;
+	GetSampleMap(cchar, samples, 7);
+	GetSampleMap(vstr , samples, 7);
+
+	dump(cchar);
+	dump(vstr );
+	log(cchar["Booop"]);
+	log(vstr["Shrimp gf"]);
+}
+
 extern int	main() {
 	TestConstructors();
 	TestIterators();
 	TestCapacity();
 	TestModifiers();
 	TestOperations();
+	TestStringKey();
 }

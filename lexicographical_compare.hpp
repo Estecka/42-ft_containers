@@ -6,12 +6,14 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 18:18:45 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/26 15:32:11 by abaur            ###   ########.fr       */
+/*   Updated: 2021/06/27 15:29:39 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXICOGRAPHICAL_COMPARE_HPP
 #define LEXICOGRAPHICAL_COMPARE_HPP
+
+#include <iostream>
 
 namespace ft
 {
@@ -33,6 +35,29 @@ namespace ft
 				return 1;
 			ait++, bit++;
 		}
+	}
+
+	short	lexicograph_compare(const char*	a, const char* b) {
+		if (!a)
+			return (!b) ? 0 : -1;
+		if (!b)
+			return 1;
+
+		while (true) {
+			if (!*a)
+				return (!*b) ? 0 : -1;
+			if (!*b)
+				return 1;
+			if (*a < *b)
+				return -1;
+			if (*b < *a)
+				return 1;
+			a++, b++;
+		}
+	}
+
+	short	lexicograph_compare(const std::string& a, const std::string& b) {
+		return lexicograph_compare(a.c_str(), b.c_str());
 	}
 
 }
