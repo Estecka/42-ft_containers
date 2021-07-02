@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/27 18:49:38 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/02 17:44:57 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ namespace ft
 		size_type	erase(const key_type& key);
 		void	erase(iterator begin, iterator end);
 		void	swap(map& other);
-		friend void	ft::swap<K,V,C,A>(map& a, map& b);
 		void	clear();
 
 	// ## Observers
@@ -466,14 +465,14 @@ namespace ft
 
 	template <typename K, typename V, typename C, typename A>
 	void	map<K,V,C,A>::swap(map& other) {
-		ft::swap<K,V,C,A>(*this, other);
+		ft::swap(this->_allocator, other._allocator);
+		ft::swap(this->_kcomp,     other._kcomp    );
+		ft::swap(this->_root,      other._root     );
+		ft::swap(this->_size,      other._size     );
 	}
 	template <typename K, typename V, typename C, typename A>
 	void	swap(map<K,V,C,A>& a, map<K,V,C,A>& b) {
-		ft::swap(a._allocator, b._allocator);
-		ft::swap(a._kcomp, b._kcomp);
-		ft::swap(a._root, b._root);
-		ft::swap(a._size, b._size);
+		a.swap(b);
 	}
 
 	template <typename K, typename V, typename C, typename A>

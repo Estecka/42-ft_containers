@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/27 18:51:08 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/02 18:16:47 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "lexicographical_compare.hpp"
 #include "not_integer.hpp"
 #include "reverse_iterator.hpp"
+#include "swap.hpp"
 
 namespace ft
 {
@@ -97,7 +98,6 @@ namespace ft
 		iterator	erase(iterator position);
 		iterator	erase(iterator begin, iterator end);
 		void       	swap(vector& other);
-		friend void	ft::swap<T,A>(vector& a, vector& b);
 		void	clear();
 		
 
@@ -377,24 +377,14 @@ namespace ft
 	}
 	template <typename T, typename A>
 	void	vector<T,A>::swap(vector& other){
-		vector<T,A> oldthis(*this);
-
-		*this = other;
-		other = oldthis;
+		ft::swap(this->_allocator, other._allocator);
+		ft::swap(this->_c,         other._c        );
+		ft::swap(this->_size,      other._size     );
+		ft::swap(this->_capacity,  other._capacity );
 	}
 	template <typename T, typename A>
 	void	swap(vector<T,A>& a, vector<T,A>& b){
-		typename vector<T,A>::value_type* olda_c    = a._c;
-		typename vector<T,A>::size_type   olda_size = a._size;
-		typename vector<T,A>::size_type   olda_cap  = a._capacity;
-
-		a._c        = b._c;
-		a._size     = b._size;
-		a._capacity = b._capacity;
-
-		b._c        = olda_c;
-		b._size     = olda_size;
-		b._capacity = olda_cap;
+		a.swap(b);
 	}
 	template <typename T, typename A>
 	void	vector<T,A>::clear(){

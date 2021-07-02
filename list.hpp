@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/27 18:49:57 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/02 17:46:22 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ namespace ft
 		iterator	erase(iterator position);
 		iterator	erase(iterator begin, iterator end);
 		void       	swap(list& other);
-		friend void	ft::swap<T,A>(list& a, list& b);
 		void	resize(size_type size, value_type value = value_type());
 		void	clear();
 
@@ -454,18 +453,14 @@ namespace ft
 
 	template <typename T, typename A>
 	void	list<T,A>::swap(list& other){
-		list	oldthis(*this);
-		
-		this->assign(other.begin(),   other.end()  );
-		other.assign(oldthis.begin(), oldthis.end());
+		ft::swap(this->_allocator, other._allocator);
+		ft::swap(this->_size,      other._size     );
+		ft::swap(this->_first,     other._first    );
+		ft::swap(this->_last,      other._last     );
 	}
 	template <typename T, typename A>
 	void	swap(list<T,A>& a, list<T,A>& b){
-
-		ft::swap(a._allocator, b._allocator);
-		ft::swap(a._size,  b._size );
-		ft::swap(a._first, b._first);
-		ft::swap(a._last,  b._last );
+		a.swap(b);
 	}
 
 	template <typename T, typename A>
