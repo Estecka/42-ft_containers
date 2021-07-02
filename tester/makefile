@@ -6,7 +6,6 @@ PROJECT_HDRS = \
 	list.hpp \
 	list_iterator.hpp \
 	map.hpp \
-	map_iterator.hpp \
 	not_integer.hpp \
 	pair.hpp \
 	queue.hpp \
