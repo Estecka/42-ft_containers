@@ -6,14 +6,12 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/02 17:46:22 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/03 17:09:33 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIST_HPP
 #define LIST_HPP
-
-#include "list_iterator.hpp"
 
 #include "lexicographical_compare.hpp"
 #include "not_integer.hpp"
@@ -25,17 +23,13 @@
 
 namespace ft
 {
-	template <typename T, typename A>
-	class	list;
-	template <typename T, typename C>
-	struct	list_iterator;
-	template <typename T, typename A>
-	void	swap(list<T,A>& a, list<T,A>& b);
-
-
 	template <typename T, typename A = std::allocator<T> >
 	class list
 	{
+	private:
+		template <typename, typename>
+		struct list_iterator;
+
 	public:
 		// ## Member types
 		typedef T	value_type;
@@ -45,15 +39,13 @@ namespace ft
 		typedef typename allocator_type::pointer        	pointer;
 		typedef typename allocator_type::const_pointer  	const_pointer;
 
-		friend	struct ft::list_iterator<      value_type,       list<T,A> >;
-		friend	struct ft::list_iterator<const value_type, const list<T,A> >;
-		typedef ft::list_iterator<      value_type,       list<T,A> >	iterator;
-		typedef ft::list_iterator<const value_type, const list<T,A> >	const_iterator;
+		typedef list::list_iterator<      value_type,       list<T,A> >	iterator;
+		typedef list::list_iterator<const value_type, const list<T,A> >	const_iterator;
 		typedef ft::reverse_iterator<iterator>      	reverse_iterator;
 		typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
 		typedef __gnu_cxx::ptrdiff_t	difference_type;
-		typedef size_t   	size_type;
+		typedef size_t	size_type;
 
 		// ## Constructors
 		explicit list(const allocator_type& allocator = allocator_type());
@@ -144,6 +136,43 @@ namespace ft
 		// Insert src right before dst. If dst is NULL, it will be inserted at the end of the list.
 		// The list is left in a valid state afterward.
 		void	insert(lselt& src, lselt* dst);
+
+
+		template <typename V, typename Container>
+		struct list_iterator
+		{
+		private:
+			typedef typename Container::lselt	lselt;
+
+		public:
+			typedef V 	value_type;
+			typedef V*	pointer;
+			typedef V&	reference;
+			typedef typename Container::size_type	size_type;
+			typedef typename Container::size_type	difference_type;
+			typedef std::bidirectional_iterator_tag	iterator_category;
+			friend	class ft::list<typename Container::value_type, typename Container::allocator_type>;
+
+			list_iterator(void);
+			list_iterator(const list_iterator& other);
+			list_iterator(Container* target, lselt* element);
+			list_iterator&	operator=(const list_iterator& other);
+
+			bool	operator==(const list_iterator& other) const;
+			bool	operator!=(const list_iterator& other) const;
+
+			V&	operator*() const;
+			V*	operator->() const;
+
+			list_iterator<V, Container>&	operator++();
+			list_iterator<V, Container>&	operator--();
+			list_iterator<V, Container> 	operator++(int);
+			list_iterator<V, Container> 	operator--(int);
+
+		private:
+			Container*	target;
+			lselt*	curr;
+		};
 	};
 
 /******************************************************************************/
@@ -167,6 +196,92 @@ namespace ft
 		this->value = other.value;
 		this->prev = other.prev;
 		this->next = other.next;
+	}
+/******************************************************************************/
+/* # Implementation                                                           */
+/******************************************************************************/
+	
+	template <typename T, typename A>
+	template <typename V, typename C>
+	list<T,A>::list_iterator<V,C>::list_iterator(void) {
+		this->target = NULL;
+		this->curr   = NULL;
+	}
+	template <typename T, typename A>
+	template <typename V, typename C>
+	list<T,A>::list_iterator<V,C>::list_iterator(const list_iterator& other) {
+		this->target = other.target;
+		this->curr   = other.curr;
+	}
+	template <typename T, typename A>
+	template <typename V, typename C>
+	list<T,A>::list_iterator<V,C>::list_iterator(C* target, lselt* element) {
+		this->target = target;
+		this->curr   = element;
+	}
+	template <typename T, typename A>
+	template <typename V, typename C>
+	typename list<T,A>::template list_iterator<V,C>&	list<T,A>::list_iterator<V,C>::operator=(const list_iterator& other) {
+		this->target = other.target;
+		this->curr   = other.curr;
+		return *this;
+	}
+
+
+	template <typename T, typename A>
+	template <typename V, typename C>
+	bool	list<T,A>::list_iterator<V,C>::operator==(const list_iterator& other) const {
+		return this->target == other.target && this->curr == other.curr;
+	}
+	template <typename T, typename A>
+	template <typename V, typename C>
+	bool	list<T,A>::list_iterator<V,C>::operator!=(const list_iterator& other) const {
+		return this->target != other.target || this->curr != other.curr;
+	}
+
+	template <typename T, typename A>
+	template <typename V, typename C>
+	V&	list<T,A>::list_iterator<V,C>::operator*() const {
+		return this->curr->value;
+	}
+	template <typename T, typename A>
+	template <typename V, typename C>
+	V*	list<T,A>::list_iterator<V,C>::operator->() const {
+		return &*(*this);
+	}
+
+	template <typename T, typename A>
+	template <typename V, typename C>
+	typename list<T,A>::template list_iterator<V,C>&	list<T,A>::list_iterator<V,C>::operator++() {
+		if (!curr)
+			throw std::out_of_range("Past-the-End list iterator.");
+		this->curr = curr->next;
+		return (*this);
+	}
+	template <typename T, typename A>
+	template <typename V, typename C>
+	typename list<T,A>::template list_iterator<V,C>&	list<T,A>::list_iterator<V,C>::operator--() {
+		if (!curr)
+			curr = target->_last;
+		else if (!curr->prev)		
+			throw std::out_of_range("Past-the-Beginning list iterator.");
+		else
+			curr = curr->prev;
+		return (*this);
+	}
+	template <typename T, typename A>
+	template <typename V, typename C>
+	typename list<T,A>::template list_iterator<V,C> 	list<T,A>::list_iterator<V,C>::operator++(int) {
+		list_iterator tmp(*this);
+		++(*this);
+		return tmp;
+	}
+	template <typename T, typename A>
+	template <typename V, typename C>
+	typename list<T,A>::template list_iterator<V,C> 	list<T,A>::list_iterator<V,C>::operator--(int) {
+		list_iterator tmp(*this);
+		--(*this);
+		return tmp;
 	}
 
 /******************************************************************************/
