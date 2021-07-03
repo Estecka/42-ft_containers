@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/03 17:09:33 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/03 18:33:49 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@
 #include "reconstruct.hpp"
 #include "reverse_iterator.hpp"
 #include "swap.hpp"
+
 #include <memory>
+#include <stdexcept>
 #include <stdlib.h>
 
 namespace ft
@@ -136,6 +138,8 @@ namespace ft
 		// Insert src right before dst. If dst is NULL, it will be inserted at the end of the list.
 		// The list is left in a valid state afterward.
 		void	insert(lselt& src, lselt* dst);
+		template <typename ITT>
+		lselt*	ItToNode(list_iterator<ITT, list>& it);
 
 
 		template <typename V, typename Container>
@@ -151,7 +155,6 @@ namespace ft
 			typedef typename Container::size_type	size_type;
 			typedef typename Container::size_type	difference_type;
 			typedef std::bidirectional_iterator_tag	iterator_category;
-			friend	class ft::list<typename Container::value_type, typename Container::allocator_type>;
 
 			list_iterator(void);
 			list_iterator(const list_iterator& other);
@@ -175,6 +178,7 @@ namespace ft
 		};
 	};
 
+
 /******************************************************************************/
 /* # List Elements                                                            */
 /******************************************************************************/
@@ -197,8 +201,10 @@ namespace ft
 		this->prev = other.prev;
 		this->next = other.next;
 	}
+
+
 /******************************************************************************/
-/* # Implementation                                                           */
+/* # Iterator                                                                 */
 /******************************************************************************/
 	
 	template <typename T, typename A>
@@ -242,6 +248,8 @@ namespace ft
 	template <typename T, typename A>
 	template <typename V, typename C>
 	V&	list<T,A>::list_iterator<V,C>::operator*() const {
+		if (!this->curr)
+			throw std::logic_error("Attempted to dereference a terminating list iterator.");
 		return this->curr->value;
 	}
 	template <typename T, typename A>
@@ -283,6 +291,7 @@ namespace ft
 		--(*this);
 		return tmp;
 	}
+
 
 /******************************************************************************/
 /* # List                                                                     */
@@ -513,7 +522,7 @@ namespace ft
 	template <typename T, typename A>
 	void	list<T,A>::insert(iterator index, const value_type& value) {
 		lselt* elt = new lselt(value);
-		this->insert(*elt, index.curr);
+		this->insert(*elt, ItToNode(index));
 	}
 	template <typename T, typename A>
 	void	list<T,A>::insert(iterator index, size_type amount, const value_type& value) {
@@ -529,13 +538,13 @@ namespace ft
 
 	template <typename T, typename A>
 	typename list<T,A>::iterator	list<T,A>::erase(iterator position) {
-		if (position == this->end())
+		lselt* elt = ItToNode(position);
+		if (elt == NULL)
 			return this->end();
 
-		lselt& elt = *position.curr;
 		position++;
-		this->extract(elt);
-		delete &elt;
+		this->extract(*elt);
+		delete elt;
 		return position;
 	}
 	template <typename T, typename A>
@@ -543,8 +552,9 @@ namespace ft
 		if (begin == end)
 			return end;
 
-		lselt* first = begin.curr;
-		lselt* last  = (end==this->end()) ? this->_last : end.curr->prev;
+		lselt* first = ItToNode(begin);
+		lselt* last  = ItToNode(end);
+		last = last ? last->prev : this->_last;
 
 		if (first->prev)
 			first->prev->next = last->next;
@@ -619,14 +629,14 @@ namespace ft
 		if (amount <= 0)
 			return;
 
-		lselt* srcleft  = srcbegin.curr;
-		lselt* srcright = (--srcend).curr;
+		lselt* srcleft  = src.ItToNode(srcbegin);
+		lselt* srcright = src.ItToNode(--srcend);
 		lselt* dstleft  = NULL;
 		lselt* dstright = NULL;
 		if (dstpos == this->end())
 			dstleft = this->_last;
 		else {
-			dstright  = dstpos.curr;
+			dstright  = ItToNode(dstpos);
 			dstleft   = dstright->prev;
 		}
 
@@ -802,6 +812,21 @@ namespace ft
 			elt.next->prev = &elt;
 
 		this->_size++;
+	}
+	template <typename T, typename A>
+	template <typename ITT>
+	typename list<T,A>::lselt*	list<T,A>::ItToNode(list_iterator<ITT, list>& it){
+		T*	 adress;
+		try {
+			adress = &*it;
+		} catch(std::logic_error&){
+			return NULL;
+		}
+
+		for (lselt* ilt=_first; ilt!=NULL; ilt=ilt->next)
+			if (&(ilt->value) == adress)
+				return ilt;
+		return NULL;
 	}
 }
 

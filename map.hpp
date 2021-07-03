@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/03 17:53:53 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/03 17:57:19 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,7 +324,7 @@ namespace ft
 	template <typename T, class M>
 	typename map<K,V,C,A>::template map_iterator<T,M>::value_type&	map<K,V,C,A>::map_iterator<T,M>::operator*() const {
 		if (!position)
-			throw std::logic_error("Attempted to dereference a terminating iterator.");
+			throw std::logic_error("Attempted to dereference a terminating map iterator.");
 		return (position->value);
 	}
 	template <typename K, typename V, typename C, typename A>
