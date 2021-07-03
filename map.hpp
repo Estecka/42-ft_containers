@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/03 16:48:44 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/03 17:53:53 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 #include <memory>
 #include <new>
+#include <stdexcept>
 #include <stdlib.h>
 
 namespace ft
@@ -149,9 +150,10 @@ namespace ft
 		void	erase_reconnect(node* parent, node* left, node* right, bool left_to_parent);
 		// Recursively frees the node and its children.
 		void	clear(node&);
-
 		// Restructures the tree into a simple chained list.
 		void	linearize();
+		template <typename ITT>
+		node*	ItToNode(const map_iterator<ITT, map>& it);
 
 		template <typename T, typename Container>
 		struct map_iterator 
@@ -166,8 +168,6 @@ namespace ft
 			typedef typename Container::size_type	size_type;
 			typedef typename Container::size_type	difference_type;
 			typedef std::bidirectional_iterator_tag	iterator_category;
-
-			friend class ft::map<typename Container::key_type, typename Container::mapped_type, typename Container::key_compare, typename Container::allocator_type>;
 
 		public:
 			map_iterator();
@@ -323,6 +323,8 @@ namespace ft
 	template <typename K, typename V, typename C, typename A>
 	template <typename T, class M>
 	typename map<K,V,C,A>::template map_iterator<T,M>::value_type&	map<K,V,C,A>::map_iterator<T,M>::operator*() const {
+		if (!position)
+			throw std::logic_error("Attempted to dereference a terminating iterator.");
 		return (position->value);
 	}
 	template <typename K, typename V, typename C, typename A>
@@ -502,18 +504,19 @@ namespace ft
 		return ft::pair<iterator,bool> (iterator(*this, *current), true);
 	}
 	template <typename K, typename V, typename C, typename A>
-	typename map<K,V,C,A>::iterator	map<K,V,C,A>::insert(iterator prev, const pair_type& pair) {
-		if (prev == this->end() || !_kcomp(prev.position->value.first, pair.first))
+	typename map<K,V,C,A>::iterator	map<K,V,C,A>::insert(iterator previt, const pair_type& pair) {
+		node* prevlt = ItToNode(previt);
+		if (prevlt == NULL || !_kcomp(prevlt->value.first, pair.first))
 			invalid_hint:
 			return this->insert(pair).first;
-		iterator next = prev;
-		next++;
-		if (next != this->end() && !_kcomp(pair.first, next.position->value.first))
+
+		node* nextlt = prevlt->next();
+		if (nextlt != NULL && !_kcomp(pair.first, nextlt->value.first))
 			goto invalid_hint;
 
 		node* it = new node(pair);
-		it->parent = prev.position;
-		it->right  = prev.position->right;
+		it->parent = prevlt;
+		it->right  = prevlt->right;
 		it->parent->right = it;
 		if (it->right)
 			it->right->parent = it;
@@ -524,8 +527,9 @@ namespace ft
 
 	template <typename K, typename V, typename C, typename A>
 	void	map<K,V,C,A>::erase(iterator position) {
-		if (position.position != NULL)
-			this->erase(*position.position);
+		node*	target = ItToNode(position);
+		if (target != NULL)
+			this->erase(*target);
 	}
 	template <typename K, typename V, typename C, typename A>
 	typename map<K,V,C,A>::size_type	map<K,V,C,A>::erase(const key_type& key) {
@@ -550,8 +554,8 @@ namespace ft
 	}
 	template <typename K, typename V, typename C, typename A>
 	void	map<K,V,C,A>::erase(iterator begin, iterator end) {
-		node*	first = begin.position;
-		node*	last  = end.position;
+		node*	first = ItToNode(begin);
+		node*	last  = ItToNode(end);
 
 		node*	iltpp;
 		for (node*ilt=first; ilt!=last; ilt=iltpp) {
@@ -714,6 +718,18 @@ namespace ft
 		}
 
 		this->_root = it;
+	}
+
+	template <typename K, typename V, typename C, typename A>
+	template <typename ITT>
+	typename map<K,V,C,A>::node*	map<K,V,C,A>::ItToNode(const map_iterator<ITT, map>& it){
+		key_type key;
+		try {
+			key = (*it).first;
+		} catch (std::logic_error&) {
+			return NULL;
+		}
+		return this->at(key);
 	}
 }
 
