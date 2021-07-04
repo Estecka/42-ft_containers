@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 15:24:51 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/16 18:27:26 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/04 17:53:40 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 extern int	main() {
 	NS::queue<int> queue;
+	NS::queue<int> queue2;
 
 	queue.empty();
 	queue.size();
@@ -26,4 +27,7 @@ extern int	main() {
 	((const ft::queue<int>&)queue).front();
 	((const ft::queue<int>&)queue).back();
 	queue.pop();
+
+	NS::queue<int>* compares[] = { &queue, &queue2, };
+	TestLexicograpCompare(compares, 2);
 }

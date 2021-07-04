@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/11 18:29:28 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/27 18:50:41 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/04 17:55:36 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,17 @@
 #define QUEUE_HPP
 
 #include "list.hpp"
+
+namespace ft {
+template <typename T, typename C>	class queue;
+}
+template <typename T, typename C>	bool operator==(const ft::queue<T,C>& a, const ft::queue<T,C>& b);
+template <typename T, typename C>	bool operator!=(const ft::queue<T,C>& a, const ft::queue<T,C>& b);
+template <typename T, typename C>	bool operator< (const ft::queue<T,C>& a, const ft::queue<T,C>& b);
+template <typename T, typename C>	bool operator> (const ft::queue<T,C>& a, const ft::queue<T,C>& b);
+template <typename T, typename C>	bool operator<=(const ft::queue<T,C>& a, const ft::queue<T,C>& b);
+template <typename T, typename C>	bool operator>=(const ft::queue<T,C>& a, const ft::queue<T,C>& b);
+
 
 namespace ft
 {
@@ -39,12 +50,12 @@ namespace ft
 		void	push(const value_type& val) { return _base.push_back(val); }
 		void	pop() { return _base.pop_front(); }
 
-		friend	bool ::operator==(const queue&, const queue&);
-		friend	bool ::operator!=(const queue&, const queue&);
-		friend	bool ::operator< (const queue&, const queue&);
-		friend	bool ::operator> (const queue&, const queue&);
-		friend	bool ::operator<=(const queue&, const queue&);
-		friend	bool ::operator>=(const queue&, const queue&);
+		friend	bool ::operator== <>(const queue&, const queue&);
+		friend	bool ::operator!= <>(const queue&, const queue&);
+		friend	bool ::operator<  <>(const queue&, const queue&);
+		friend	bool ::operator>  <>(const queue&, const queue&);
+		friend	bool ::operator<= <>(const queue&, const queue&);
+		friend	bool ::operator>= <>(const queue&, const queue&);
 
 	private:
 		container_type	_base;
