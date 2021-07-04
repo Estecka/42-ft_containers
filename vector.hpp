@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/02 18:16:47 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/04 18:55:11 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include "not_integer.hpp"
 #include "reverse_iterator.hpp"
 #include "swap.hpp"
+
+#include <sstream>
 
 namespace ft
 {
@@ -108,8 +110,7 @@ namespace ft
 		size_type	_size;
 
 		template <class IT>
-		void	_Assign(IT begin, IT end, std::__false_type);
-		void	_Assign(size_type size, const value_type& value, std::__true_type);
+		static size_type	_InputIterCount(IT begin, IT end);
 	};
 
 /******************************************************************************/
@@ -145,14 +146,14 @@ namespace ft
 	template <typename T, typename A>
 	template <typename IT>
 	vector<T,A>::vector(IT begin, IT end, const A& allocator, NOT_INTEGER(IT)) {
-		if (begin > end)
-			throw std::invalid_argument("End came before Begin.");
+		size_type amount = _InputIterCount(begin, end);
+
 		this->_allocator = allocator;
-		this->_capacity = end - begin;
-		this->_size     = _capacity;
+		this->_capacity = amount;
+		this->_size     = amount;
 		this->_c = new value_type[_capacity];
-		for (size_type i=0; i<_size && begin<end; i++,begin++)
-			_c[i] = *begin;
+		for (size_type i=0; begin!=end; i++,begin++)
+			(*this)[i] = *begin;
 	}
 	template <typename T, typename A>
 	vector<T,A>::~vector() {
@@ -172,7 +173,7 @@ namespace ft
 		this->_capacity = other._capacity;
 		this->_size     = other._size;
 		for (size_type i=0; i<_size; i++)
-			this->_c[i] = other._c[i];
+			(*this)[i] = other[i];
 
 		return *this;
 	}
@@ -271,15 +272,16 @@ namespace ft
 	}
 	template <typename T, typename A>
 	typename vector<T,A>::reference      	vector<T,A>::at(size_type index){
-		if (index < 0 || this->_size <= index)
-			throw std::out_of_range("Index is out of Range");
+		if (index < 0 || this->_size <= index) {
+			std::ostringstream msg;
+			msg << "Index is out of range: " << index << " out of " << _size;
+			throw std::out_of_range(msg.str());
+		}
 		return (*this)[index];
 	}
 	template <typename T, typename A>
-	typename vector<T,A>::const_reference	vector<T,A>::at(size_type index) const{
-		if (index < 0 || this->_size <= index)
-			throw std::out_of_range("Index is out of Range");
-		return (*this)[index];
+	typename vector<T,A>::const_reference	vector<T,A>::at(size_type index) const {
+		return (*(vector*)this).at(index);
 	}
 	template <typename T, typename A>
 	typename vector<T,A>::reference      	vector<T,A>::front(){
@@ -303,11 +305,11 @@ namespace ft
 	template <typename T, typename A>
 	template <class IT>
 	void	vector<T,A>::assign(IT begin, IT end, NOT_INTEGER(IT)){
-		if (end < begin)
-			throw std::invalid_argument("End came before Begin");
-		this->reserve(end - begin);
-		this->_size = end - begin;
-		for (size_type i=0; begin<end; i++,begin++)
+		size_type amount = _InputIterCount(begin, end);
+
+		this->reserve(amount);
+		this->_size = amount;
+		for (size_type i=0; begin!=end; i++,begin++)
 			(*this)[i] = *begin;
 	}
 	template <typename T, typename A>
@@ -331,18 +333,15 @@ namespace ft
 	template <typename T, typename A>
 	template <typename IT>
 	void	vector<T,A>::insert(iterator index, IT begin, IT end, typename not_integer<IT>::_true){
-		if (end < begin)
-			throw std::invalid_argument("end came before begin.");
+		size_type amount = _InputIterCount(begin, end);
 
-		size_type amount = end - begin;
 		this->reserve(_size + amount);
+		this->_size += amount;
 
 		for (iterator it=this->end()-1; index<=it; it--)
 			it[amount] = it[0];
 		for (iterator it=index; it<(index+amount); it++)
 			*it = *(begin++);
-
-		this->_size += amount;
 	}
 	template <typename T, typename A>
 	void	vector<T,A>::insert(iterator index, const value_type& value){
@@ -389,6 +388,16 @@ namespace ft
 	template <typename T, typename A>
 	void	vector<T,A>::clear(){
 		this->_size = 0;
+	}
+
+// ## Private
+	template <typename T, typename A>
+	template <typename IT>
+	typename vector<T,A>::size_type	vector<T,A>::_InputIterCount(IT begin, IT end){
+		size_type c = 0;
+		for (IT it=begin; it!=end; ++it)
+			++c;
+		return c;
 	}
 
 }
