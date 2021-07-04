@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 17:30:07 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/27 18:24:25 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/04 19:40:20 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ namespace ft
 		typedef std::random_access_iterator_tag	iterator_category;
 
 		vector_iterator(void);
-		vector_iterator(const vector_iterator& other);
+		vector_iterator(const typename Container::iterator& other);
+		vector_iterator(const typename Container::const_iterator& other);
 		vector_iterator(Container* target, size_type index);
 		vector_iterator&	operator=(const vector_iterator& other);
 		bool	operator==(const vector_iterator& other) const;
@@ -73,9 +74,12 @@ namespace ft
 		this->index = 0;
 	}
 	template<typename T, typename C>
-	vector_iterator<T,C>::vector_iterator(const vector_iterator& other){
-		this->target = other.target;
-		this->index = other.index;
+	vector_iterator<T,C>::vector_iterator(const typename C::iterator& other){
+		*this = *(const vector_iterator*)&other;
+	}
+	template<typename T, typename C>
+	vector_iterator<T,C>::vector_iterator(const typename C::const_iterator& other){
+		*this = *(const vector_iterator*)&other;
 	}
 	template<typename T, typename C>
 	vector_iterator<T,C>::vector_iterator(C* target, size_type index){

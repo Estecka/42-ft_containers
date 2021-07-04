@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/04 18:55:11 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/04 19:39:31 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -368,7 +368,7 @@ namespace ft
 			throw std::invalid_argument("End came before Begin");
 
 		size_type amount = end - begin;
-		for (iterator it=begin; it<this->end(); it++)
+		for (iterator it=begin; (it+amount)<this->end(); it++)
 			it[0] = it[amount];
 
 		this->_size -= amount;
