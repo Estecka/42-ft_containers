@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:07:06 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/26 15:48:22 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/05 17:25:24 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,9 +134,13 @@ static void	TestModifiers(){
 	vec.pop_back();
 	dump(vec);
 
-	vec.insert(vec.begin()+3, 10);
+	vec.insert(vec.begin(), 10);
 	dump(vec);
-	vec.insert(vec.begin()+5, 5, 11);
+	vec.insert(vec.end(), 11);
+	dump(vec);
+	vec.insert(vec.begin(), 5, 11);
+	dump(vec);
+	vec.insert(vec.begin(), g_digits+2, g_digits+4);
 	dump(vec);
 	vec.insert(vec.begin()+8, g_digits+2, g_digits+9);
 	dump(vec);

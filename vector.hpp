@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/04 19:39:31 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/05 17:19:24 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ namespace ft
 		void	assign(size_type size, const value_type& value);
 		void	push_back(const value_type& value);
 		void	pop_back();
+		iterator	insert(iterator index, const value_type& value);
 		template <typename IT>
 		void	insert(iterator index, IT begin, IT end, NOT_INTEGER(IT) = 0);
-		void	insert(iterator index, const value_type& value);
 		void	insert(iterator index, size_type amount, const value_type& value);
 		iterator	erase(iterator position);
 		iterator	erase(iterator begin, iterator end);
@@ -336,27 +336,39 @@ namespace ft
 		size_type amount = _InputIterCount(begin, end);
 
 		this->reserve(_size + amount);
-		this->_size += amount;
 
-		for (iterator it=this->end()-1; index<=it; it--)
+		if (this->_size)
+		for (iterator it=this->end()-1; true; it--){
 			it[amount] = it[0];
+			if (it <= index)
+				break;
+		}
+		this->_size += amount;
 		for (iterator it=index; it<(index+amount); it++)
 			*it = *(begin++);
 	}
 	template <typename T, typename A>
-	void	vector<T,A>::insert(iterator index, const value_type& value){
+	typename vector<T,A>::iterator	vector<T,A>::insert(iterator index, const value_type& value){
 		this->insert(index, 1, (const value_type&)value);
+		return index;
 	}
 	template <typename T, typename A>
 	void	vector<T,A>::insert(iterator index, size_type amount, const value_type& value){
+		if (amount < 0)
+			return;
 		this->reserve(_size + amount);
 
-		for (iterator it=this->end()-1; index<=it; it--)
+		// Displace existing content
+		if (this->_size > 0)
+		for (iterator it=this->end()-1; true; it--){
 			it[amount] = it[0];
+			if (it<=index)
+				break;
+		}
+		this->_size += amount;
+		// Insert new content
 		for (iterator it=index; it<(index+amount); it++)
 			*it = value;
-
-		this->_size += amount;
 	}
 	template <typename T, typename A>
 	typename vector<T,A>::iterator	vector<T,A>::erase(iterator position){
