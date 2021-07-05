@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 17:30:07 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/04 19:40:20 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/05 17:44:16 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ namespace ft
 		typedef T 	value_type;
 		typedef T*	pointer;
 		typedef T&	reference;
-		typedef typename Container::size_type	size_type;
-		typedef typename Container::size_type	difference_type;
+		typedef typename Container::size_type      	size_type;
+		typedef typename Container::difference_type	difference_type;
 		typedef std::random_access_iterator_tag	iterator_category;
 
 		vector_iterator(void);
@@ -54,8 +54,8 @@ namespace ft
 		vector_iterator<T, Container> 	operator- (int offset) const;
 		vector_iterator<T, Container>&	operator-=(int offset);
 		vector_iterator<T, Container>&	operator+=(int offset);
-		size_type	operator+ (const vector_iterator& other) const;
-		size_type	operator- (const vector_iterator& other) const;
+		difference_type	operator+ (const vector_iterator& other) const;
+		difference_type	operator- (const vector_iterator& other) const;
 
 	private:
 		Container*	target;
@@ -161,6 +161,11 @@ namespace ft
 		return tmp;
 	}
 
+
+	template <typename T, typename C>
+	vector_iterator<T,C> 	operator+ (int offset, const vector_iterator<T,C>& it) {
+		return it + offset;
+	}
 	template <typename T, typename C>
 	vector_iterator<T,C> 	vector_iterator<T,C>::operator+ (int offset) const {
 		return vector_iterator(target, this->index + offset);
@@ -170,14 +175,14 @@ namespace ft
 		return vector_iterator(target, this->index - offset);
 	}
 	template <typename T, typename C>
-	typename vector_iterator<T,C>::size_type 	vector_iterator<T,C>::operator+ (const vector_iterator& other) const {
+	typename vector_iterator<T,C>::difference_type 	vector_iterator<T,C>::operator+ (const vector_iterator& other) const {
 		AssertTarget(other);
-		return this->index + other.index;
+		return (difference_type)this->index + (difference_type)other.index;
 	}
 	template <typename T, typename C>
-	typename vector_iterator<T,C>::size_type 	vector_iterator<T,C>::operator- (const vector_iterator& other) const {
+	typename vector_iterator<T,C>::difference_type 	vector_iterator<T,C>::operator- (const vector_iterator& other) const {
 		AssertTarget(other);
-		return this->index - other.index;
+		return (difference_type)this->index - (difference_type)other.index;
 	}
 	template <typename T, typename C>
 	vector_iterator<T,C>&	vector_iterator<T,C>::operator+=(int offset) {
