@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 17:30:07 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/05 18:44:08 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/05 19:26:59 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,18 @@ namespace ft
 		vector_iterator(const typename Container::const_iterator& other);
 		vector_iterator(Container* target, T* ptr);
 		vector_iterator&	operator=(const vector_iterator& other);
-		bool	operator==(const vector_iterator& other) const;
-		bool	operator!=(const vector_iterator& other) const;
-		bool	operator<=(const vector_iterator& other) const;
-		bool	operator>=(const vector_iterator& other) const;
-		bool	operator< (const vector_iterator& other) const;
-		bool	operator> (const vector_iterator& other) const;
+		template <typename T2, class C2>
+		bool	operator==(const vector_iterator<T2,C2>& other) const;
+		template <typename T2, class C2>
+		bool	operator!=(const vector_iterator<T2,C2>& other) const;
+		template <typename T2, class C2>
+		bool	operator<=(const vector_iterator<T2,C2>& other) const;
+		template <typename T2, class C2>
+		bool	operator>=(const vector_iterator<T2,C2>& other) const;
+		template <typename T2, class C2>
+		bool	operator< (const vector_iterator<T2,C2>& other) const;
+		template <typename T2, class C2>
+		bool	operator> (const vector_iterator<T2,C2>& other) const;
 
 		T&	operator*() const;
 		T*	operator->() const;
@@ -54,13 +60,17 @@ namespace ft
 		vector_iterator<T, Container> 	operator- (int offset) const;
 		vector_iterator<T, Container>&	operator-=(int offset);
 		vector_iterator<T, Container>&	operator+=(int offset);
-		difference_type	operator+ (const vector_iterator& other) const;
-		difference_type	operator- (const vector_iterator& other) const;
+		template <typename T2, typename C2>
+		difference_type	operator+ (const vector_iterator<T2,C2>& other) const;
+		template <typename T2, typename C2>
+		difference_type	operator- (const vector_iterator<T2,C2>& other) const;
 
 	private:
 		Container*	target;
 		T*	ptr;
 
+		template <typename T2, class C2>
+		static T2*	GetPointer(const vector_iterator<T2,C2>& other);
 		void	AssertTarget(const vector_iterator& other) const;
 	};
 
@@ -80,6 +90,11 @@ namespace ft
 	template<typename T, typename C>
 	vector_iterator<T,C>::vector_iterator(const typename C::const_iterator& other){
 		*this = *(const vector_iterator*)&other;
+		return;
+
+		// Asserts at compile time that this does not unconst a const_iterator.
+		value_type* v = (typename C::const_iterator::value_type*)NULL;
+		(void)v;
 	}
 	template<typename T, typename C>
 	vector_iterator<T,C>::vector_iterator(C* target, T* ptr){
@@ -94,29 +109,35 @@ namespace ft
 	}
 
 	
-	template <typename T, typename C>
-	bool	vector_iterator<T,C>::operator==(const vector_iterator& other) const {
-		return this->ptr == other.ptr;
+	template <typename T,  class C >
+	template <typename T2, class C2>
+	bool	vector_iterator<T,C>::operator==(const vector_iterator<T2,C2>& other) const {
+		return this->ptr == GetPointer(other);
 	}
-	template <typename T, typename C>
-	bool	vector_iterator<T,C>::operator!=(const vector_iterator& other) const {
-		return this->ptr != other.ptr;
+	template <typename T,  class C >
+	template <typename T2, class C2>
+	bool	vector_iterator<T,C>::operator!=(const vector_iterator<T2,C2>& other) const {
+		return this->ptr != GetPointer(other);
 	}
-	template <typename T, typename C>
-	bool	vector_iterator<T,C>::operator<=(const vector_iterator& other) const {
-		return this->ptr <= other.ptr;
+	template <typename T,  class C >
+	template <typename T2, class C2>
+	bool	vector_iterator<T,C>::operator<=(const vector_iterator<T2,C2>& other) const {
+		return this->ptr <= GetPointer(other);
 	}
-	template <typename T, typename C>
-	bool	vector_iterator<T,C>::operator>=(const vector_iterator& other) const {
-		return this->ptr >= other.ptr;
+	template <typename T,  class C >
+	template <typename T2, class C2>
+	bool	vector_iterator<T,C>::operator>=(const vector_iterator<T2,C2>& other) const {
+		return this->ptr >= GetPointer(other);
 	}
-	template <typename T, typename C>
-	bool	vector_iterator<T,C>::operator< (const vector_iterator& other) const {
-		return this->ptr < other.ptr;
+	template <typename T,  class C >
+	template <typename T2, class C2>
+	bool	vector_iterator<T,C>::operator< (const vector_iterator<T2,C2>& other) const {
+		return this->ptr < GetPointer(other);
 	}
-	template <typename T, typename C>
-	bool	vector_iterator<T,C>::operator> (const vector_iterator& other) const {
-		return this->ptr > other.ptr;
+	template <typename T,  class C >
+	template <typename T2, class C2>
+	bool	vector_iterator<T,C>::operator> (const vector_iterator<T2,C2>& other) const {
+		return this->ptr > GetPointer(other);
 	}
 
 	template <typename T, typename C>
@@ -166,13 +187,15 @@ namespace ft
 	vector_iterator<T,C> 	vector_iterator<T,C>::operator- (int offset) const {
 		return vector_iterator(target, this->ptr - offset);
 	}
-	template <typename T, typename C>
-	typename vector_iterator<T,C>::difference_type 	vector_iterator<T,C>::operator+ (const vector_iterator& other) const {
-		return this->ptr + other.ptr;
+	template <typename T,  class C>
+	template <typename T2, class C2>
+	typename vector_iterator<T,C>::difference_type 	vector_iterator<T,C>::operator+ (const vector_iterator<T2,C2>& other) const {
+		return this->ptr + GetPointer(other);
 	}
-	template <typename T, typename C>
-	typename vector_iterator<T,C>::difference_type 	vector_iterator<T,C>::operator- (const vector_iterator& other) const {
-		return this->ptr - other.ptr;
+	template <typename T,  class C>
+	template <typename T2, class C2>
+	typename vector_iterator<T,C>::difference_type 	vector_iterator<T,C>::operator- (const vector_iterator<T2,C2>& other) const {
+		return this->ptr - GetPointer(other);
 	}
 	template <typename T, typename C>
 	vector_iterator<T,C>&	vector_iterator<T,C>::operator+=(int offset) {
@@ -189,6 +212,11 @@ namespace ft
 	void	vector_iterator<T,C>::AssertTarget(const vector_iterator& other) const {
 		if (this->target != other.target)
 			throw std::domain_error("Iterators point to different Vectors");
+	}
+	template <typename T , typename C >
+	template <typename T2, typename C2>
+	T2*	vector_iterator<T,C>::GetPointer(const vector_iterator<T2,C2>& other) {
+		return (T2*)((vector_iterator&)other).ptr;
 	}
 }
 

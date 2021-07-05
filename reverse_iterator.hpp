@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 21:38:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/05 18:09:11 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/05 19:43:39 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,18 @@ namespace ft
 
 		IT	base() const;
 
-		bool	operator==(const reverse_iterator& other) const;
-		bool	operator!=(const reverse_iterator& other) const;
-		bool	operator<=(const reverse_iterator& other) const;
-		bool	operator>=(const reverse_iterator& other) const;
-		bool	operator< (const reverse_iterator& other) const;
-		bool	operator> (const reverse_iterator& other) const;
+		template <typename IT2>
+		bool	operator==(const reverse_iterator<IT2>& other) const;
+		template <typename IT2>
+		bool	operator!=(const reverse_iterator<IT2>& other) const;
+		template <typename IT2>
+		bool	operator<=(const reverse_iterator<IT2>& other) const;
+		template <typename IT2>
+		bool	operator>=(const reverse_iterator<IT2>& other) const;
+		template <typename IT2>
+		bool	operator< (const reverse_iterator<IT2>& other) const;
+		template <typename IT2>
+		bool	operator> (const reverse_iterator<IT2>& other) const;
 
 		typename IT::reference	operator*() const;
 		typename IT::pointer  	operator->() const;
@@ -53,8 +59,10 @@ namespace ft
 		reverse_iterator<IT> 	operator- (int offset) const;
 		reverse_iterator<IT>&	operator-=(int offset);
 		reverse_iterator<IT>&	operator+=(int offset);
-		difference_type	operator+ (const reverse_iterator& other) const;
-		difference_type	operator- (const reverse_iterator& other) const;
+		template <typename IT2>
+		difference_type	operator+ (const reverse_iterator<IT2>& other) const;
+		template <typename IT2>
+		difference_type	operator- (const reverse_iterator<IT2>& other) const;
 
 	private:
 		IT _base;
@@ -79,29 +87,35 @@ namespace ft
 	template<typename IT>
 	IT	reverse_iterator<IT>::base() const { return this->_base; }
 	
-	template <typename IT>
-	bool	reverse_iterator<IT>::operator==(const reverse_iterator& other) const {
-		return this->_base == other._base;
+	template <typename IT >
+	template <typename IT2>
+	bool	reverse_iterator<IT>::operator==(const reverse_iterator<IT2>& other) const {
+		return this->_base.operator==(other.base());
 	}
-	template <typename IT>
-	bool	reverse_iterator<IT>::operator!=(const reverse_iterator& other) const {
-		return this->_base != other._base;
+	template <typename IT >
+	template <typename IT2>
+	bool	reverse_iterator<IT>::operator!=(const reverse_iterator<IT2>& other) const {
+		return this->_base.operator!=(other.base());
 	}
-	template <typename IT>
-	bool	reverse_iterator<IT>::operator<=(const reverse_iterator& other) const {
-		return this->_base >= other._base;
+	template <typename IT >
+	template <typename IT2>
+	bool	reverse_iterator<IT>::operator<=(const reverse_iterator<IT2>& other) const {
+		return this->_base.operator>=(other.base());
 	}
-	template <typename IT>
-	bool	reverse_iterator<IT>::operator>=(const reverse_iterator& other) const {
-		return this->_base <= other._base;
+	template <typename IT >
+	template <typename IT2>
+	bool	reverse_iterator<IT>::operator>=(const reverse_iterator<IT2>& other) const {
+		return this->_base.operator<=(other.base());
 	}
-	template <typename IT>
-	bool	reverse_iterator<IT>::operator< (const reverse_iterator& other) const {
-		return this->_base > other._base;
+	template <typename IT >
+	template <typename IT2>
+	bool	reverse_iterator<IT>::operator< (const reverse_iterator<IT2>& other) const {
+		return this->_base.operator> (other.base());
 	}
-	template <typename IT>
-	bool	reverse_iterator<IT>::operator> (const reverse_iterator& other) const {
-		return this->_base < other._base;
+	template <typename IT >
+	template <typename IT2>
+	bool	reverse_iterator<IT>::operator> (const reverse_iterator<IT2>& other) const {
+		return this->_base.operator< (other.base());
 	}
 
 	template <typename IT>
@@ -159,13 +173,15 @@ namespace ft
 		_base -= offset;
 		return *this;
 	}
-	template<typename IT>
-	typename reverse_iterator<IT>::difference_type	reverse_iterator<IT>::operator+ (const reverse_iterator& other) const {
-		return other._base + this->_base;
+	template<typename IT >
+	template<typename IT2>
+	typename reverse_iterator<IT>::difference_type	reverse_iterator<IT>::operator+ (const reverse_iterator<IT2>& other) const {
+		return other.base().operator+(this->_base);
 	}
-	template<typename IT>
-	typename reverse_iterator<IT>::difference_type	reverse_iterator<IT>::operator- (const reverse_iterator& other) const {
-		return other._base - this->_base;
+	template<typename IT >
+	template<typename IT2>
+	typename reverse_iterator<IT>::difference_type	reverse_iterator<IT>::operator- (const reverse_iterator<IT2>& other) const {
+		return other.base().operator-(this->_base);
 	}
 
 }
