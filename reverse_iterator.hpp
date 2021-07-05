@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 21:38:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/27 18:24:23 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/05 18:05:23 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ namespace ft
 		typedef typename IT::iterator_category	iterator_category;
 
 		reverse_iterator(void);
-		reverse_iterator(const reverse_iterator& other);
+		template <typename IT2>
+		reverse_iterator(const reverse_iterator<IT2>& other);
 		reverse_iterator(IT base);
 
 		IT	base() const;
@@ -66,16 +67,17 @@ namespace ft
 	template <typename IT>
 	reverse_iterator<IT>::reverse_iterator(void){};
 	template <typename IT>
-	reverse_iterator<IT>::reverse_iterator(const reverse_iterator& other){
-		this->_base = other._base;
-	};
+	template <typename IT2>
+	reverse_iterator<IT>::reverse_iterator(const reverse_iterator<IT2>& other)
+	: _base(other.base())
+	{};
 	template <typename IT>
-	reverse_iterator<IT>::reverse_iterator(IT base){
-		this->_base = base;
-	};
+	reverse_iterator<IT>::reverse_iterator(IT base)
+	: _base(base)
+	{};
 
 	template<typename IT>
-	IT	reverse_iterator<IT>::base() const { return this->base; }
+	IT	reverse_iterator<IT>::base() const { return this->_base; }
 	
 	template <typename IT>
 	bool	reverse_iterator<IT>::operator==(const reverse_iterator& other) const {
