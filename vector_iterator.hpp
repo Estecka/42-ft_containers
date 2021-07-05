@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 17:30:07 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/05 17:44:16 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/05 18:09:38 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,10 +163,6 @@ namespace ft
 
 
 	template <typename T, typename C>
-	vector_iterator<T,C> 	operator+ (int offset, const vector_iterator<T,C>& it) {
-		return it + offset;
-	}
-	template <typename T, typename C>
 	vector_iterator<T,C> 	vector_iterator<T,C>::operator+ (int offset) const {
 		return vector_iterator(target, this->index + offset);
 	}
@@ -200,6 +196,11 @@ namespace ft
 		if (this->target != other.target)
 			throw std::domain_error("Iterators point to different Vectors");
 	}
+}
+
+template <typename T, typename C>
+ft::vector_iterator<T,C> 	operator+ (int offset, const ft::vector_iterator<T,C>& it) {
+	return it + offset;
 }
 
 #endif

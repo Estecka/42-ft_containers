@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 21:38:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/05 18:05:23 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/05 18:09:11 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ namespace ft
 	{
 	public:
 		typedef IT	iterator_type;
-		typedef typename IT::size_type 	size_type;
-		typedef typename IT::size_type 	difference_type;
+		typedef typename IT::size_type       	size_type;
+		typedef typename IT::difference_type 	difference_type;
 		typedef typename IT::pointer   	pointer;
 		typedef typename IT::reference 	reference;
 		typedef typename IT::iterator_category	iterator_category;
@@ -53,8 +53,8 @@ namespace ft
 		reverse_iterator<IT> 	operator- (int offset) const;
 		reverse_iterator<IT>&	operator-=(int offset);
 		reverse_iterator<IT>&	operator+=(int offset);
-		size_type	operator+ (const reverse_iterator& other) const;
-		size_type	operator- (const reverse_iterator& other) const;
+		difference_type	operator+ (const reverse_iterator& other) const;
+		difference_type	operator- (const reverse_iterator& other) const;
 
 	private:
 		IT _base;
@@ -160,13 +160,19 @@ namespace ft
 		return *this;
 	}
 	template<typename IT>
-	typename reverse_iterator<IT>::size_type	reverse_iterator<IT>::operator+ (const reverse_iterator& other) const {
+	typename reverse_iterator<IT>::difference_type	reverse_iterator<IT>::operator+ (const reverse_iterator& other) const {
 		return other._base + this->_base;
 	}
 	template<typename IT>
-	typename reverse_iterator<IT>::size_type	reverse_iterator<IT>::operator- (const reverse_iterator& other) const {
+	typename reverse_iterator<IT>::difference_type	reverse_iterator<IT>::operator- (const reverse_iterator& other) const {
 		return other._base - this->_base;
 	}
+
+}
+
+template<typename IT>
+ft::reverse_iterator<IT> 	operator+ (int offset, ft::reverse_iterator<IT> it) {
+	return it + offset;
 }
 
 #endif
