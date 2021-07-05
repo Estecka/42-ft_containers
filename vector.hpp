@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/05 17:19:24 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/05 18:54:24 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,35 +182,35 @@ namespace ft
 // ## Iterators
 	template <typename T, typename A>
 	typename vector<T,A>::iterator	vector<T,A>::begin()  {
-		return iterator(this, 0);
+		return iterator(this, _c);
 	}
 	template <typename T, typename A>
 	typename vector<T,A>::iterator	vector<T,A>::end() {
-		return iterator(this, _size);
+		return iterator(this, _c+_size);
 	}
 	template <typename T, typename A>
 	typename vector<T,A>::const_iterator	vector<T,A>::begin() const  {
-		return const_iterator(this, 0);    
+		return const_iterator(this, _c);    
 	}
 	template <typename T, typename A>
 	typename vector<T,A>::const_iterator	vector<T,A>::end() const  {
-		return const_iterator(this, _size);
+		return const_iterator(this, _c+_size);
 	}
 	template <typename T, typename A>
 	typename vector<T,A>::reverse_iterator	vector<T,A>::rbegin() {
-		return reverse_iterator(iterator(this, _size));
+		return reverse_iterator(iterator(this, _c+_size));
 	}
 	template <typename T, typename A>
 	typename vector<T,A>::reverse_iterator	vector<T,A>::rend() {
-		return reverse_iterator(iterator(this, 0));
+		return reverse_iterator(iterator(this, _c));
 	}
 	template <typename T, typename A>
 	typename vector<T,A>::const_reverse_iterator	vector<T,A>::rbegin() const {
-		return const_reverse_iterator(const_iterator(this, _size));    
+		return const_reverse_iterator(const_iterator(this, _c+_size));    
 	}
 	template <typename T, typename A>
 	typename vector<T,A>::const_reverse_iterator	vector<T,A>::rend() const {
-		return const_reverse_iterator(const_iterator(this, 0));
+		return const_reverse_iterator(const_iterator(this, _c));
 	}
 
 
@@ -335,7 +335,9 @@ namespace ft
 	void	vector<T,A>::insert(iterator index, IT begin, IT end, typename not_integer<IT>::_true){
 		size_type amount = _InputIterCount(begin, end);
 
+		difference_type i = &*index - _c;
 		this->reserve(_size + amount);
+		index = this->begin()+i;
 
 		if (this->_size)
 		for (iterator it=this->end()-1; true; it--){
@@ -356,7 +358,10 @@ namespace ft
 	void	vector<T,A>::insert(iterator index, size_type amount, const value_type& value){
 		if (amount < 0)
 			return;
+
+		difference_type i = &*index - _c;
 		this->reserve(_size + amount);
+		index = this->begin()+i;
 
 		// Displace existing content
 		if (this->_size > 0)
