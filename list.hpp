@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/03 18:33:49 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/06 18:34:40 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,11 +142,11 @@ namespace ft
 		lselt*	ItToNode(list_iterator<ITT, list>& it);
 
 
-		template <typename V, typename Container>
+		template <typename V, class Container>
 		struct list_iterator
 		{
 		private:
-			typedef typename Container::lselt	lselt;
+			typedef typename list::lselt	lselt;
 
 		public:
 			typedef V 	value_type;
@@ -157,12 +157,15 @@ namespace ft
 			typedef std::bidirectional_iterator_tag	iterator_category;
 
 			list_iterator(void);
-			list_iterator(const list_iterator& other);
+			list_iterator(const typename list::iterator& other);
+			list_iterator(const typename list::const_iterator& other);
 			list_iterator(Container* target, lselt* element);
 			list_iterator&	operator=(const list_iterator& other);
 
-			bool	operator==(const list_iterator& other) const;
-			bool	operator!=(const list_iterator& other) const;
+			bool	operator==(const typename list::iterator& other) const;
+			bool	operator!=(const typename list::iterator& other) const;
+			bool	operator==(const typename list::const_iterator& other) const;
+			bool	operator!=(const typename list::const_iterator& other) const;
 
 			V&	operator*() const;
 			V*	operator->() const;
@@ -175,6 +178,9 @@ namespace ft
 		private:
 			Container*	target;
 			lselt*	curr;
+
+			template <typename V2, class C2>
+			static const lselt*	GetNode(const list_iterator<V2,C2>&);
 		};
 	};
 
@@ -215,9 +221,18 @@ namespace ft
 	}
 	template <typename T, typename A>
 	template <typename V, typename C>
-	list<T,A>::list_iterator<V,C>::list_iterator(const list_iterator& other) {
-		this->target = other.target;
-		this->curr   = other.curr;
+	list<T,A>::list_iterator<V,C>::list_iterator(const typename list::iterator& other) {
+		*this = *(const list_iterator*)&other;
+	}
+	template <typename T, typename A>
+	template <typename V, typename C>
+	list<T,A>::list_iterator<V,C>::list_iterator(const typename list::const_iterator& other) {
+		*this = *(const list_iterator*)&other;
+		return;
+
+		// Asserts at compile time that this does not unconst a const_iterator.
+		pointer nil = (typename C::const_iterator::pointer)NULL;
+		(void)nil;
 	}
 	template <typename T, typename A>
 	template <typename V, typename C>
@@ -236,13 +251,23 @@ namespace ft
 
 	template <typename T, typename A>
 	template <typename V, typename C>
-	bool	list<T,A>::list_iterator<V,C>::operator==(const list_iterator& other) const {
-		return this->target == other.target && this->curr == other.curr;
+	bool	list<T,A>::list_iterator<V,C>::operator==(const list::iterator& other) const {
+		return this->curr == GetNode(other);
 	}
 	template <typename T, typename A>
 	template <typename V, typename C>
-	bool	list<T,A>::list_iterator<V,C>::operator!=(const list_iterator& other) const {
-		return this->target != other.target || this->curr != other.curr;
+	bool	list<T,A>::list_iterator<V,C>::operator!=(const list::iterator& other) const {
+		return this->curr != GetNode(other);
+	}
+	template <typename T, typename A>
+	template <typename V, typename C>
+	bool	list<T,A>::list_iterator<V,C>::operator==(const list::const_iterator& other) const {
+		return this->curr == GetNode(other);
+	}
+	template <typename T, typename A>
+	template <typename V, typename C>
+	bool	list<T,A>::list_iterator<V,C>::operator!=(const list::const_iterator& other) const {
+		return this->curr != GetNode(other);
 	}
 
 	template <typename T, typename A>
@@ -290,6 +315,12 @@ namespace ft
 		list_iterator tmp(*this);
 		--(*this);
 		return tmp;
+	}
+	template <typename V , typename A >
+	template <typename T , typename C >
+	template <typename T2, typename C2>
+	const typename list<V,A>::lselt*	list<V,A>::list_iterator<T,C>::GetNode(const typename list<V,A>::list_iterator<T2,C2>& other) {
+		return ((const list_iterator&)other).curr;
 	}
 
 
