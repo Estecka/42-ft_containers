@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/06 19:05:06 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/06 20:12:21 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,7 +320,7 @@ namespace ft
 	template <typename T , typename C >
 	template <typename T2, typename C2>
 	const typename list<V,A>::lselt*	list<V,A>::list_iterator<T,C>::GetNode(const typename list<V,A>::list_iterator<T2,C2>& other) {
-		return ((const list_iterator&)other).curr;
+		return (*(const list_iterator*)&other).curr;
 	}
 
 
