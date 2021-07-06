@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/06 18:34:40 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/06 19:05:06 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ namespace ft
 		void	push_back (const value_type& value);
 		void	pop_front();
 		void	pop_back ();
+		iterator	insert(iterator index, const value_type& value);
 		template <typename IT>
 		void	insert(iterator index, IT begin, IT end, NOT_INTEGER(IT) = 0);
-		void	insert(iterator index, const value_type& value);
 		void	insert(iterator index, size_type amount, const value_type& value);
 		iterator	erase(iterator position);
 		iterator	erase(iterator begin, iterator end);
@@ -159,7 +159,7 @@ namespace ft
 			list_iterator(void);
 			list_iterator(const typename list::iterator& other);
 			list_iterator(const typename list::const_iterator& other);
-			list_iterator(Container* target, lselt* element);
+			list_iterator(Container& target, lselt* element);
 			list_iterator&	operator=(const list_iterator& other);
 
 			bool	operator==(const typename list::iterator& other) const;
@@ -236,8 +236,8 @@ namespace ft
 	}
 	template <typename T, typename A>
 	template <typename V, typename C>
-	list<T,A>::list_iterator<V,C>::list_iterator(C* target, lselt* element) {
-		this->target = target;
+	list<T,A>::list_iterator<V,C>::list_iterator(C& target, lselt* element) {
+		this->target = &target;
 		this->curr   = element;
 	}
 	template <typename T, typename A>
@@ -410,21 +410,21 @@ namespace ft
 
 	// ## Iterators
 	template<typename T, typename A>
-	typename list<T,A>::iterator	list<T,A>::begin() { return iterator(this, _first); }
+	typename list<T,A>::iterator	list<T,A>::begin() { return iterator(*this, _first); }
 	template<typename T, typename A>
-	typename list<T,A>::iterator	list<T,A>::end()   { return iterator(this, NULL);   }
+	typename list<T,A>::iterator	list<T,A>::end()   { return iterator(*this, NULL);   }
 	template<typename T, typename A>
-	typename list<T,A>::const_iterator	list<T,A>::begin() const { return const_iterator(this, _first); }
+	typename list<T,A>::const_iterator	list<T,A>::begin() const { return const_iterator(*this, _first); }
 	template<typename T, typename A>
-	typename list<T,A>::const_iterator	list<T,A>::end()   const { return const_iterator(this, NULL);   }
+	typename list<T,A>::const_iterator	list<T,A>::end()   const { return const_iterator(*this, NULL);   }
 	template<typename T, typename A>
-	typename list<T,A>::reverse_iterator	list<T,A>::rbegin() { return reverse_iterator(iterator(this, NULL));   }
+	typename list<T,A>::reverse_iterator	list<T,A>::rbegin() { return reverse_iterator(iterator(*this, NULL));   }
 	template<typename T, typename A>
-	typename list<T,A>::reverse_iterator	list<T,A>::rend()   { return reverse_iterator(iterator(this, _first)); }
+	typename list<T,A>::reverse_iterator	list<T,A>::rend()   { return reverse_iterator(iterator(*this, _first)); }
 	template<typename T, typename A>
-	typename list<T,A>::const_reverse_iterator	list<T,A>::rbegin() const { return const_reverse_iterator(const_iterator(this, NULL));   }
+	typename list<T,A>::const_reverse_iterator	list<T,A>::rbegin() const { return const_reverse_iterator(const_iterator(*this, NULL));   }
 	template<typename T, typename A>
-	typename list<T,A>::const_reverse_iterator	list<T,A>::rend()   const { return const_reverse_iterator(const_iterator(this, _first)); }
+	typename list<T,A>::const_reverse_iterator	list<T,A>::rend()   const { return const_reverse_iterator(const_iterator(*this, _first)); }
 
 
 	// ## Capacity
@@ -551,9 +551,10 @@ namespace ft
 	}
 
 	template <typename T, typename A>
-	void	list<T,A>::insert(iterator index, const value_type& value) {
+	typename list<T,A>::iterator	list<T,A>::insert(iterator index, const value_type& value) {
 		lselt* elt = new lselt(value);
 		this->insert(*elt, ItToNode(index));
+		return iterator(*this, elt);
 	}
 	template <typename T, typename A>
 	void	list<T,A>::insert(iterator index, size_type amount, const value_type& value) {
