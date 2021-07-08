@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/06 20:12:21 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/08 15:22:31 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -781,6 +781,8 @@ namespace ft
 	template <typename T, typename A>
 	template <typename C>
 	void	list<T,A>::merge(list& other, C goesbefore) {
+		if (&other == this)
+			return;
 		if (this->empty())
 			return ft::swap(*this, other);
 		
