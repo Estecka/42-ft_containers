@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 15:29:07 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/27 17:42:37 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/08 17:14:57 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define LESS_HPP
 
 #include "lexicographical_compare.hpp"
+#include "pair.hpp"
 
 namespace ft
 {
@@ -29,6 +30,14 @@ namespace ft
 	template <>
 	struct less<const std::string> {
 		bool	operator()(const std::string& a, const std::string& b) const { return ft::lexicograph_compare(a,b) < 0; }
+	};
+	template <typename K, typename V>
+	struct less<ft::pair<K,V> > {
+		bool	operator()(const ft::pair<K,V>& a, const ft::pair<K,V>& b) const { return less<K>()(a.first, b.first); }
+	};
+	template <typename K, typename V>
+	struct less<const ft::pair<K,V> > {
+		bool	operator()(const ft::pair<K,V>& a, const ft::pair<K,V>& b) const { return less<K>()(a.first, b.first); }
 	};
 }
 

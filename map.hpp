@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/03 17:57:19 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/08 17:13:30 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ namespace ft
 	public:
 		typedef K	key_type;
 		typedef V	mapped_type;
-		typedef pair<K,V>	value_type;
-		typedef value_type	pair_type;
-		typedef C	key_compare;
-		typedef ft::less<mapped_type>	value_compare;
+		typedef pair<K,V>	pair_type;
+		typedef pair_type	value_type;
+		typedef C                  	key_compare;
+		typedef ft::less<pair_type>	value_compare;
 
 		typedef A	allocator_type;
 		typedef typename allocator_type::reference      	reference;
@@ -159,7 +159,7 @@ namespace ft
 		struct map_iterator 
 		{
 		private:
-			typedef typename Container::node	node;
+			typedef typename map::node	node;
 
 		public:
 			typedef T	value_type;
@@ -171,12 +171,15 @@ namespace ft
 
 		public:
 			map_iterator();
-			map_iterator(const map_iterator& other);
+			map_iterator(const map::iterator& other);
+			map_iterator(const map::const_iterator& other);
 			map_iterator(Container& target, node* position);
 			map_iterator&	operator=(const map_iterator& other);
 
-			bool	operator==(const map_iterator& other) const;
-			bool	operator!=(const map_iterator& other) const;
+			bool	operator==(const map::iterator& other) const;
+			bool	operator!=(const map::iterator& other) const;
+			bool	operator==(const map::const_iterator& other) const;
+			bool	operator!=(const map::const_iterator& other) const;
 
 			value_type&	operator*() const;
 			value_type*	operator->() const;
@@ -189,6 +192,9 @@ namespace ft
 		private:
 			Container*	target;
 			node*     	position;
+
+			template<typename T2, typename C2>
+			static const node*	GetNode(const map_iterator<T2,C2>&);
 		};
 	};
 
@@ -293,8 +299,18 @@ namespace ft
 	}
 	template <typename K, typename V, typename C, typename A>
 	template <typename T, class M>
-	map<K,V,C,A>::map_iterator<T,M>::map_iterator(const map_iterator& other)
-	:target(other.target), position(other.position) {
+	map<K,V,C,A>::map_iterator<T,M>::map_iterator(const iterator& other) {
+		*this = *(const map_iterator*)&other;
+	}
+	template <typename K, typename V, typename C, typename A>
+	template <typename T, class M>
+	map<K,V,C,A>::map_iterator<T,M>::map_iterator(const const_iterator& other) {
+		*this = *(const map_iterator*)&other;
+		return;
+
+		// Asserts at compile time that this does not unconst a const_iterator.
+		T* nil = (const T*)NULL;
+		(void)nil;
 	}
 	template <typename K, typename V, typename C, typename A>
 	template <typename T, class M>
@@ -311,13 +327,23 @@ namespace ft
 	}
 	template <typename K, typename V, typename C, typename A>
 	template <typename T, class M>
-	bool	map<K,V,C,A>::map_iterator<T,M>::operator==(const map_iterator& other) const {
-		return (this->target == other.target) && (this->position == other.position);
+	bool	map<K,V,C,A>::map_iterator<T,M>::operator==(const iterator& other) const {
+		return this->position == GetNode(other);
 	}
 	template <typename K, typename V, typename C, typename A>
 	template <typename T, class M>
-	bool	map<K,V,C,A>::map_iterator<T,M>::operator!=(const map_iterator& other) const {
-		return (this->target != other.target) || (this->position != other.position);
+	bool	map<K,V,C,A>::map_iterator<T,M>::operator!=(const iterator& other) const {
+		return this->position != GetNode(other);
+	}
+	template <typename K, typename V, typename C, typename A>
+	template <typename T, class M>
+	bool	map<K,V,C,A>::map_iterator<T,M>::operator==(const const_iterator& other) const {
+		return this->position == GetNode(other);
+	}
+	template <typename K, typename V, typename C, typename A>
+	template <typename T, class M>
+	bool	map<K,V,C,A>::map_iterator<T,M>::operator!=(const const_iterator& other) const {
+		return this->position != GetNode(other);
 	}
 
 	template <typename K, typename V, typename C, typename A>
@@ -370,6 +396,12 @@ namespace ft
 		map_iterator	oldthis(*this);
 		--*this;
 		return oldthis;
+	}
+	template <typename K, typename V, typename C, typename A>
+	template <typename T , class M >
+	template <typename T2, class M2>
+	const typename map<K,V,C,A>::node*	map<K,V,C,A>::map_iterator<T,M>::GetNode(const map_iterator<T2,M2>& other){
+		return ((const map_iterator*)&other)->position;
 	}
 
 
