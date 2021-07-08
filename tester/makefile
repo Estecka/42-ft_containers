@@ -39,7 +39,7 @@ NAMES = \
 	${CLASSES:=.ft.out} \
 	${CLASSES:=.std.out} \
 
-CPPFLAGS = -Wall -Wextra -Werror -std=c++98 -I ${PROJECT_DIR}
+CPPFLAGS = -Wall -Wextra -Werror -std=c++98 -I ${PROJECT_DIR} -g
 CXX=clang++
 
 

@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/08 15:22:31 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/08 15:52:44 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -738,8 +738,8 @@ namespace ft
 	template <typename T, typename A>
 	template <typename P>
 	void	list<T,A>::unique(P predicate) {
-		for (lselt* ilt=_first; ilt!=NULL && ilt->next!=NULL; ilt=ilt->next) {
-			while (predicate(ilt->next->value, ilt->value)) {
+		for (lselt* ilt=_first; ilt!=NULL; ilt=ilt->next) {
+			while (ilt->next!=NULL && predicate(ilt->next->value, ilt->value)) {
 				lselt* del = ilt->next;
 				this->extract(*del);
 				delete del;

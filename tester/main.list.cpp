@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 15:24:51 by abaur             #+#    #+#             */
-/*   Updated: 2021/06/26 15:50:29 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/08 15:47:18 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,8 +257,8 @@ static void	TestRemove(){
 	ls.remove_if(&iseven); dump(ls);
 	ls.remove(2);   	dump(ls);
 }
-static bool	equateseven(int a, int b){
-	return (a%2) == (b%2);
+static bool	equatesgroupthree(int a, int b){
+	return (a/3) == (b/3);
 }
 static void	TestUnique() {
 	log("Unique");
@@ -267,11 +267,12 @@ static void	TestUnique() {
 	ls.assign(g_digits, g_digits+10);
 	ls.insert(ls.end(), g_digits, g_digits+10);
 	ls.unique();	dump(ls);
-	ls.unique(&equateseven);	dump(ls);
+	ls.unique(&equatesgroupthree);	dump(ls);
 	ls.push_back(4);
-	ls.unique(&equateseven);	dump(ls);
+	ls.push_back(4);
+	ls.unique(&equatesgroupthree);	dump(ls);
 	ls.push_front(3);
-	ls.unique(&equateseven);	dump(ls);
+	ls.unique(&equatesgroupthree);	dump(ls);
 }
 static bool	reversesort(int a, int b) {
 	return a > b;
