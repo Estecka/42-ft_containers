@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/22 15:02:08 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/05 18:54:24 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/08 17:58:42 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -422,10 +422,14 @@ namespace ft
 // ## Operators
 template <typename T, typename A>
 bool	operator==(const ft::vector<T,A>& a, const ft::vector<T,A>& b) {
+	if (a.size() != b.size())
+		return false;
 	return ft::lexicograph_compare(a, b) == 0;
 }
 template <typename T, typename A>
 bool	operator!=(const ft::vector<T,A>& a, const ft::vector<T,A>& b) {
+	if (a.size() != b.size())
+		return true;
 	return ft::lexicograph_compare(a, b) != 0;
 }
 template <typename T, typename A>

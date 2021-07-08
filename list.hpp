@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/01 14:48:57 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/08 15:52:44 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/08 17:57:26 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -867,10 +867,14 @@ namespace ft
 // ## Operators
 template <typename T, typename A>
 bool	operator==(const ft::list<T,A>& a, const ft::list<T,A>& b) {
+	if (a.size() != b.size())
+		return false;
 	return ft::lexicograph_compare(a, b) == 0;
 }
 template <typename T, typename A>
 bool	operator!=(const ft::list<T,A>& a, const ft::list<T,A>& b) {
+	if (a.size() != b.size())
+		return true;
 	return ft::lexicograph_compare(a, b) != 0;
 }
 template <typename T, typename A>
