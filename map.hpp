@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/08 17:13:30 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/12 16:38:05 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -763,6 +763,36 @@ namespace ft
 		}
 		return this->at(key);
 	}
+}
+
+// ## Operators
+template <typename K, typename V, typename C, typename A>
+bool	operator==(const ft::map<K,V,C,A>& a, const ft::map<K,V,C,A>& b) {
+	if (a.size() != b.size())
+		return false;
+	return ft::lexicograph_compare(a, b) == 0;
+}
+template <typename K, typename V, typename C, typename A>
+bool	operator!=(const ft::map<K,V,C,A>& a, const ft::map<K,V,C,A>& b) {
+	if (a.size() != b.size())
+		return true;
+	return ft::lexicograph_compare(a, b) != 0;
+}
+template <typename K, typename V, typename C, typename A>
+bool	operator< (const ft::map<K,V,C,A>& a, const ft::map<K,V,C,A>& b) {
+	return ft::lexicograph_compare(a, b) <  0;
+}
+template <typename K, typename V, typename C, typename A>
+bool	operator> (const ft::map<K,V,C,A>& a, const ft::map<K,V,C,A>& b) {
+	return ft::lexicograph_compare(a, b) >  0;
+}
+template <typename K, typename V, typename C, typename A>
+bool	operator<=(const ft::map<K,V,C,A>& a, const ft::map<K,V,C,A>& b) {
+	return ft::lexicograph_compare(a, b) <= 0;
+}
+template <typename K, typename V, typename C, typename A>
+bool	operator>=(const ft::map<K,V,C,A>& a, const ft::map<K,V,C,A>& b) {
+	return ft::lexicograph_compare(a, b) >= 0;
 }
 
 #endif
