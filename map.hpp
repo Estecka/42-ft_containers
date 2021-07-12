@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/12 17:50:05 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/12 18:01:18 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ namespace ft
 			node*	parent;
 			node*	left;
 			node*	right;
+			int  	weight;
 
 			node();
 			node(const node& other);
