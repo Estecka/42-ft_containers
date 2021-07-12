@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/13 16:09:02 by abaur             #+#    #+#             */
-/*   Updated: 2021/07/12 16:38:05 by abaur            ###   ########.fr       */
+/*   Updated: 2021/07/12 17:50:05 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ namespace ft
 		typedef pair<K,V>	pair_type;
 		typedef pair_type	value_type;
 		typedef C                  	key_compare;
-		typedef ft::less<pair_type>	value_compare;
 
 		typedef A	allocator_type;
 		typedef typename allocator_type::reference      	reference;
@@ -59,6 +58,12 @@ namespace ft
 
 		typedef __gnu_cxx::ptrdiff_t	difference_type;
 		typedef size_t   	size_type;
+
+		struct value_compare
+		{
+			ft::less<key_type>	less;
+			bool	operator()(const pair_type& a, const pair_type& b) { return less(a.first, b.first); }
+		};
 
 	private:
 		struct node {
